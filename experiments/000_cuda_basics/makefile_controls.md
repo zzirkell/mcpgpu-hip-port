@@ -118,9 +118,6 @@ Run default HIP backend:
 make run-hip
 ```
 
-Currently default HIP backend is NVIDIA.
+Currently default HIP backend is NVIDIA. (you can change it)
 
-```
-
-This is now much clearer: **same HIP source, two backend-specific binaries**.
 ```
