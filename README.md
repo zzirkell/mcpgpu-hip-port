@@ -7,5 +7,15 @@ This repository contains setup notes, small experiments, and later the MPCGPU CU
 To start working with CUDA, look at:
 
 ```bash
-docs/setup_cuda_wsl.md #for setup and compile/run
-experiments/000_cuda_basics/ #real working examples
+docs/setup_cuda_wsl.md      # setup and compile/run
+experiments/000_cuda_basics/ # real working CUDA examples
+````
+
+### HIP setup and HIPIFY
+
+To start working with HIP, look at:
+
+```bash
+docs/setup_hip_wsl.md        # HIP setup, HIPIFY, compile/run
+experiments/000_cuda_basics/ # HIPIFY-generated HIP examples
+```
