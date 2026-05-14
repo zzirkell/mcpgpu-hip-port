@@ -27,5 +27,5 @@ To run HIP code on the AMD GPU/iGPU from WSL, look at:
 ```bash
 docs/setup_rocm_amd_wsl.md # AMD ROCm/ROCDXG setup and AMD HIP compile/run
 
-#_amd in ./bim compiled files mean that it was HIP compiled for AMD backend
+#_amd in ./bin compiled files mean that it was HIP compiled for AMD backend
 ```
