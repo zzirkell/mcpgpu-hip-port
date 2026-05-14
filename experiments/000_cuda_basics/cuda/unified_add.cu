@@ -1,6 +1,17 @@
 #include <iostream>
 #include <cmath>
+#include <cstdio>
 #include <cuda_runtime.h>
+
+#define CHECK_GPU(call)                                                    \
+    do {                                                                   \
+        cudaError_t err = call;                                             \
+        if (err != cudaSuccess) {                                           \
+            std::fprintf(stderr, "GPU error at %s:%d: %s\n",               \
+                         __FILE__, __LINE__, cudaGetErrorString(err));      \
+            return 1;                                                       \
+        }                                                                  \
+    } while (0)
 
 __global__
 void add(int n, float *x, float *y)
@@ -15,28 +26,23 @@ void add(int n, float *x, float *y)
 
 int main()
 {
-    int N = 1 << 20; // 1M elements
+    int N = 1 << 20;
 
-    // Allocate Unified Memory -- accessible from CPU and GPU
     float *x, *y;
 
-    cudaMallocManaged(&x, N * sizeof(float));
-    cudaMallocManaged(&y, N * sizeof(float));
+    CHECK_GPU(cudaMallocManaged(&x, N * sizeof(float)));
+    CHECK_GPU(cudaMallocManaged(&y, N * sizeof(float)));
 
-    // Initialize x and y arrays on the CPU/host
     for (int i = 0; i < N; i++) {
         x[i] = 1.0f;
         y[i] = 2.0f;
     }
 
-    // Launch one block with 256 threads.
-    // Each thread processes multiple array elements using the stride loop.
     add<<<1, 256>>>(N, x, y);
 
-    // Wait until GPU finishes before CPU reads y.
-    cudaDeviceSynchronize();
+    CHECK_GPU(cudaGetLastError());
+    CHECK_GPU(cudaDeviceSynchronize());
 
-    // Check result. All values should be 3.0f.
     float maxError = 0.0f;
 
     for (int i = 0; i < N; i++) {
@@ -45,8 +51,8 @@ int main()
 
     std::cout << "Max error: " << maxError << std::endl;
 
-    cudaFree(x);
-    cudaFree(y);
+    CHECK_GPU(cudaFree(x));
+    CHECK_GPU(cudaFree(y));
 
     return 0;
 }
