@@ -1,4 +1,7 @@
 # HIP Setup on WSL Ubuntu
+> [!NOTE]
+> For AMD backend setup, see:
+> docs/setup_rocm_amd_wsl.md 
 
 ## Required system
 
@@ -9,7 +12,8 @@ Tested setup:
 ```text
 Ubuntu 22.04.5 LTS
 HIP 6.2.4
-HIP_PLATFORM=nvidia
+HIP_PLATFORM=nvidia for NVIDIA backend
+HIP_PLATFORM=amd for AMD backend
 CUDA used by HIP: 12.8
 ````
 
@@ -42,7 +46,7 @@ sudo apt update
 sudo apt install -y hip-runtime-nvidia hip-dev
 ```
 
-## Set HIP path
+## Set NVIDIA HIP environment
 
 ```bash
 nano ~/.bashrc
@@ -58,6 +62,7 @@ source ~/.bashrc #reload
 Check:
 
 ```bash
+which hipcc
 hipcc --version
 hipconfig --full
 ```
@@ -129,7 +134,21 @@ hipify-perl path/to/input.cu > path/to/output.hip.cpp
 ```
 
 ### Compile and run your programs yourself
+NVIDIA backend:
+
 ```bash
-hipcc [file_to_compile.hip.cpp] -o [output]
-./[output]
+HIP_PLATFORM=nvidia hipcc -std=c++17 -O2 path/to/file.hip.cpp -o output
+./output
 ```
+
+AMD backend:
+
+```bash
+HIP_PLATFORM=amd HSA_ENABLE_DXG_DETECTION=1 \
+hipcc -std=c++17 -O2 --offload-arch=gfx1103 path/to/file.hip.cpp -o output
+
+HSA_ENABLE_DXG_DETECTION=1 ./output
+```
+> [!NOTE]
+> For AMD backend setup, see:
+> docs/setup_rocm_amd_wsl.md 

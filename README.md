@@ -19,3 +19,13 @@ To start working with HIP, look at:
 docs/setup_hip_wsl.md        # HIP setup, HIPIFY, compile/run
 experiments/000_cuda_basics/ # HIPIFY-generated HIP examples
 ```
+
+### ROCm AMD backend on WSL
+
+To run HIP code on the AMD GPU/iGPU from WSL, look at:
+
+```bash
+docs/setup_rocm_amd_wsl.md # AMD ROCm/ROCDXG setup and AMD HIP compile/run
+
+#_amd in ./bim compiled files mean that it was HIP compiled for AMD backend
+```
