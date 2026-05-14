@@ -123,6 +123,11 @@ make run-hip
 #don't forget
 make clean
 ```
+### Hipify your programs yourself
+```bash
+hipify-perl path/to/input.cu > path/to/output.hip.cpp
+```
+
 ### Compile and run your programs yourself
 ```bash
 hipcc [file_to_compile.hip.cpp] -o [output]
