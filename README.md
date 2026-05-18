@@ -29,6 +29,15 @@ docs/setup_rocm_amd_wsl.md # AMD ROCm/ROCDXG setup and AMD HIP compile/run
 
 #_amd in ./bin compiled files mean that it was HIP compiled for AMD backend
 ```
+
+### CUDA API call tests from MPCGPU
+
+To test concrete CUDA API calls and their HIPIFY translation, look at:
+```bash
+001_api_calls_mpcgpu/        # isolated CUDA API call translation tests
+001_api_calls_mpcgpu/api_collection.md
+```
+
 ### Docker setup
 
 We have decided to provide Dockerfiles for configuring both NVIDIA/AMD environment. 

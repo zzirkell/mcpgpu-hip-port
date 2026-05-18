@@ -39,7 +39,7 @@ nvcc --version
 ```
 
 ### CUDA note
-CUDA 13/libcu++ may require C++17 for some projects (including MPCGPU):
+CUDA 12-8/libcu++ may require C++17 for some projects (including MPCGPU):
 ```bash
 -std=c++17 # example for MPCGPU:
 NVCC_FLAGS = -std=c++17 -O2
