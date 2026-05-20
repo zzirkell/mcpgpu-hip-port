@@ -1,0 +1,1759 @@
+./GLASS/src/L2/gemv.cuh:5:__device__
+./GLASS/src/L2/gemv.cuh:16:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L2/gemv.cuh:17:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L2/gemv.cuh:43:__device__
+./GLASS/src/L2/gemv.cuh:53:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L2/gemv.cuh:54:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/scal.cuh:4:__device__
+./GLASS/src/L1/scal.cuh:9:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/scal.cuh:10:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/ident.cuh:6:__device__
+./GLASS/src/L1/ident.cuh:11:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/ident.cuh:12:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;   
+./GLASS/src/L1/ident.cuh:24:__device__
+./GLASS/src/L1/ident.cuh:30:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/ident.cuh:31:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/ident.cuh:51:__device__
+./GLASS/src/L1/ident.cuh:59:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/ident.cuh:60:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/ident.cuh:82:__device__
+./GLASS/src/L1/ident.cuh:87:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/ident.cuh:88:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/clip.cuh:6:__device__
+./GLASS/src/L1/clip.cuh:12:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/clip.cuh:13:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/swap.cuh:5:__device__
+./GLASS/src/L1/swap.cuh:11:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/swap.cuh:12:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/set_const.cuh:5:__device__
+./GLASS/src/L1/set_const.cuh:10:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/set_const.cuh:11:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/reduce.cuh:6:__device__  __forceinline__
+./GLASS/src/L1/reduce.cuh:10:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/reduce.cuh:11:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/reduce.cuh:27:        __syncthreads();
+./GLASS/src/L1/reduce.cuh:37:__device__ __forceinline__
+./GLASS/src/L1/reduce.cuh:44:    __syncthreads();
+./GLASS/src/L1/reduce.cuh:46:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/reduce.cuh:47:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/reduce.cuh:63:        __syncthreads();
+./GLASS/src/L1/copy.cuh:23:__device__
+./GLASS/src/L1/copy.cuh:28:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/copy.cuh:29:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/copy.cuh:56:__device__
+./GLASS/src/L1/copy.cuh:62:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/copy.cuh:63:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/infnorm.cuh:5:__device__  __forceinline__
+./GLASS/src/L1/infnorm.cuh:9:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/infnorm.cuh:10:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/infnorm.cuh:26:        __syncthreads();
+./GLASS/src/L1/dot.cuh:13:__device__  __forceinline__
+./GLASS/src/L1/dot.cuh:18:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/dot.cuh:19:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/dot.cuh:24:    __syncthreads();
+./GLASS/src/L1/dot.cuh:36:__device__ __forceinline__
+./GLASS/src/L1/dot.cuh:42:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/dot.cuh:43:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/dot.cuh:48:    __syncthreads();
+./GLASS/src/L1/dot.cuh:53:__device__ __forceinline__
+./GLASS/src/L1/dot.cuh:58:    for(uint32_t ind = threadIdx.x; ind < n; ind += blockDim.x){
+./GLASS/src/L1/dot.cuh:61:    __syncthreads();
+./GLASS/src/L1/l2norm.cuh:4:__device__  __forceinline__
+./GLASS/src/L1/l2norm.cuh:8:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/l2norm.cuh:9:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/l2norm.cuh:14:    __syncthreads();
+./GLASS/src/L1/axpy.cuh:8:__device__
+./GLASS/src/L1/axpy.cuh:14:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/axpy.cuh:15:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/axpy.cuh:28:__device__
+./GLASS/src/L1/axpy.cuh:35:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/axpy.cuh:36:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L1/axpy.cuh:49:__device__
+./GLASS/src/L1/axpy.cuh:57:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L1/axpy.cuh:58:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L3/chol_InPlace.cuh:13:__device__ 
+./GLASS/src/L3/chol_InPlace.cuh:16:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L3/chol_InPlace.cuh:17:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L3/chol_InPlace.cuh:24:        __syncthreads();
+./GLASS/src/L3/chol_InPlace.cuh:30:        __syncthreads();
+./GLASS/src/L3/chol_InPlace.cuh:38:        __syncthreads();
+./GLASS/src/L3/inv.cuh:5:__device__
+./GLASS/src/L3/inv.cuh:16:        for (unsigned ind = threadIdx.x; ind < 2*dimA+1; ind += blockDim.x){
+./GLASS/src/L3/inv.cuh:22:        __syncthreads();
+./GLASS/src/L3/inv.cuh:24:        for (unsigned ind = threadIdx.x; ind < dimA*(dimA+1); ind += blockDim.x){
+./GLASS/src/L3/inv.cuh:30:        __syncthreads();
+./GLASS/src/L3/inv.cuh:36:__device__
+./GLASS/src/L3/inv.cuh:50:        for (unsigned ind = threadIdx.x; ind < dimMax; ind++){
+./GLASS/src/L3/inv.cuh:54:        for (unsigned ind = threadIdx.x; ind < dimMax+1; ind++){
+./GLASS/src/L3/inv.cuh:58:        __syncthreads();
+./GLASS/src/L3/inv.cuh:60:        for (unsigned ind = threadIdx.x; ind < dimMax*(dimMax+1); ind += blockDim.x){
+./GLASS/src/L3/inv.cuh:72:        __syncthreads();
+./GLASS/src/L3/inv.cuh:79:__device__
+./GLASS/src/L3/inv.cuh:94:        for (unsigned ind = threadIdx.x; ind < dimMax; ind++){
+./GLASS/src/L3/inv.cuh:99:        for (unsigned ind = threadIdx.x; ind < dimMax+1; ind++){
+./GLASS/src/L3/inv.cuh:104:        __syncthreads();
+./GLASS/src/L3/inv.cuh:106:        for (unsigned ind = threadIdx.x; ind < dimMax*(dimMax+1); ind += blockDim.x){
+./GLASS/src/L3/inv.cuh:123:        __syncthreads();
+./GLASS/src/L3/gemm.cuh:5:__device__
+./GLASS/src/L3/gemm.cuh:17:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L3/gemm.cuh:18:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/src/L3/gemm.cuh:53:__device__
+./GLASS/src/L3/gemm.cuh:64:    uint32_t ind = threadIdx.x + threadIdx.y * blockDim.x + threadIdx.z * blockDim.x * blockDim.y;
+./GLASS/src/L3/gemm.cuh:65:    uint32_t stride = blockDim.x * blockDim.y * blockDim.z;
+./GLASS/GTests/gemm_time.cu:18:__global__ 
+./GLASS/GTests/gemm_time.cu:24:		__syncthreads();
+./GLASS/GTests/gemm_time.cu:28:__global__ 
+./GLASS/GTests/gemm_time.cu:32:	extern __shared__ float vec[];
+./GLASS/GTests/gemm_time.cu:33:	if (threadIdx.x == 0) {
+./GLASS/GTests/gemm_time.cu:38:	__syncthreads();
+./GLASS/GTests/gemm_time.cu:41:		__syncthreads();
+./GLASS/GTests/gemm_time.cu:45:__global__ 
+./GLASS/GTests/gemm_time.cu:49:	extern __shared__ float mat_vec[];
+./GLASS/GTests/gemm_time.cu:50:	if (threadIdx.x == 0) {
+./GLASS/GTests/gemm_time.cu:55:	__syncthreads();
+./GLASS/GTests/gemm_time.cu:58:		__syncthreads();
+./GLASS/GTests/chol_time.cu:18:__global__ 
+./GLASS/GTests/chol_time.cu:23:		__syncthreads();
+./GLASS/GTests/global_glass.cuh:6:__global__
+./GLASS/GTests/global_glass.cuh:16:__global__
+./GLASS/GTests/global_glass.cuh:27:__global__
+./GLASS/GTests/global_glass.cuh:37:__global__
+./GLASS/GTests/global_glass.cuh:47:__global__
+./GLASS/GTests/global_glass.cuh:57:__global__
+./GLASS/GTests/global_glass.cuh:66:__global__
+./GLASS/GTests/global_glass.cuh:76:__global__
+./GLASS/GTests/global_glass.cuh:84:__global__
+./GLASS/GTests/global_glass.cuh:91:__global__
+./GLASS/GTests/global_glass.cuh:100:__global__
+./GLASS/GTests/global_glass.cuh:112:__global__
+./GLASS/GTests/global_glass.cuh:121:__global__
+./GLASS/GTests/global_glass.cuh:129:__global__
+./GLASS/GTests/global_glass.cuh:137:__global__
+./GLASS/GTests/global_glass.cuh:146:__global__
+./GLASS/GTests/global_glass.cuh:155:__global__
+./GLASS/GTests/global_glass.cuh:164:__global__
+./GLASS/GTests/global_glass.cuh:174:__global__
+./GLASS/GTests/global_glass.cuh:187:__global__
+./GLASS/GTests/global_glass.cuh:199:__global__ 
+./GLASS/GTests/global_glass.cuh:207:__global__
+./GLASS/GTests/global_glass.cuh:221:__global__
+./GLASS/GTests/global_glass.cuh:234:__global__
+./GLASS/GTests/global_glass.cuh:240:__global__
+./GLASS/GTests/global_glass.cuh:246:__global__
+./GBD-PCG/include/utils.cuh:10:__device__
+./GBD-PCG/include/utils.cuh:17:    for (unsigned ind = threadIdx.x; ind < block_dim; ind += blockDim.x){
+./GBD-PCG/include/utils.cuh:22:        for (unsigned ind = threadIdx.x; ind < block_dim; ind += blockDim.x){
+./GBD-PCG/include/utils.cuh:27:        for (unsigned ind = threadIdx.x; ind < block_dim; ind += blockDim.x){
+./GBD-PCG/include/utils.cuh:33:        for (unsigned ind = threadIdx.x; ind < 2*block_dim; ind += blockDim.x){
+./GBD-PCG/include/utils.cuh:47:__device__ 
+./GBD-PCG/include/utils.cuh:59:        for (unsigned r = threadIdx.x; r < b_dim; r += blockDim.x){
+./GBD-PCG/include/utils.cuh:68:        for (unsigned r = threadIdx.x; r < b_dim; r += blockDim.x){
+./GBD-PCG/include/utils.cuh:77:        for (unsigned r = threadIdx.x; r < b_dim; r += blockDim.x){
+./GBD-PCG/include/utils.cuh:88:__device__
+./GBD-PCG/include/utils.cuh:91:	for(ind=threadIdx.x; ind < size_Ts; ind+=blockDim.x){
+./GBD-PCG/include/utils.cuh:97:__device__
+./GBD-PCG/include/utils.cuh:124:        for(ind=threadIdx.x; ind<b_dim*b_dim; ind+=blockDim.x){
+./GBD-PCG/include/utils.cuh:133:__device__
+./GBD-PCG/include/pcg.cuh:55:__global__
+./GBD-PCG/include/pcg.cuh:73:    const uint32_t block_id = blockIdx.x;
+./GBD-PCG/include/pcg.cuh:74:    const uint32_t block_dim = blockDim.x;
+./GBD-PCG/include/pcg.cuh:75:    const uint32_t thread_id = threadIdx.x;
+./GBD-PCG/include/pcg.cuh:79:    extern __shared__ T s_temp[];
+./GBD-PCG/include/pcg.cuh:120:    __syncthreads();
+./GBD-PCG/include/pcg.cuh:122:    __syncthreads();
+./GBD-PCG/include/pcg.cuh:132:    __syncthreads();
+./GBD-PCG/include/pcg.cuh:134:    __syncthreads();
+./GBD-PCG/include/pcg.cuh:148:    __syncthreads();
+./GBD-PCG/include/pcg.cuh:158:        __syncthreads();
+./GBD-PCG/include/pcg.cuh:160:        __syncthreads();
+./GBD-PCG/include/pcg.cuh:164:        __syncthreads();
+./GBD-PCG/include/pcg.cuh:168:        __syncthreads();
+./GBD-PCG/include/pcg.cuh:182:        __syncthreads();
+./GBD-PCG/include/pcg.cuh:184:        __syncthreads();
+./GBD-PCG/include/pcg.cuh:188:        __syncthreads();
+./GBD-PCG/include/pcg.cuh:192:        __syncthreads();
+./GBD-PCG/include/pcg.cuh:214:    __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:47:	__host__ __device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:50:	__host__ __device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:55:	// __host__ __device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:59:	__host__ __device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:63:	__host__ __device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:101:	__device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:106:    	__syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:113:	__host__ __device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:117:	// __device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:122:	// __host__ __device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:127:    __device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:134:        grid::load_update_XImats_helpers<T>(s_XImats, s_q, d_robotModel, s_temp); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:136:        grid::direct_minv_inner<T>(s_Minv, s_q, s_XImats, s_temp); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:138:        grid::inverse_dynamics_inner<T>(s_c, s_vaf, s_q, s_qd, s_XImats, &s_temp[7], GRAVITY<T>()); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:139:        grid::forward_dynamics_finish<T>(s_qdd, s_u, s_c, s_Minv); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:140:        grid::inverse_dynamics_inner_vaf<T>(s_vaf, s_q, s_qd, s_qdd, s_XImats, s_temp, GRAVITY<T>()); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:141:        grid::inverse_dynamics_gradient_inner<T>(s_dc_du, s_q, s_qd, s_vaf, s_XImats, s_temp, GRAVITY<T>()); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:142:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:160:	// __device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:180:		// for(int ind = threadIdx.x; ind < 392; ind += blockDim.x){
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:191:		// for(int ind = threadIdx.x; ind < 392; ind += blockDim.x){
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:194:		// __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:200:        // grid::load_update_XImats_helpers<T>(s_XImats, s_q, d_robotModel, s_temp); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:202:        // grid::direct_minv_inner<T>(s_Minv, s_q, s_XImats, s_temp); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:204:        // grid::inverse_dynamics_inner<T>(s_c, s_vaf, s_q, s_qd, s_XImats, &s_temp[7], GRAVITY<T>()); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:205:        // grid::forward_dynamics_finish<T>(s_qdd, s_u, s_c, s_Minv); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:206:        // grid::inverse_dynamics_inner_vaf<T>(s_vaf, s_q, s_qd, s_qdd, s_XImats, s_temp, GRAVITY<T>()); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:207:        // grid::inverse_dynamics_gradient_inner<T>(s_dc_du, s_q, s_qd, s_vaf, s_XImats, s_temp, GRAVITY<T>()); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:208:        // for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:230:	__host__ __device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:241:	__device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:252:		const uint32_t threadsNeeded = state_size/2 + control_size * (blockIdx.x < knot_points - 1);
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:261:        for(int i = threadIdx.x; i < threadsNeeded; i += blockDim.x){
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:273:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:275:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:277:		// if(threadIdx.x==0){
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:278:		// 	printf("block %d with input %f,%f,%f,%f,%f,%f,%f\n", blockIdx.x, s_xu[7],s_xu[8],s_xu[9],s_xu[10],s_xu[11],s_xu[12],s_xu[13]);
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:281:        for(int i = threadIdx.x; i < 3; i+=blockDim.x){
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:285:		__syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:287:		__syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:296:	__device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:321:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:323:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:325:		// if(threadIdx.x==0){
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:326:		// 	printf("block %d with input %f,%f,%f,%f,%f,%f,%f\n", blockIdx.x, s_xu[0],s_xu[1],s_xu[2],s_xu[3],s_xu[4],s_xu[5],s_xu[6]);
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:329:		for (int i = threadIdx.x; i < threads_needed; i += blockDim.x){
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:356:		__syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:358:		for (int i = threadIdx.x; i < threads_needed; i += blockDim.x){
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:382:	__device__
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:398:		__syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:400:		__syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_plant.cuh:403:	// __host__ __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:10: *       __device__ inverse_dynamics_inner<T>(T *s_c,  T *s_vaf, const T *s_q, const T *s_qd, const T *s_qdd, T *s_XImats, int *s_topology_helpers, T *s_temp, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:11: *       __device__ inverse_dynamics_inner<T>(T *s_c,  T *s_vaf, const T *s_q, const T *s_qd, T *s_XImats, int *s_topology_helpers, T *s_temp, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:12: *       __device__ inverse_dynamics_device<T>(T *s_c, const T *s_q, const T *s_qd, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:13: *       __device__ inverse_dynamics_device<T>(T *s_c, const T *s_q, const T *s_qd, const T *s_qdd, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:14: *       __global__ inverse_dynamics_kernel<T>(T *d_c, const T *d_q_qd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:15: *       __global__ inverse_dynamics_kernel<T>(T *d_c, const T *d_q_qd, const T *d_qdd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:18: *       __device__ inverse_dynamics_inner_vaf<T>(T *s_vaf, const T *s_q, const T *s_qd, const T *s_qdd, T *s_XImats, int *s_topology_helpers, T *s_temp, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:19: *       __device__ inverse_dynamics_inner_vaf<T>(T *s_vaf, const T *s_q, const T *s_qd, T *s_XImats, int *s_topology_helpers, T *s_temp, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:20: *       __device__ inverse_dynamics_vaf_device<T>(T *s_vaf, const T *s_q, const T *s_qd, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:21: *       __device__ inverse_dynamics_vaf_device<T>(T *s_vaf, const T *s_q, const T *s_qd, const T *s_qdd, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:23: *       __device__ direct_minv_inner<T>(T *s_Minv, const T *s_q, T *s_XImats, int *s_topology_helpers, T *s_temp)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:24: *       __device__ direct_minv_device<T>(T *s_Minv, const T *s_q, const robotModel<T> *d_robotModel)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:25: *       __global__ direct_minv_Kernel<T>(T *d_Minv, const T *d_q, const robotModel<T> *d_robotModel, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:28: *       __device__ forward_dynamics_inner<T>(T *s_qdd, const T *s_q, const T *s_qd, const T *s_u, T *s_XImats, int *s_topology_helpers, T *s_temp, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:29: *       __device__ forward_dynamics_device<T>(T *s_qdd, const T *s_q, const T *s_qd, const T *s_u, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:30: *       __global__ forward_dynamics_kernel<T>(T *d_qdd, const T *d_q_qd_u, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:33: *       __device__ inverse_dynamics_gradient_inner<T>(T *s_dc_du, const T *s_q, const T *s_qd, const T *s_vaf, T *s_XImats, int *s_topology_helpers, T *s_temp, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:34: *       __device__ inverse_dynamics_gradient_device<T>(T *s_dc_du, const T *s_q, const T *s_qd, const T *robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:35: *       __device__ inverse_dynamics_gradient_device<T>(T *s_dc_du, const T *s_q, const T *s_qd, const T *s_qdd, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:36: *       __global__ inverse_dynamics_gradient_kernel<T>(T *d_dc_du, const T *d_q_qd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:37: *       __global__ inverse_dynamics_gradient_kernel<T>(T *d_dc_du, const T *d_q_qd, const T *d_qdd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:40: *       __device__ forward_dynamics_gradient_device<T>(T *s_df_du, const T *s_q, const T *s_qd, const T *s_u, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:41: *       __device__ forward_dynamics_gradient_device<T>(T *s_df_du, const T *s_q, const T *s_qd, const T *s_qdd, const T *s_Minv, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:42: *       __global__ forward_dynamics_gradient_kernel<T>(T *d_df_du, const T *d_q_qd_u, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:43: *       __global__ forward_dynamics_gradient_kernel<T>(T *d_df_du, const T *d_q_qd, const T *d_qdd, const T *d_Minv, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:46: *       __device__ end_effector_positions_inner<T>(T *s_eePos, const T *s_q, const T *s_Xhom, int *s_topology_helpers, T *s_temp)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:47: *       __device__ end_effector_positions_device<T>(T *s_eePos, const T *s_q, const robotModel<T> *d_robotModel)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:48: *       __global__ end_effector_positions_kernel<T>(T *d_eePos, const T *d_q, const robotModel<T> *d_robotModel, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:51: *       __device__ end_effector_positions_gradient_inner<T>(T *s_deePos, const T *s_q, const T *s_Xhom, const T *s_dXhom, int *s_topology_helpers, T *s_temp)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:52: *       __device__ end_effector_positions_gradient_device<T>(T *s_deePos, const T *s_q, const robotModel<T> *d_robotModel)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:53: *       __global__ end_effector_positions_gradient_kernel<T>(T *d_deePos, const T *d_q, const robotModel<T> *d_robotModel, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:58: *   Additional helper functions and ALGORITHM_inner functions which take in __shared__ memory temp variables exist -- see function descriptions in the file
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:75:__host__ __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:84:__host__ __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:153:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:173:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:193:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:213:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:232:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:252:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:271:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:292:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:310:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:330:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:349:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:370:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:388:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:408:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:427:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:448:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:466:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:486:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:503:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:524:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:540:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:560:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:577:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:598:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:614:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:634:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:651:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:672:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:688:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:710:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:733:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:756:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:778:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:829:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:862:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:883:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1769:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1771:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 504; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1774:        for(int k = threadIdx.x + threadIdx.y*blockDim.x; k < 7; k += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1778:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1779:        if(threadIdx.x == 0 && threadIdx.y == 0){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1838:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1839:        for(int kcr = threadIdx.x + threadIdx.y*blockDim.x; kcr < 63; kcr += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1844:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1856:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1858:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 112; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1861:        for(int k = threadIdx.x + threadIdx.y*blockDim.x; k < 7; k += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1865:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1866:        if(threadIdx.x == 0 && threadIdx.y == 0){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1903:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1916:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1918:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 112; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1922:        for(int k = threadIdx.x + threadIdx.y*blockDim.x; k < 7; k += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1926:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1927:        if(threadIdx.x == 0 && threadIdx.y == 0){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1999:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2014:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2022:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 16; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2025:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2028:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 16; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2032:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2035:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 16; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2039:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2042:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 16; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2046:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2049:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 16; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2053:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2056:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 16; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2060:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2063:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 16; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2067:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2072:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 3; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2082:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2093:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2110:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2112:        __shared__ T s_q[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2113:        __shared__ T s_eePos[6];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2114:        extern __shared__ T s_XHomTemp[]; T *s_XmatsHom = s_XHomTemp; T *s_temp = &s_XHomTemp[112];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2116:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2119:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2126:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2129:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2142:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2144:        __shared__ T s_q[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2145:        __shared__ T s_eePos[6];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2146:        extern __shared__ T s_XHomTemp[]; T *s_XmatsHom = s_XHomTemp; T *s_temp = &s_XHomTemp[112];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2147:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2150:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2153:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2157:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2160:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2163:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2254:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2262:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 112; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2266:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2269:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 112; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2274:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2277:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 112; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2282:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2285:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 112; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2290:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2293:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 112; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2298:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2301:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 112; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2306:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2309:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 112; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2314:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2319:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 21; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2334:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2345:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2362:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2364:        __shared__ T s_q[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2365:        __shared__ T s_deePos[42];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2366:        extern __shared__ T s_XHomTemp[]; T *s_XmatsHom = s_XHomTemp; T *s_dXmatsHom = &s_XHomTemp[112]; T *s_temp = &s_dXmatsHom[112];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2368:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2371:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2378:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 42; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2381:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2394:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2396:        __shared__ T s_q[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2397:        __shared__ T s_deePos[42];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2398:        extern __shared__ T s_XHomTemp[]; T *s_XmatsHom = s_XHomTemp; T *s_dXmatsHom = &s_XHomTemp[112]; T *s_temp = &s_dXmatsHom[112];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2399:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2402:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2405:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2409:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2412:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 42; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2415:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2510:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2519:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2525:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2530:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2538:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2539:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2542:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2547:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2555:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2556:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2559:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2564:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2572:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2573:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2576:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2581:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2589:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2590:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2593:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2598:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2606:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2607:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2610:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2615:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2623:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2624:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2627:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2633:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2640:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2642:        for(int jid = threadIdx.x + threadIdx.y*blockDim.x; jid < 7; jid += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2646:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2654:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2660:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2665:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2671:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2676:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2682:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2687:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2693:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2698:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2704:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2709:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2715:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2719:        for(int jid = threadIdx.x + threadIdx.y*blockDim.x; jid < 7; jid += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2722:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2742:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2751:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2757:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2762:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2770:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2771:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2774:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2779:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2787:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2788:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2791:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2796:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2804:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2805:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2808:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2813:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2821:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2822:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2825:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2830:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2838:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2839:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2842:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2847:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2855:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2856:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2859:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2865:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2872:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2874:        for(int jid = threadIdx.x + threadIdx.y*blockDim.x; jid < 7; jid += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2878:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2886:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2892:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2897:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2903:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2908:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2914:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2919:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2925:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2930:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2936:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2941:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2947:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2951:        for(int jid = threadIdx.x + threadIdx.y*blockDim.x; jid < 7; jid += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2954:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2974:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2983:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2989:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2994:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3002:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3003:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3006:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3011:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3019:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3020:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3023:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3028:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3036:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3037:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3040:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3045:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3053:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3054:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3057:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3062:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3070:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3071:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3074:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3079:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3087:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3088:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3091:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3097:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3104:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3106:        for(int jid = threadIdx.x + threadIdx.y*blockDim.x; jid < 7; jid += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3110:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3118:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3124:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3129:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3135:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3140:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3146:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3151:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3157:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3162:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3168:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3173:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3179:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3199:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3208:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3214:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3219:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3227:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3228:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3231:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3236:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3244:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3245:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3248:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3253:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3261:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3262:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3265:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3270:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3278:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3279:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3282:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3287:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3295:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3296:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3299:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3304:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3312:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3313:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3316:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3322:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3329:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3331:        for(int jid = threadIdx.x + threadIdx.y*blockDim.x; jid < 7; jid += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3335:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3343:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3349:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3354:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3360:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3365:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3371:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3376:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3382:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3387:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3393:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3398:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3404:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3418:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3420:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3421:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3439:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3441:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3442:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3460:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3462:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3480:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3482:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3498:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3500:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3501:        __shared__ T s_qdd[7]; 
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3502:        __shared__ T s_c[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3503:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3504:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3506:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3509:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3512:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3519:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3522:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3536:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3538:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3539:        __shared__ T s_qdd[7]; 
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3540:        __shared__ T s_c[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3541:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3542:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3543:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3546:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3550:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3553:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3557:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3560:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3563:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3580:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3582:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3583:        __shared__ T s_c[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3584:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3585:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3587:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3590:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3597:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3600:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3616:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3618:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3619:        __shared__ T s_c[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3620:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3621:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3622:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3625:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3628:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3632:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3635:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3638:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3752:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3756:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 252; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3760:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 343; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3764:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3772:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3779:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3782:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3789:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3793:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3796:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 42; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3805:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3807:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3811:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3816:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3823:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3826:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 2; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3834:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3838:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3841:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 48; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3850:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3852:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3856:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3861:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3868:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3871:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 3; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3879:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3883:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3886:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 54; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3895:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3897:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3901:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3906:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3913:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3916:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 4; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3924:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3928:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3931:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 60; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3940:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3942:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3946:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3951:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3958:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3961:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 5; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3969:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3973:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3976:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 66; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3985:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3987:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3991:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3996:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4003:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4006:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4014:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4018:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4021:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 72; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4030:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4032:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4036:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4041:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4048:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4050:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4054:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4061:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 42; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4065:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4070:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4074:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4077:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4083:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4088:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 30; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4092:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4095:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 5; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4101:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4106:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 24; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4110:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4113:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 4; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4119:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4124:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 18; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4128:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4131:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 3; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4137:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4142:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4146:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4149:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 2; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4155:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4160:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4164:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4167:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4172:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4186:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4188:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4205:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4207:        __shared__ T s_q[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4208:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4209:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4211:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4214:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4221:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 49; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4224:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4239:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4241:        __shared__ T s_q[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4242:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4243:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4244:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4247:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4250:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4254:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4257:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 49; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4260:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4350:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4352:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 7; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4378:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4396:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4398:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4413:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4415:        __shared__ T s_q_qd_u[21]; T *s_q = s_q_qd_u; T *s_qd = &s_q_qd_u[7]; T *s_u = &s_q_qd_u[14];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4416:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4417:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4419:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 21; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4422:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4429:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4432:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4445:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4447:        __shared__ T s_q_qd_u[21]; T *s_q = s_q_qd_u; T *s_qd = &s_q_qd_u[7]; T *s_u = &s_q_qd_u[14];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4448:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4449:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4450:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4453:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 21; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4456:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4460:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4463:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4466:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4557:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4576:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 126; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4586:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4588:        for(int col = threadIdx.x + threadIdx.y*blockDim.x; col < 28; col += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4598:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4608:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4613:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4619:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4629:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4635:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 24; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4647:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4653:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4665:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4671:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 48; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4683:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4689:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 60; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4701:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4707:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 72; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4719:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4722:        for(int col = threadIdx.x + threadIdx.y*blockDim.x; col < 56; col += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4735:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4742:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4749:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4754:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 24; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4761:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4766:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4773:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4778:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 48; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4785:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4790:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 60; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4797:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4802:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 72; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4809:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4811:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 588; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4814:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4818:        for(int col = threadIdx.x + threadIdx.y*blockDim.x; col < 98; col += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4835:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4837:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 336; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4852:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 42; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4856:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4864:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4874:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4879:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4889:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4894:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4904:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4909:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4919:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4924:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4934:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4939:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4949:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4951:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4957:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4971:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4973:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4974:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4993:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4995:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4996:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5014:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5016:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5017:        __shared__ T s_qdd[7]; 
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5018:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5019:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5020:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5022:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5025:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5028:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5036:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5039:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5054:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5056:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5057:        __shared__ T s_qdd[7]; 
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5058:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5059:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5060:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5061:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5064:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5068:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5071:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5076:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5079:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5082:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5100:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5102:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5103:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5104:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5105:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5107:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5110:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5118:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5121:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5138:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5140:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5141:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5142:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5143:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5144:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5147:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5150:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5155:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5158:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5161:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5276:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5278:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5279:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5280:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5281:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5282:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5290:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5303:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5306:        load_update_XImats_helpers<T>(s_XImats, s_q, d_robotModel, s_temp); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5308:        direct_minv_inner<T>(s_Minv, s_q, s_XImats, s_temp); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5310:        inverse_dynamics_inner<T>(s_c, s_vaf, s_q, s_qd, s_XImats, &s_temp[7], gravity); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5311:        forward_dynamics_finish<T>(s_qdd, s_u, s_c, s_Minv); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5312:        inverse_dynamics_inner_vaf<T>(s_vaf, s_q, s_qd, s_qdd, s_XImats, s_temp, gravity); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5313:        inverse_dynamics_gradient_inner<T>(s_dc_du, s_q, s_qd, s_vaf, s_XImats, s_temp, gravity); __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5314:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5345:    __device__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5347:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5348:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5349:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5353:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5378:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5380:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5381:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5382:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5383:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5384:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5385:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5387:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5390:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5393:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 49; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5396:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5402:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5414:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5417:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5433:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5435:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5436:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5437:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5438:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5439:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5440:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5441:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5444:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5448:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5452:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 49; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5455:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5460:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5472:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5475:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5490:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5492:        __shared__ T s_q_qd_u[3*7]; T *s_q = s_q_qd_u; T *s_qd = &s_q_qd_u[7]; T *s_u = &s_q_qd_u[14];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5493:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5494:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5495:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5496:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5497:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5499:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 21; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5502:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5512:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5524:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5527:        __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5541:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5543:        __shared__ T s_q_qd_u[3*7]; T *s_q = s_q_qd_u; T *s_qd = &s_q_qd_u[7]; T *s_u = &s_q_qd_u[14];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5544:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5545:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5546:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5547:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5548:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5549:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5552:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 21; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5555:            __syncthreads();
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5564:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5576:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5579:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:11: *       __device__ inverse_dynamics_device<T>(T *s_c, const T *s_q, const T *s_qd, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_grid.cuh:12: *       __device__ inverse_dynamics_device<T>(T *s_c, const T *s_q, const T *s_qd, const T *s_qdd, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_grid.cuh:13: *       __global__ inverse_dynamics_kernel<T>(T *d_c, const T *d_q_qd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:14: *       __global__ inverse_dynamics_kernel<T>(T *d_c, const T *d_q_qd, const T *d_qdd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:17: *       __device__ inverse_dynamics_vaf_device<T>(T *s_vaf, const T *s_q, const T *s_qd, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_grid.cuh:18: *       __device__ inverse_dynamics_vaf_device<T>(T *s_vaf, const T *s_q, const T *s_qd, const T *s_qdd, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_grid.cuh:20: *       __device__ direct_minv_device<T>(T *s_Minv, const T *s_q, const robotModel<T> *d_robotModel)
+./include/dynamics/iiwa/iiwa_grid.cuh:21: *       __global__ direct_minv_Kernel<T>(T *d_Minv, const T *d_q, const robotModel<T> *d_robotModel, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:24: *       __device__ forward_dynamics_device<T>(T *s_qdd, const T *s_q, const T *s_qd, const T *s_u, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_grid.cuh:25: *       __global__ forward_dynamics_kernel<T>(T *d_qdd, const T *d_q_qd_u, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:28: *       __device__ inverse_dynamics_gradient_device<T>(T *s_dc_du, const T *s_q, const T *s_qd, const T *robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_grid.cuh:29: *       __device__ inverse_dynamics_gradient_device<T>(T *s_dc_du, const T *s_q, const T *s_qd, const T *s_qdd, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_grid.cuh:30: *       __global__ inverse_dynamics_gradient_kernel<T>(T *d_dc_du, const T *d_q_qd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:31: *       __global__ inverse_dynamics_gradient_kernel<T>(T *d_dc_du, const T *d_q_qd, const T *d_qdd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:34: *       __device__ forward_dynamics_gradient_device<T>(T *s_df_du, const T *s_q, const T *s_qd, const T *s_u, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_grid.cuh:35: *       __device__ forward_dynamics_gradient_device<T>(T *s_df_du, const T *s_q, const T *s_qd, const T *s_qdd, const T *s_Minv, const robotModel<T> *d_robotModel, const T gravity)
+./include/dynamics/iiwa/iiwa_grid.cuh:36: *       __global__ forward_dynamics_gradient_kernel<T>(T *d_df_du, const T *d_q_qd_u, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:37: *       __global__ forward_dynamics_gradient_kernel<T>(T *d_df_du, const T *d_q_qd, const T *d_qdd, const T *d_Minv, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:42: *   Additional helper functions and ALGORITHM_inner functions which take in __shared__ memory temp variables exist -- see function descriptions in the file
+./include/dynamics/iiwa/iiwa_grid.cuh:111:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:131:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:151:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:171:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:190:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:210:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:229:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:250:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:268:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:288:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:307:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:328:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:346:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:366:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:385:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:406:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:424:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:444:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:461:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:482:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:498:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:518:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:535:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:556:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:572:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:592:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:609:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:630:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:646:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:668:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:691:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:714:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:736:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:787:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:820:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:841:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:1491:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:1493:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 504; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1496:        for(int k = threadIdx.x + threadIdx.y*blockDim.x; k < 7; k += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1500:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1501:        if(threadIdx.x == 0 && threadIdx.y == 0){
+./include/dynamics/iiwa/iiwa_grid.cuh:1560:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1561:        for(int kcr = threadIdx.x + threadIdx.y*blockDim.x; kcr < 63; kcr += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1566:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1586:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:1595:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1601:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1606:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1614:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1615:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1618:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1623:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1631:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1632:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1635:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1640:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1648:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1649:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1652:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1657:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1665:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1666:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1669:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1674:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1682:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1683:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1686:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1691:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1699:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1700:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1703:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1709:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1716:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1718:        for(int jid = threadIdx.x + threadIdx.y*blockDim.x; jid < 7; jid += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1722:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1730:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1736:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1741:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1747:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1752:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1758:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1763:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1769:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1774:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1780:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1785:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1791:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1795:        for(int jid = threadIdx.x + threadIdx.y*blockDim.x; jid < 7; jid += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1798:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1818:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:1827:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1833:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1838:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1846:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1847:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1850:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1855:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1863:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1864:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1867:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1872:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1880:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1881:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1884:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1889:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1897:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1898:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1901:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1906:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1914:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1915:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1918:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1923:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1931:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1932:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1935:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1941:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1948:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1950:        for(int jid = threadIdx.x + threadIdx.y*blockDim.x; jid < 7; jid += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1954:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1962:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1968:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1973:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1979:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1984:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:1990:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:1995:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2001:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2006:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2012:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2017:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2023:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2027:        for(int jid = threadIdx.x + threadIdx.y*blockDim.x; jid < 7; jid += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2030:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2050:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:2059:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2065:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2070:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2078:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2079:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2082:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2087:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2095:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2096:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2099:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2104:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2112:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2113:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2116:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2121:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2129:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2130:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2133:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2138:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2146:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2147:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2150:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2155:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2163:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2164:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2167:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2173:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2180:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2182:        for(int jid = threadIdx.x + threadIdx.y*blockDim.x; jid < 7; jid += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2186:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2194:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2200:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2205:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2211:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2216:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2222:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2227:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2233:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2238:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2244:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2249:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2255:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2275:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:2284:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2290:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2295:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2303:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2304:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2307:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2312:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2320:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2321:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2324:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2329:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2337:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2338:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2341:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2346:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2354:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2355:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2358:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2363:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2371:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2372:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2375:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2380:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2388:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2389:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2392:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2398:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2405:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2407:        for(int jid = threadIdx.x + threadIdx.y*blockDim.x; jid < 7; jid += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2411:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2419:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2425:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2430:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2436:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2441:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2447:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2452:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2458:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2463:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2469:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2474:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2480:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2494:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:2496:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:2497:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:2515:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:2517:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:2518:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:2536:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:2538:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:2556:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:2558:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:2574:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:2576:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:2577:        __shared__ T s_qdd[7]; 
+./include/dynamics/iiwa/iiwa_grid.cuh:2578:        __shared__ T s_c[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:2579:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:2580:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:2582:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2585:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2588:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2595:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2598:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2612:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:2614:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:2615:        __shared__ T s_qdd[7]; 
+./include/dynamics/iiwa/iiwa_grid.cuh:2616:        __shared__ T s_c[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:2617:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:2618:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:2619:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2622:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2626:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2629:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2633:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2636:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2639:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2656:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:2658:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:2659:        __shared__ T s_c[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:2660:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:2661:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:2663:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2666:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2673:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2676:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2692:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:2694:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:2695:        __shared__ T s_c[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:2696:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:2697:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:2698:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2701:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2704:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2708:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2711:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2714:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2828:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:2832:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 252; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2835:        // __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2837:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 343; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2841:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2849:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2856:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2859:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2865:        // __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2867:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2871:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2874:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 42; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2883:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2885:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2889:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2894:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2901:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2904:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 2; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2911:        // __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2913:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2917:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2920:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 48; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2929:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2931:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2935:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2940:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2947:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2950:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 3; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2957:        // __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2959:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2963:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2966:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 54; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2975:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2977:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2981:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2986:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:2993:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:2996:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 4; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3003:        // __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3005:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3009:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3012:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 60; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3021:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3023:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3027:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3032:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3039:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3042:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 5; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3049:        // __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3051:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3055:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3058:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 66; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3067:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3069:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3073:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3078:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3085:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3088:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3095:        // __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3097:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3101:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3104:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 72; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3113:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3115:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3119:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3124:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 6; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3131:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3133:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3137:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3144:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 42; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3148:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3153:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3157:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3160:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3166:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3171:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 30; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3175:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3178:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 5; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3184:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3189:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 24; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3193:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3196:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 4; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3202:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3207:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 18; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3211:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3214:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 3; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3220:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3225:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3229:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3232:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 2; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3238:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3243:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 6; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3247:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3250:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 1; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3255:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3269:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:3271:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:3288:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:3290:        __shared__ T s_q[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:3291:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_grid.cuh:3292:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:3294:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3297:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3304:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 49; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3307:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3322:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:3324:        __shared__ T s_q[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:3325:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_grid.cuh:3326:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:3327:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3330:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3333:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3337:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3340:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 49; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3343:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3433:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:3435:        for(int row = threadIdx.x + threadIdx.y*blockDim.x; row < 7; row += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3461:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:3479:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:3481:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:3487:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:3504:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:3506:        __shared__ T s_q_qd_u[21]; T *s_q = s_q_qd_u; T *s_qd = &s_q_qd_u[7]; T *s_u = &s_q_qd_u[14];
+./include/dynamics/iiwa/iiwa_grid.cuh:3507:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:3508:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:3510:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 21; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3513:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3520:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3523:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3536:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:3538:        __shared__ T s_q_qd_u[21]; T *s_q = s_q_qd_u; T *s_qd = &s_q_qd_u[7]; T *s_u = &s_q_qd_u[14];
+./include/dynamics/iiwa/iiwa_grid.cuh:3539:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:3540:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:3541:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3544:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 21; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3547:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3551:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3554:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3557:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3648:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:3667:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 126; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3677:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3679:        for(int col = threadIdx.x + threadIdx.y*blockDim.x; col < 28; col += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3689:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3699:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3704:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3710:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3720:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3726:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 24; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3738:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3744:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3756:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3762:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 48; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3774:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3780:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 60; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3792:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3798:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 72; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3810:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3813:        for(int col = threadIdx.x + threadIdx.y*blockDim.x; col < 56; col += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3826:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3833:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 12; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3840:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3845:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 24; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3852:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3857:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 36; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3864:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3869:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 48; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3876:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3881:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 60; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3888:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3893:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 72; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3900:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3902:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 588; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3905:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3909:        for(int col = threadIdx.x + threadIdx.y*blockDim.x; col < 98; col += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3926:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3928:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 336; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3943:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 42; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3947:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3955:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3965:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3970:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3980:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:3985:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:3995:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4000:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4010:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4015:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4025:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4030:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 84; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4040:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4042:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4048:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4062:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:4064:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:4065:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:4084:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:4086:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:4087:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:4105:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4107:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:4108:        __shared__ T s_qdd[7]; 
+./include/dynamics/iiwa/iiwa_grid.cuh:4109:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_grid.cuh:4110:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:4111:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:4113:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4116:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4119:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4127:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4130:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4145:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4147:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:4148:        __shared__ T s_qdd[7]; 
+./include/dynamics/iiwa/iiwa_grid.cuh:4149:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_grid.cuh:4150:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:4151:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:4152:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4155:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4159:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4162:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4167:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4170:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4173:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4191:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4193:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:4194:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_grid.cuh:4195:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:4196:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:4198:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4201:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4209:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4212:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4229:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4231:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:4232:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_grid.cuh:4233:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:4234:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:4235:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4238:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4241:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4246:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4249:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4252:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4367:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:4369:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:4370:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_grid.cuh:4371:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_grid.cuh:4372:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:4373:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:4381:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4394:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:4397:        load_update_XImats_helpers<T>(s_XImats, s_q, d_robotModel, s_temp); __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4399:        direct_minv_inner<T>(s_Minv, s_q, s_XImats, s_temp); __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4400:        inverse_dynamics_inner<T>(s_temp, s_vaf, s_q, s_qd, s_XImats, &s_temp[7], gravity); __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4401:        forward_dynamics_finish<T>(s_qdd, s_u, s_temp, s_Minv); __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4402:        inverse_dynamics_inner_vaf<T>(s_vaf, s_q, s_qd, s_qdd, s_XImats, s_temp, gravity); __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4403:        inverse_dynamics_gradient_inner<T>(s_dc_du, s_q, s_qd, s_vaf, s_XImats, s_temp, gravity); __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4404:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4421:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:4424:        load_update_XImats_helpers<T>(s_XImats, s_q, d_robotModel, s_temp); __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4426:        direct_minv_inner<T>(s_Minv, s_q, s_XImats, s_temp); __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4428:        inverse_dynamics_inner<T>(s_c, s_vaf, s_q, s_qd, s_XImats, &s_temp[7], gravity); __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4429:        forward_dynamics_finish<T>(s_qdd, s_u, s_c, s_Minv); __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4430:        inverse_dynamics_inner_vaf<T>(s_vaf, s_q, s_qd, s_qdd, s_XImats, s_temp, gravity); __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4431:        inverse_dynamics_gradient_inner<T>(s_dc_du, s_q, s_qd, s_vaf, s_XImats, s_temp, gravity); __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4432:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4464:    __device__
+./include/dynamics/iiwa/iiwa_grid.cuh:4466:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:4467:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_grid.cuh:4468:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:4472:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4497:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4499:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:4500:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_grid.cuh:4501:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:4502:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:4503:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_grid.cuh:4504:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:4506:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4509:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4512:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 49; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4515:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4521:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4533:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4536:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4552:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4554:        __shared__ T s_q_qd[2*7]; T *s_q = s_q_qd; T *s_qd = &s_q_qd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:4555:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_grid.cuh:4556:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:4557:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:4558:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_grid.cuh:4559:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:4560:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4563:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 14; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4567:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 7; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4571:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 49; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4574:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4579:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4591:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4594:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4609:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4611:        __shared__ T s_q_qd_u[3*7]; T *s_q = s_q_qd_u; T *s_qd = &s_q_qd_u[7]; T *s_u = &s_q_qd_u[14];
+./include/dynamics/iiwa/iiwa_grid.cuh:4612:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_grid.cuh:4613:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:4614:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:4615:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_grid.cuh:4616:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:4618:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 21; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4621:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4631:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4643:        for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4646:        __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4660:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4662:        __shared__ T s_q_qd_u[3*7]; T *s_q = s_q_qd_u; T *s_qd = &s_q_qd_u[7]; T *s_u = &s_q_qd_u[14];
+./include/dynamics/iiwa/iiwa_grid.cuh:4663:        __shared__ T s_dc_du[98];
+./include/dynamics/iiwa/iiwa_grid.cuh:4664:        __shared__ T s_vaf[126];
+./include/dynamics/iiwa/iiwa_grid.cuh:4665:        __shared__ T s_qdd[7];
+./include/dynamics/iiwa/iiwa_grid.cuh:4666:        __shared__ T s_Minv[49];
+./include/dynamics/iiwa/iiwa_grid.cuh:4667:        extern __shared__ T s_XITemp[]; T *s_XImats = s_XITemp; T *s_temp = &s_XITemp[504];
+./include/dynamics/iiwa/iiwa_grid.cuh:4668:        for(int k = blockIdx.x + blockIdx.y*gridDim.x; k < NUM_TIMESTEPS; k += gridDim.x*gridDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4671:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 21; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4674:            __syncthreads();
+./include/dynamics/iiwa/iiwa_grid.cuh:4683:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4695:            for(int ind = threadIdx.x + threadIdx.y*blockDim.x; ind < 98; ind += blockDim.x*blockDim.y){
+./include/dynamics/iiwa/iiwa_grid.cuh:4698:            __syncthreads();
+./include/dynamics/iiwa/iiwa_plant.cuh:47:	__host__ __device__
+./include/dynamics/iiwa/iiwa_plant.cuh:50:	__host__ __device__
+./include/dynamics/iiwa/iiwa_plant.cuh:55:	__host__ __device__
+./include/dynamics/iiwa/iiwa_plant.cuh:59:	__host__ __device__
+./include/dynamics/iiwa/iiwa_plant.cuh:63:	__host__ __device__
+./include/dynamics/iiwa/iiwa_plant.cuh:101:	__device__
+./include/dynamics/iiwa/iiwa_plant.cuh:106:	__host__ __device__
+./include/dynamics/iiwa/iiwa_plant.cuh:110:	__device__
+./include/dynamics/iiwa/iiwa_plant.cuh:115:	__host__ __device__
+./include/dynamics/iiwa/iiwa_plant.cuh:119:	__device__
+./include/dynamics/iiwa/iiwa_plant.cuh:125:	__host__ __device__
+./include/dynamics/iiwa/iiwa_plant.cuh:131:	__device__
+./include/dynamics/iiwa/iiwa_plant.cuh:135:		const uint32_t threadsNeeded = state_size + control_size * (blockIdx.x != knot_points - 1);
+./include/dynamics/iiwa/iiwa_plant.cuh:143:		for(int i = threadIdx.x; i < threadsNeeded; i += blockDim.x){
+./include/dynamics/iiwa/iiwa_plant.cuh:177:	__device__
+./include/dynamics/iiwa/iiwa_plant.cuh:244:	__device__
+./include/dynamics/iiwa/iiwa_plant.cuh:329:	__host__ __device__
+./include/pcg/linsys_setup.cuh:10:__device__
+./include/pcg/linsys_setup.cuh:95:    __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:101:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:103:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:114:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:122:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:124:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:140:__device__
+./include/pcg/linsys_setup.cuh:171:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:178:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:195:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:211:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:216:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:219:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:233:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:245:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:256:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:265:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:273:        for(unsigned ind = threadIdx.x; ind < state_size; ind += blockDim.x){
+./include/pcg/linsys_setup.cuh:276:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:316:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:327:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:334:        if(blockIdx.x==1 && threadIdx.x==0){
+./include/pcg/linsys_setup.cuh:353:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:362:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:369:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:381:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:384:        if(blockrow==1&&threadIdx.x==0){
+./include/pcg/linsys_setup.cuh:393:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:399:        // for(int i = threadIdx.x; i < state_size*state_size; i++){
+./include/pcg/linsys_setup.cuh:403:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:408:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:416:        for(unsigned i = threadIdx.x; i < state_size; i += blockDim.x){
+./include/pcg/linsys_setup.cuh:419:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:429:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:438:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:441:        for(unsigned i = threadIdx.x; i < state_size; i += blockDim.x){
+./include/pcg/linsys_setup.cuh:444:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:457:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:460:        if(blockrow==1&&threadIdx.x==0){
+./include/pcg/linsys_setup.cuh:466:        for(unsigned i = threadIdx.x; i < state_size*state_size; i += blockDim.x){
+./include/pcg/linsys_setup.cuh:470:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:483:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:485:        for(unsigned i = threadIdx.x; i < state_size*state_size; i += blockDim.x){
+./include/pcg/linsys_setup.cuh:488:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:498:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:508:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:512:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:514:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:526:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:529:        for(unsigned ind = threadIdx.x; ind < state_size; ind += blockDim.x){
+./include/pcg/linsys_setup.cuh:534:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:538:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:548:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:559:        __syncthreads();//----------------------------------------------------------------
+./include/pcg/linsys_setup.cuh:566:__global__
+./include/pcg/linsys_setup.cuh:581:    extern __shared__ T s_temp[ ];
+./include/pcg/linsys_setup.cuh:583:    for(unsigned blockrow=blockIdx.x; blockrow<knot_points; blockrow+=gridDim.x){
+./include/pcg/linsys_setup.cuh:602:    for(unsigned blockrow=blockIdx.x; blockrow<knot_points; blockrow+=gridDim.x){
+./include/qdldl/linsys_setup.cuh:13:__global__
+./include/qdldl/linsys_setup.cuh:28:    extern __shared__ T s_temp[ ];    
+./include/qdldl/linsys_setup.cuh:35:    for(unsigned blockrow=blockIdx.x; blockrow<knot_points; blockrow+=gridDim.x){
+./include/qdldl/linsys_setup.cuh:65:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:72:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:77:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:82:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:87:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:90:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:103:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:108:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:117:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:125:            for(unsigned ind = threadIdx.x; ind < state_size; ind += blockDim.x){
+./include/qdldl/linsys_setup.cuh:128:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:158:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:169:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:181:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:188:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:212:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:225:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:238:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:246:            for(unsigned i = threadIdx.x; i < state_size; i += blockDim.x){
+./include/qdldl/linsys_setup.cuh:249:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:259:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:268:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:271:            for(unsigned i = threadIdx.x; i < state_size; i += blockDim.x){
+./include/qdldl/linsys_setup.cuh:274:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:287:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:290:            for(unsigned i = threadIdx.x; i < states_sq; i += blockDim.x){
+./include/qdldl/linsys_setup.cuh:294:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:307:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:309:            for(unsigned i = threadIdx.x; i < states_sq; i += blockDim.x){
+./include/qdldl/linsys_setup.cuh:312:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:317:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:323:            __syncthreads();//----------------------------------------------------------------
+./include/qdldl/linsys_setup.cuh:326:            for(unsigned ind = threadIdx.x; ind < state_size; ind += blockDim.x){
+./include/qdldl/linsys_setup.cuh:331:            __syncthreads();//----------------------------------------------------------------
+./include/mpcsim.cuh:30:__global__
+./include/mpcsim.cuh:35:    for(int ind = threadIdx.x; ind < state_size/2; ind += blockDim.x){
+./include/mpcsim.cuh:37:        atomicAdd(d_tracking_error, err);
+./include/common/dz.cuh:4:__global__
+./include/common/dz.cuh:7:    extern __shared__ T s_mem[]; 
+./include/common/dz.cuh:15:    for(int blockrow = blockIdx.x; blockrow < 2*knot_points-1; blockrow+=gridDim.x){
+./include/common/dz.cuh:34:            __syncthreads();
+./include/common/dz.cuh:42:            __syncthreads();
+./include/common/dz.cuh:49:            __syncthreads();
+./include/common/dz.cuh:55:            __syncthreads();
+./include/common/dz.cuh:79:                __syncthreads();
+./include/common/dz.cuh:87:                __syncthreads();
+./include/common/dz.cuh:90:                for(int i = threadIdx.x; i < state_size; i+=blockDim.x){
+./include/common/dz.cuh:101:            __syncthreads();
+./include/common/dz.cuh:108:            __syncthreads();
+./include/common/dz.cuh:115:            __syncthreads();
+./include/common/integrator.cuh:13:__host__ __device__ 
+./include/common/integrator.cuh:23:__device__ 
+./include/common/integrator.cuh:26:    for (unsigned ind = threadIdx.x; ind < state_size/2; ind += blockDim.x){
+./include/common/integrator.cuh:60:__device__
+./include/common/integrator.cuh:63:    const uint32_t thread_id = threadIdx.x;
+./include/common/integrator.cuh:64:    const uint32_t block_dim = blockDim.x;
+./include/common/integrator.cuh:104:__device__ 
+./include/common/integrator.cuh:107:    const uint32_t thread_id = threadIdx.x;
+./include/common/integrator.cuh:108:    const uint32_t block_dim = blockDim.x;
+./include/common/integrator.cuh:134:__device__ __forceinline__
+./include/common/integrator.cuh:162:__device__ 
+./include/common/integrator.cuh:176:    // if(blockIdx.x == 0 && threadIdx.x==0){
+./include/common/integrator.cuh:198:__device__ 
+./include/common/integrator.cuh:213:__global__
+./include/common/integrator.cuh:215:    extern __shared__ T s_smem[];
+./include/common/integrator.cuh:221:    for (unsigned ind = threadIdx.x; ind < state_size + control_size; ind += blockDim.x){
+./include/common/integrator.cuh:229:    for (unsigned ind = threadIdx.x; ind < state_size; ind += blockDim.x){
+./include/common/integrator.cuh:267:__global__
+./include/common/integrator.cuh:271:    extern __shared__ T s_mem[];
+./include/common/integrator.cuh:277:    for (unsigned ind = threadIdx.x; ind < state_size + control_size; ind += blockDim.x){
+./include/common/integrator.cuh:290:    for (unsigned ind = threadIdx.x; ind < state_size; ind += blockDim.x){
+./include/common/kkt.cuh:23:__global__
+./include/common/kkt.cuh:39:    const uint32_t thread_id = threadIdx.x;
+./include/common/kkt.cuh:40:    const uint32_t num_threads = blockDim.x;
+./include/common/kkt.cuh:41:    const uint32_t block_id = blockIdx.x;
+./include/common/kkt.cuh:42:    const uint32_t num_blocks = gridDim.x;
+./include/common/kkt.cuh:50:    extern __shared__ T s_temp[];
+./include/common/kkt.cuh:66:        __syncthreads();    
+./include/common/kkt.cuh:88:            __syncthreads();
+./include/common/kkt.cuh:104:            __syncthreads();
+./include/common/kkt.cuh:140:            __syncthreads();
+./include/common/kkt.cuh:152:            __syncthreads();
+./include/common/merit.cuh:18:__global__
+./include/common/merit.cuh:36:    const uint32_t thread_id = threadIdx.x;
+./include/common/merit.cuh:37:    const uint32_t num_threads = blockDim.x;
+./include/common/merit.cuh:38:    const uint32_t block_id = blockIdx.x;
+./include/common/merit.cuh:39:    const uint32_t num_blocks = gridDim.x;
+./include/common/merit.cuh:43:    extern __shared__ T s_xux_k[];
+./include/common/merit.cuh:70:            for(int i = threadIdx.x; i < state_size; i++){
+./include/common/merit.cuh:100:__global__
+./include/common/merit.cuh:105:    const uint32_t thread_id = threadIdx.x;
+./include/common/merit.cuh:106:    const uint32_t num_threads = blockDim.x;
+./include/common/merit.cuh:107:    const uint32_t block_id = blockIdx.x;
+./include/common/merit.cuh:110:    extern __shared__ T s_xux_k[];
+./include/common/merit.cuh:116:    for(unsigned knot = block_id; knot < knot_points; knot += gridDim.x){
+./include/common/merit.cuh:140:            atomicAdd(d_merit_out, pointmerit);
+./include/utils/matrix.cuh:10:__device__
+./include/utils/matrix.cuh:16:    for(ind=threadIdx.x; ind < n; ind +=blockDim.x){
+./include/utils/matrix.cuh:28:__device__
+./include/utils/matrix.cuh:30:    for(int i = threadIdx.x; i < size; i+= blockDim.x){
+./include/utils/matrix.cuh:36:__device__
+./include/utils/matrix.cuh:38:    for(int i = threadIdx.x; i < size; i+= blockDim.x){
+./include/utils/matrix.cuh:45:__device__
+./include/utils/matrix.cuh:48:    for(unsigned row=threadIdx.x; row<MAT_ROWS; row+=blockDim.x){
+./include/utils/matrix.cuh:58:__device__
+./include/utils/matrix.cuh:60:    for(unsigned i = threadIdx.x; i < dim*dim; i+=blockDim.x){
+./include/utils/matrix.cuh:69:__device__ __forceinline__
+./include/utils/matrix.cuh:71:    for (unsigned ind = threadIdx.x; ind < DIM*DIM; ind += blockDim.x){
+./include/utils/matrix.cuh:81:__device__ __forceinline__
+./include/utils/matrix.cuh:83:    for (unsigned ind = threadIdx.x; ind < DIMA*DIMA+DIMB*DIMB; ind += blockDim.x){
+./include/utils/matrix.cuh:100:__device__ __forceinline__
+./include/utils/matrix.cuh:102:    for (unsigned ind = threadIdx.x; ind < DIMA*DIMA+DIMB*DIMB+DIMC*DIMC; ind += blockDim.x){
+./include/utils/matrix.cuh:121:__device__
+./include/utils/matrix.cuh:132:        for (unsigned ind = threadIdx.x; ind < 2*DIM+1; ind++){
+./include/utils/matrix.cuh:138:        __syncthreads(); //----------------------
+./include/utils/matrix.cuh:140:        for (unsigned ind = threadIdx.x; ind < DIM*(DIM+1); ind += blockDim.x){
+./include/utils/matrix.cuh:146:    __syncthreads(); //----------------------
+./include/utils/matrix.cuh:152:__device__
+./include/utils/matrix.cuh:165:        for (unsigned ind = threadIdx.x; ind < MAX_DIM; ind++){
+./include/utils/matrix.cuh:169:        for (unsigned ind = threadIdx.x; ind < MAX_DIM+1; ind++){
+./include/utils/matrix.cuh:173:        __syncthreads(); //----------------------
+./include/utils/matrix.cuh:175:        for (unsigned ind = threadIdx.x; ind < MAX_DIM*(MAX_DIM+1); ind += blockDim.x){
+./include/utils/matrix.cuh:187:        __syncthreads(); //----------------------
+./include/utils/matrix.cuh:194:__device__
+./include/utils/matrix.cuh:207:        for (unsigned ind = threadIdx.x; ind < MAX_DIM; ind++){
+./include/utils/matrix.cuh:212:        for (unsigned ind = threadIdx.x; ind < MAX_DIM+1; ind++){
+./include/utils/matrix.cuh:217:        __syncthreads(); //----------------------
+./include/utils/matrix.cuh:219:        for (unsigned ind = threadIdx.x; ind < MAX_DIM*(MAX_DIM+1); ind += blockDim.x){
+./include/utils/matrix.cuh:236:        __syncthreads(); //----------------------
+./include/utils/csr.cuh:11:__device__
+./include/utils/csr.cuh:19:    for(row = threadIdx.x; row < bdim; row += blockDim.x){
+./include/utils/csr.cuh:40:__global__
+./include/utils/csr.cuh:43:    for (uint32_t blockrow = blockIdx.x; blockrow < knot_points; blockrow+=gridDim.x)
+./include/utils/csr.cuh:49:        for(row = threadIdx.x; row < state_size; row += blockDim.x){

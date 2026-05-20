@@ -1,0 +1,648 @@
+./examples/track_iiwa_pcg.cu:105:		gpuErrchk(cudaMalloc(&d_eePos_traj, h_eePos_traj.size()*sizeof(linsys_t)));
+./examples/track_iiwa_pcg.cu:106:		gpuErrchk(cudaMemcpy(d_eePos_traj, h_eePos_traj.data(), h_eePos_traj.size()*sizeof(linsys_t), cudaMemcpyHostToDevice));
+./examples/track_iiwa_pcg.cu:108:		gpuErrchk(cudaMalloc(&d_xu_traj, h_xu_traj.size()*sizeof(linsys_t)));
+./examples/track_iiwa_pcg.cu:109:		gpuErrchk(cudaMemcpy(d_xu_traj, h_xu_traj.data(), h_xu_traj.size()*sizeof(linsys_t), cudaMemcpyHostToDevice));
+./examples/track_iiwa_pcg.cu:111:		gpuErrchk(cudaMalloc(&d_xs, state_size*sizeof(linsys_t)));
+./examples/track_iiwa_pcg.cu:112:		gpuErrchk(cudaMemcpy(d_xs, h_xu_traj.data(), state_size*sizeof(linsys_t), cudaMemcpyHostToDevice));
+./examples/track_iiwa_pcg.cu:131:		gpuErrchk(cudaFree(d_xu_traj));
+./examples/track_iiwa_pcg.cu:132:		gpuErrchk(cudaFree(d_eePos_traj));
+./examples/track_iiwa_pcg.cu:133:		gpuErrchk(cudaFree(d_xs));
+./examples/track_iiwa_pcg.cu:134:		gpuErrchk(cudaPeekAtLastError());
+./examples/track_iiwa_qdldl.cu:76:			gpuErrchk(cudaMalloc(&d_eePos_traj, h_eePos_traj.size()*sizeof(linsys_t)));
+./examples/track_iiwa_qdldl.cu:77:			gpuErrchk(cudaMemcpy(d_eePos_traj, h_eePos_traj.data(), h_eePos_traj.size()*sizeof(linsys_t), cudaMemcpyHostToDevice));
+./examples/track_iiwa_qdldl.cu:79:			gpuErrchk(cudaMalloc(&d_xu_traj, h_xu_traj.size()*sizeof(linsys_t)));
+./examples/track_iiwa_qdldl.cu:80:			gpuErrchk(cudaMemcpy(d_xu_traj, h_xu_traj.data(), h_xu_traj.size()*sizeof(linsys_t), cudaMemcpyHostToDevice));
+./examples/track_iiwa_qdldl.cu:82:			gpuErrchk(cudaMalloc(&d_xs, state_size*sizeof(linsys_t)));
+./examples/track_iiwa_qdldl.cu:83:			gpuErrchk(cudaMemcpy(d_xs, h_xu_traj.data(), state_size*sizeof(linsys_t), cudaMemcpyHostToDevice));
+./examples/track_iiwa_qdldl.cu:102:			gpuErrchk(cudaFree(d_xu_traj));
+./examples/track_iiwa_qdldl.cu:103:			gpuErrchk(cudaFree(d_eePos_traj));
+./examples/track_iiwa_qdldl.cu:104:			gpuErrchk(cudaFree(d_xs));
+./examples/track_iiwa_qdldl.cu:105:			gpuErrchk(cudaPeekAtLastError());
+./GLASS/GTests/gemm_time.cu:7:inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
+./GLASS/GTests/gemm_time.cu:9:   if (code != cudaSuccess) 
+./GLASS/GTests/gemm_time.cu:11:      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
+./GLASS/GTests/gemm_time.cu:89:	gpuErrchk(cudaMalloc(&d_m, m*n * sizeof(float)));
+./GLASS/GTests/gemm_time.cu:90:	gpuErrchk(cudaMalloc(&d_v, n * sizeof(float)));
+./GLASS/GTests/gemm_time.cu:91:	gpuErrchk(cudaMalloc(&d_res, m * sizeof(float)));
+./GLASS/GTests/gemm_time.cu:92:	gpuErrchk(cudaMemcpy(d_m, h_m, m*n * sizeof(float), cudaMemcpyHostToDevice));
+./GLASS/GTests/gemm_time.cu:93:	gpuErrchk(cudaMemcpy(d_v, h_v, n * sizeof(float), cudaMemcpyHostToDevice));
+./GLASS/GTests/gemm_time.cu:94:	gpuErrchk(cudaDeviceSynchronize());
+./GLASS/GTests/gemm_time.cu:95:	gpuErrchk(cudaPeekAtLastError());
+./GLASS/GTests/gemm_time.cu:100:	gpuErrchk(cudaDeviceSynchronize());
+./GLASS/GTests/gemm_time.cu:101:	gpuErrchk(cudaPeekAtLastError());
+./GLASS/GTests/gemm_time.cu:109:	gpuErrchk(cudaDeviceSynchronize());
+./GLASS/GTests/gemm_time.cu:110:	gpuErrchk(cudaPeekAtLastError());
+./GLASS/GTests/gemm_time.cu:116:	cudaFuncSetAttribute(global_gemv_bothshared, cudaFuncAttributeMaxDynamicSharedMemorySize, 99000);
+./GLASS/GTests/gemm_time.cu:119:	gpuErrchk(cudaDeviceSynchronize());
+./GLASS/GTests/gemm_time.cu:120:	gpuErrchk(cudaPeekAtLastError());
+./GLASS/GTests/gemm_time.cu:125:	cudaFree(d_m); cudaFree(d_v); cudaFree(d_res);
+./GLASS/GTests/chol_time.cu:7:inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
+./GLASS/GTests/chol_time.cu:9:   if (code != cudaSuccess) 
+./GLASS/GTests/chol_time.cu:11:      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
+./GLASS/GTests/chol_time.cu:48:	gpuErrchk(cudaMalloc(&d_d, pow(len,2) * sizeof(float)));
+./GLASS/GTests/chol_time.cu:49:	gpuErrchk(cudaMemcpy(d_d, h_d, pow(len,2) * sizeof(float), cudaMemcpyHostToDevice));
+./GLASS/GTests/chol_time.cu:50:	gpuErrchk(cudaDeviceSynchronize());
+./GLASS/GTests/chol_time.cu:51:	gpuErrchk(cudaPeekAtLastError());
+./GLASS/GTests/chol_time.cu:55:	gpuErrchk(cudaDeviceSynchronize());
+./GLASS/GTests/chol_time.cu:56:	gpuErrchk(cudaPeekAtLastError());
+./GLASS/GTests/chol_time.cu:60:	cudaFree(d_d);
+./GLASS/GTests/test.cu:21:			cudaMalloc(&d_a, n * sizeof(int));
+./GLASS/GTests/test.cu:22:			cudaMalloc(&d_b, n * sizeof(int));
+./GLASS/GTests/test.cu:23:			cudaMalloc(&d_c, n * sizeof(int));
+./GLASS/GTests/test.cu:24:			cudaMemcpy(d_a, h_a, n * sizeof(int), cudaMemcpyHostToDevice);
+./GLASS/GTests/test.cu:25:			cudaMemcpy(d_b, h_b, n * sizeof(int), cudaMemcpyHostToDevice);
+./GLASS/GTests/test.cu:26:			cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:31:			cudaFree(d_a);
+./GLASS/GTests/test.cu:32:			cudaFree(d_b);
+./GLASS/GTests/test.cu:33:			cudaFree(d_c);
+./GLASS/GTests/test.cu:62:			cudaMalloc(&d_a, m*n * sizeof(int));
+./GLASS/GTests/test.cu:63:			cudaMalloc(&d_b, n * sizeof(int));
+./GLASS/GTests/test.cu:64:			cudaMalloc(&d_c, m * sizeof(int));
+./GLASS/GTests/test.cu:65:			cudaMemcpy(d_a, h_a, m*n * sizeof(int), cudaMemcpyHostToDevice);
+./GLASS/GTests/test.cu:66:			cudaMemcpy(d_b, h_b, n * sizeof(int), cudaMemcpyHostToDevice);
+./GLASS/GTests/test.cu:67:			cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:72:			cudaFree(d_a);
+./GLASS/GTests/test.cu:73:			cudaFree(d_b);
+./GLASS/GTests/test.cu:74:			cudaFree(d_c);
+./GLASS/GTests/test.cu:103:			cudaMalloc(&d_a, m*n * sizeof(int));
+./GLASS/GTests/test.cu:104:			cudaMalloc(&d_b, n*k * sizeof(int));
+./GLASS/GTests/test.cu:105:			cudaMalloc(&d_c, m*k * sizeof(int));
+./GLASS/GTests/test.cu:106:			cudaMemcpy(d_a, h_a, m*n * sizeof(int), cudaMemcpyHostToDevice);
+./GLASS/GTests/test.cu:107:			cudaMemcpy(d_b, h_b, n*k * sizeof(int), cudaMemcpyHostToDevice);
+./GLASS/GTests/test.cu:108:			cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:113:			cudaFree(d_a);
+./GLASS/GTests/test.cu:114:			cudaFree(d_b);
+./GLASS/GTests/test.cu:115:			cudaFree(d_c);
+./GLASS/GTests/test.cu:139:			cudaMalloc(&d_a, 2*m*m * sizeof(*d_a));
+./GLASS/GTests/test.cu:140:			cudaMalloc(&d_b, 2*m*m * sizeof(*d_b));
+./GLASS/GTests/test.cu:141:			cudaMalloc(&d_temp, (2*m + 1) * sizeof(*d_temp));
+./GLASS/GTests/test.cu:142:			cudaMemcpy(d_a, h_a, 2*m*m * sizeof(*d_a), cudaMemcpyHostToDevice);
+./GLASS/GTests/test.cu:143:			cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:146:			cudaFree(d_a);
+./GLASS/GTests/test.cu:147:			cudaFree(d_temp);
+./GLASS/GTests/test.cu:159:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:161:	cudaMemcpy(h_c, d_c, sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:167:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:169:	cudaMemcpy(h_c, d_c, sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:181:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:182:	cudaMemcpy(h_b, d_b, n*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:190:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:191:	cudaMemcpy(h_a, d_a, n*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:199:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:200:	cudaMemcpy(h_b, d_b, n*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:208:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:209:	cudaMemcpy(h_b, d_b, n*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:219:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:220:	cudaMemcpy(h_b, d_b, n*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:229:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:230:	cudaMemcpy(h_a, d_a, n*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:239:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:240:	cudaMemcpy(h_a, d_a, n*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:241:	cudaMemcpy(h_b, d_b, n*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:260:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:261:	cudaMemcpy(h_a, d_a, n*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:269:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:270:	cudaMemcpy(h_b, d_b, sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:278:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:279:	cudaMemcpy(h_a, d_a, sizeof(*h_a), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:287:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:288:	cudaMemcpy(h_a, d_a, sizeof(*h_a), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:296:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:297:	cudaMemcpy(h_a, d_a, sizeof(*h_a) * n, cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:305:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:306:	cudaMemcpy(h_a, d_a, sizeof(*h_a) * n, cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:319:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:320:	cudaMemcpy(h_a, d_a, sizeof(*h_a) * n, cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:321:	cudaMemcpy(h_b, d_b, sizeof(*h_b) * n, cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:332:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:333:	cudaMemcpy(h_c, d_c, m*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:340:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:341:	cudaMemcpy(h_c, d_c, m*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:351:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:352:	cudaMemcpy(h_c, d_c, m*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:359:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:360:	cudaMemcpy(h_c, d_c, m*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:372:	cudaMalloc(&d_d, 9 * sizeof(double));
+./GLASS/GTests/test.cu:373:	cudaMemcpy(d_d, h_d, 9 * sizeof(double), cudaMemcpyHostToDevice);
+./GLASS/GTests/test.cu:375:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:376:	cudaMemcpy(h_d, d_d, 9*sizeof(double), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:381:	cudaFree(d_d);
+./GLASS/GTests/test.cu:388:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:389:	cudaMemcpy(h_c, d_c, m*k*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:396:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:397:	cudaMemcpy(h_c, d_c, m*k*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:415:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:419:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:421:	cudaMemcpy(h_a, d_a + m*m, m*m * sizeof(*d_a), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:431:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:435:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:438:	cudaMemcpy(d_a, h_a, m*m * sizeof(*d_a), cudaMemcpyHostToDevice);
+./GLASS/GTests/test.cu:442:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:444:	cudaMemcpy(h_a, d_b, m*m * sizeof(*d_b), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:456:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:457:	cudaMemcpy(h_c, d_c, m*k*sizeof(int), cudaMemcpyDeviceToHost);
+./GLASS/GTests/test.cu:464:	cudaDeviceSynchronize();
+./GLASS/GTests/test.cu:465:	cudaMemcpy(h_c, d_c, m*k*sizeof(int), cudaMemcpyDeviceToHost);
+./GBD-PCG/include/interface.cuh:40:	gpuErrchk(cudaMalloc(&d_lambda, stateSize*knotPoints*sizeof(T)));
+./GBD-PCG/include/interface.cuh:41:	gpuErrchk(cudaMalloc(&d_S, 3*states_sq*knotPoints*sizeof(T)));
+./GBD-PCG/include/interface.cuh:42:    gpuErrchk(cudaMalloc(&d_gamma, stateSize*knotPoints*sizeof(T)));
+./GBD-PCG/include/interface.cuh:46:    gpuErrchk(cudaMalloc(&d_Pinv, 3*states_sq*knotPoints*sizeof(T)));
+./GBD-PCG/include/interface.cuh:50:    gpuErrchk(cudaMalloc(&d_r, stateSize*knotPoints*sizeof(T)));
+./GBD-PCG/include/interface.cuh:51:    gpuErrchk(cudaMalloc(&d_p, stateSize*knotPoints*sizeof(T)));
+./GBD-PCG/include/interface.cuh:52:    gpuErrchk(cudaMalloc(&d_v_temp, knotPoints*sizeof(T)));
+./GBD-PCG/include/interface.cuh:53:    gpuErrchk(cudaMalloc(&d_eta_new_temp, knotPoints*sizeof(T)));
+./GBD-PCG/include/interface.cuh:57:	gpuErrchk(cudaMemcpy(d_S, h_S, 3 * states_sq * knotPoints * sizeof(T), cudaMemcpyHostToDevice));
+./GBD-PCG/include/interface.cuh:58:	gpuErrchk(cudaMemcpy(d_lambda, h_lambda, stateSize * knotPoints * sizeof(T), cudaMemcpyHostToDevice));
+./GBD-PCG/include/interface.cuh:59:	gpuErrchk(cudaMemcpy(d_gamma, h_gamma, stateSize * knotPoints * sizeof(T), cudaMemcpyHostToDevice));
+./GBD-PCG/include/interface.cuh:75:	gpuErrchk(cudaMemcpy(h_S, d_S, 3 * states_sq * knotPoints * sizeof(T), cudaMemcpyDeviceToHost));
+./GBD-PCG/include/interface.cuh:76:	gpuErrchk(cudaMemcpy(h_lambda, d_lambda, stateSize * knotPoints * sizeof(T), cudaMemcpyDeviceToHost));
+./GBD-PCG/include/interface.cuh:77:	gpuErrchk(cudaMemcpy(h_gamma, d_gamma, stateSize * knotPoints * sizeof(T), cudaMemcpyDeviceToHost));
+./GBD-PCG/include/interface.cuh:79:	cudaFree(d_lambda);
+./GBD-PCG/include/interface.cuh:80:	cudaFree(d_S);
+./GBD-PCG/include/interface.cuh:81:	cudaFree(d_gamma);
+./GBD-PCG/include/interface.cuh:82:	cudaFree(d_Pinv);
+./GBD-PCG/include/interface.cuh:83:	cudaFree(d_r);
+./GBD-PCG/include/interface.cuh:84:	cudaFree(d_p);
+./GBD-PCG/include/interface.cuh:85:	cudaFree(d_v_temp);
+./GBD-PCG/include/interface.cuh:86:	cudaFree(d_eta_new_temp);
+./GBD-PCG/include/interface.cuh:106:    gpuErrchk(cudaMalloc(&d_pcg_iters, sizeof(uint32_t)));
+./GBD-PCG/include/interface.cuh:108:    gpuErrchk(cudaMalloc(&d_pcg_exit, sizeof(bool)));
+./GBD-PCG/include/interface.cuh:132:    gpuErrchk(cudaLaunchCooperativeKernel(pcg_kernel, knot_points, pcg_constants::DEFAULT_BLOCK, kernelArgs, ppcg_kernel_smem_size));    
+./GBD-PCG/include/interface.cuh:133:    gpuErrchk(cudaPeekAtLastError());
+./GBD-PCG/include/interface.cuh:136:    gpuErrchk(cudaMemcpy(&h_pcg_iters, d_pcg_iters, sizeof(uint32_t), cudaMemcpyDeviceToHost));
+./GBD-PCG/include/interface.cuh:140:    gpuErrchk(cudaFree(d_pcg_iters));
+./GBD-PCG/include/interface.cuh:141:	gpuErrchk(cudaFree(d_pcg_exit));
+./GBD-PCG/include/gpuassert.cuh:5:inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
+./GBD-PCG/include/gpuassert.cuh:7:   if (code != cudaSuccess) 
+./GBD-PCG/include/gpuassert.cuh:9:      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
+./GBD-PCG/include/pcg.cuh:29:    cudaDeviceProp deviceProp; 
+./GBD-PCG/include/pcg.cuh:30:    cudaGetDeviceProperties(&deviceProp, dev);
+./GBD-PCG/include/pcg.cuh:33:    gpuErrchk(cudaDeviceGetAttribute(&supportsCoopLaunch, cudaDevAttrCooperativeLaunch, dev));
+./GBD-PCG/include/pcg.cuh:41:    gpuErrchk(cudaOccupancyMaxActiveBlocksPerMultiprocessor(&numBlocksPerSm, kernel, block.x*block.y*block.z, smem_size));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:7: *       __host__   cudaStream_t streams = init_grid<T>()
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:8: *       __host__   gridData<T> *hd_ata = init_gridData<T,NUM_TIMESTEPS>();    __host__   close_grid<T>(cudaStream_t *streams, robotModel<T> *d_robotModel, gridData<T> *hd_data)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:16: *       __host__   inverse_dynamics<T,USE_QDD_FLAG=false,USE_COMPRESSED_MEM=false>(gridData<T> *hd_data, const robotModel<T> *d_robotModel, const T gravity, const int num_timesteps, const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:26: *       __host__   direct_minv<T,USE_COMPRESSED_MEM=false>(gridData<T> *hd_data, const robotModel<T> *d_robotModel, const int num_timesteps, const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:31: *       __host__   forward_dynamics<T>(gridData<T> *hd_data, const robotModel<T> *d_robotModel, const T gravity, const int num_timesteps, const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:38: *       __host__   inverse_dynamics_gradient<T,USE_QDD_FLAG=false,USE_COMPRESSED_MEM=false>(gridData<T> *hd_data, const robotModel<T> *d_robotModel, const T gravity, const int num_timesteps, const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:44: *       __host__   forward_dynamics_gradient<T,USE_QDD_MINV_FLAG=false>(gridData<T> *hd_data, const robotModel<T> *d_robotModel, const T gravity, const int num_timesteps, const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:49: *       __host__   end_effector_positions<T,USE_COMPRESSED_MEM=false>(gridData<T> *hd_data, const robotModel<T> *d_robotModel, const int num_timesteps, const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:54: *       __host__   end_effector_positions_gradient<T,USE_COMPRESSED_MEM=false>(gridData<T> *hd_data, const robotModel<T> *d_robotModel, const int num_timesteps, const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1667:        T *d_XImats; gpuErrchk(cudaMalloc((void**)&d_XImats,728*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1668:        gpuErrchk(cudaMemcpy(d_XImats,h_XImats,728*sizeof(T),cudaMemcpyHostToDevice));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1684:        robotModel<T> *d_robotModel; gpuErrchk(cudaMalloc((void**)&d_robotModel,sizeof(robotModel<T>)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1685:        gpuErrchk(cudaMemcpy(d_robotModel,&h_robotModel,sizeof(robotModel<T>),cudaMemcpyHostToDevice));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1698:        gpuErrchk(cudaMalloc((void**)&hd_data->d_q_qd_u, 3*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1699:        gpuErrchk(cudaMalloc((void**)&hd_data->d_q_qd, 2*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1700:        gpuErrchk(cudaMalloc((void**)&hd_data->d_q, NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1706:        gpuErrchk(cudaMalloc((void**)&hd_data->d_c, NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1707:        gpuErrchk(cudaMalloc((void**)&hd_data->d_Minv, NUM_JOINTS*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1708:        gpuErrchk(cudaMalloc((void**)&hd_data->d_qdd, NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1709:        gpuErrchk(cudaMalloc((void**)&hd_data->d_dc_du, NUM_JOINTS*2*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1710:        gpuErrchk(cudaMalloc((void**)&hd_data->d_df_du, NUM_JOINTS*2*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1711:        gpuErrchk(cudaMalloc((void**)&hd_data->d_eePos, 6*NUM_EES*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1712:        gpuErrchk(cudaMalloc((void**)&hd_data->d_deePos, 6*NUM_EES*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1734:        gpuErrchk(cudaMalloc((void**)&hd_data->d_q_qd_u, 3*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1735:        gpuErrchk(cudaMalloc((void**)&hd_data->d_q_qd, 2*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1736:        gpuErrchk(cudaMalloc((void**)&hd_data->d_q, NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1742:        gpuErrchk(cudaMalloc((void**)&hd_data->d_c, NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1743:        gpuErrchk(cudaMalloc((void**)&hd_data->d_Minv, NUM_JOINTS*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1744:        gpuErrchk(cudaMalloc((void**)&hd_data->d_qdd, NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1745:        gpuErrchk(cudaMalloc((void**)&hd_data->d_dc_du, NUM_JOINTS*2*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1746:        gpuErrchk(cudaMalloc((void**)&hd_data->d_df_du, NUM_JOINTS*2*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1747:        gpuErrchk(cudaMalloc((void**)&hd_data->d_eePos, 6*NUM_EES*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:1748:        gpuErrchk(cudaMalloc((void**)&hd_data->d_deePos, 6*NUM_EES*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2178:                                const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2181:        if (USE_COMPRESSED_MEM) {stride_q = NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q,hd_data->h_q,stride_q*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2182:        else {stride_q = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2183:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2187:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2189:        gpuErrchk(cudaMemcpy(hd_data->h_eePos,hd_data->d_eePos,6*NUM_EES*num_timesteps*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2190:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2204:                                              const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2207:        if (USE_COMPRESSED_MEM) {stride_q = NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q,hd_data->h_q,stride_q*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2208:        else {stride_q = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2209:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2214:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2217:        gpuErrchk(cudaMemcpy(hd_data->h_eePos,hd_data->d_eePos,6*NUM_EES*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2218:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2238:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2430:                                const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2433:        if (USE_COMPRESSED_MEM) {stride_q = NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q,hd_data->h_q,stride_q*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2434:        else {stride_q = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2435:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2439:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2441:        gpuErrchk(cudaMemcpy(hd_data->h_deePos,hd_data->d_deePos,6*NUM_EES*NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2442:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2456:                                              const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2459:        if (USE_COMPRESSED_MEM) {stride_q = NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q,hd_data->h_q,stride_q*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2460:        else {stride_q = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2461:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2466:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2469:        gpuErrchk(cudaMemcpy(hd_data->h_deePos,hd_data->d_deePos,6*NUM_EES*NUM_JOINTS*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2470:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2490:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3654:                          const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3657:        if (USE_COMPRESSED_MEM) {stride_q_qd = 2*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd,hd_data->h_q_qd,stride_q_qd*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3658:        else {stride_q_qd = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3659:        if (USE_QDD_FLAG) {gpuErrchk(cudaMemcpyAsync(hd_data->d_qdd,hd_data->h_qdd,NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[1]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3660:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3670:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3672:        gpuErrchk(cudaMemcpy(hd_data->h_c,hd_data->d_c,NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3673:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3688:                                        const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3691:        if (USE_COMPRESSED_MEM) {stride_q_qd = 2*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd,hd_data->h_q_qd,stride_q_qd*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3692:        else {stride_q_qd = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3693:        if (USE_QDD_FLAG) {gpuErrchk(cudaMemcpyAsync(hd_data->d_qdd,hd_data->h_qdd,NUM_JOINTS*sizeof(T),cudaMemcpyHostToDevice,streams[1]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3694:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3705:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3708:        gpuErrchk(cudaMemcpy(hd_data->h_c,hd_data->d_c,NUM_JOINTS*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3709:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3736:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4275:                     const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4278:        if (USE_COMPRESSED_MEM) {stride_q = NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q,hd_data->h_q,stride_q*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4279:        else {stride_q = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4280:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4284:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4286:        gpuErrchk(cudaMemcpy(hd_data->h_Minv,hd_data->d_Minv,NUM_JOINTS*NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4287:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4301:                                   const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4304:        if (USE_COMPRESSED_MEM) {stride_q = NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q,hd_data->h_q,stride_q*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4305:        else {stride_q = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4306:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4311:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4314:        gpuErrchk(cudaMemcpy(hd_data->h_Minv,hd_data->d_Minv,NUM_JOINTS*NUM_JOINTS*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4315:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4335:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4482:                          const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4485:        gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd_u*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4486:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4489:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4491:        gpuErrchk(cudaMemcpy(hd_data->h_qdd,hd_data->d_qdd,NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4492:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4507:                                        const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4510:        gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd_u*sizeof(T),cudaMemcpyHostToDevice,streams[0]));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4511:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4515:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4518:        gpuErrchk(cudaMemcpy(hd_data->h_qdd,hd_data->d_qdd,NUM_JOINTS*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4519:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4539:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5177:                                   const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5180:        if (USE_COMPRESSED_MEM) {stride_q_qd = 2*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd,hd_data->h_q_qd,stride_q_qd*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5181:        else {stride_q_qd = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5182:        if (USE_QDD_FLAG) {gpuErrchk(cudaMemcpyAsync(hd_data->d_qdd,hd_data->h_qdd,NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[1]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5183:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5193:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5195:        gpuErrchk(cudaMemcpy(hd_data->h_dc_du,hd_data->d_dc_du,NUM_JOINTS*2*NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5196:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5211:                                                 const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5214:        if (USE_COMPRESSED_MEM) {stride_q_qd = 2*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd,hd_data->h_q_qd,stride_q_qd*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5215:        else {stride_q_qd = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5216:        if (USE_QDD_FLAG) {gpuErrchk(cudaMemcpyAsync(hd_data->d_qdd,hd_data->h_qdd,NUM_JOINTS*sizeof(T),cudaMemcpyHostToDevice,streams[1]));}
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5217:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5228:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5231:        gpuErrchk(cudaMemcpy(hd_data->h_dc_du,hd_data->d_dc_du,NUM_JOINTS*2*NUM_JOINTS*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5232:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5259:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5595:                          const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5598:        gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5600:            gpuErrchk(cudaMemcpyAsync(hd_data->d_qdd,hd_data->h_qdd,NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[1]));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5601:            gpuErrchk(cudaMemcpyAsync(hd_data->d_Minv,hd_data->h_Minv,NUM_JOINTS*NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[2]));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5603:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5607:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5609:        gpuErrchk(cudaMemcpy(hd_data->h_df_du,hd_data->d_df_du,NUM_JOINTS*2*NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5610:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5625:                                        const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5628:        gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd*sizeof(T),cudaMemcpyHostToDevice,streams[0]));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5630:            gpuErrchk(cudaMemcpyAsync(hd_data->d_qdd,hd_data->h_qdd,NUM_JOINTS*sizeof(T),cudaMemcpyHostToDevice,streams[1]));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5631:            gpuErrchk(cudaMemcpyAsync(hd_data->d_Minv,hd_data->h_Minv,NUM_JOINTS*NUM_JOINTS*sizeof(T),cudaMemcpyHostToDevice,streams[2]));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5633:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5638:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5641:        gpuErrchk(cudaMemcpy(hd_data->h_df_du,hd_data->d_df_du,NUM_JOINTS*2*NUM_JOINTS*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5642:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5663:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5673:    cudaStream_t *init_grid(){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5683:        cudaFuncSetAttribute(id_kern1,cudaFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5684:        cudaFuncSetAttribute(id_kern2,cudaFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5685:        cudaFuncSetAttribute(id_kern_timing1,cudaFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5686:        cudaFuncSetAttribute(id_kern_timing2,cudaFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5687:        cudaFuncSetAttribute(fd_kern1,cudaFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5688:        cudaFuncSetAttribute(fd_kern2,cudaFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5689:        cudaFuncSetAttribute(fd_kern_timing1,cudaFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5690:        cudaFuncSetAttribute(fd_kern_timing2,cudaFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5691:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5693:        cudaStream_t *streams = (cudaStream_t *)malloc(3*sizeof(cudaStream_t));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5695:        gpuErrchk(cudaDeviceGetStreamPriorityRange(&minPriority, &maxPriority));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5698:            gpuErrchk(cudaStreamCreateWithPriority(&(streams[i]),cudaStreamNonBlocking,priority));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5712:    void close_grid(cudaStream_t *streams, robotModel<T> *d_robotModel, gridData<T> *hd_data){
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5713:        gpuErrchk(cudaFree(d_robotModel));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5714:        gpuErrchk(cudaFree(hd_data->d_q_qd_u)); gpuErrchk(cudaFree(hd_data->d_q_qd)); gpuErrchk(cudaFree(hd_data->d_q));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5715:        gpuErrchk(cudaFree(hd_data->d_c)); gpuErrchk(cudaFree(hd_data->d_Minv)); gpuErrchk(cudaFree(hd_data->d_qdd));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5716:        gpuErrchk(cudaFree(hd_data->d_dc_du)); gpuErrchk(cudaFree(hd_data->d_df_du));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5717:        gpuErrchk(cudaFree(hd_data->d_eePos)); gpuErrchk(cudaFree(hd_data->d_deePos));
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5722:        for(int i=0; i<3; i++){gpuErrchk(cudaStreamDestroy(streams[i]));} free(streams);
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5728:        gpuErrchk(cudaFree(d_robotModel));
+./include/dynamics/iiwa/iiwa_grid.cuh:8: *       __host__   cudaStream_t streams = init_grid<T>()
+./include/dynamics/iiwa/iiwa_grid.cuh:9: *       __host__   gridData<T> *hd_ata = init_gridData<T,NUM_TIMESTEPS>();    __host__   close_grid<T>(cudaStream_t *streams, robotModel<T> *d_robotModel, gridData<T> *hd_data)
+./include/dynamics/iiwa/iiwa_grid.cuh:15: *       __host__   inverse_dynamics<T,USE_QDD_FLAG=false,USE_COMPRESSED_MEM=false>(gridData<T> *hd_data, const robotModel<T> *d_robotModel, const T gravity, const int num_timesteps, const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams)
+./include/dynamics/iiwa/iiwa_grid.cuh:22: *       __host__   direct_minv<T,USE_COMPRESSED_MEM=false>(gridData<T> *hd_data, const robotModel<T> *d_robotModel, const int num_timesteps, const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams)
+./include/dynamics/iiwa/iiwa_grid.cuh:26: *       __host__   forward_dynamics<T>(gridData<T> *hd_data, const robotModel<T> *d_robotModel, const T gravity, const int num_timesteps, const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams)
+./include/dynamics/iiwa/iiwa_grid.cuh:32: *       __host__   inverse_dynamics_gradient<T,USE_QDD_FLAG=false,USE_COMPRESSED_MEM=false>(gridData<T> *hd_data, const robotModel<T> *d_robotModel, const T gravity, const int num_timesteps, const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams)
+./include/dynamics/iiwa/iiwa_grid.cuh:38: *       __host__   forward_dynamics_gradient<T,USE_QDD_MINV_FLAG=false>(gridData<T> *hd_data, const robotModel<T> *d_robotModel, const T gravity, const int num_timesteps, const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams)
+./include/dynamics/iiwa/iiwa_grid.cuh:1387:        T *d_XImats; gpuErrchk(cudaMalloc((void**)&d_XImats,504*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1388:        gpuErrchk(cudaMemcpy(d_XImats,h_XImats,504*sizeof(T),cudaMemcpyHostToDevice));
+./include/dynamics/iiwa/iiwa_grid.cuh:1404:        robotModel<T> *d_robotModel; gpuErrchk(cudaMalloc((void**)&d_robotModel,sizeof(robotModel<T>)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1405:        gpuErrchk(cudaMemcpy(d_robotModel,&h_robotModel,sizeof(robotModel<T>),cudaMemcpyHostToDevice));
+./include/dynamics/iiwa/iiwa_grid.cuh:1413:        gpuErrchk(cudaMemcpy(&h_robotModel,d_robotModel,sizeof(robotModel<T>),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_grid.cuh:1414:        gpuErrchk(cudaFree(h_robotModel.d_XImats));
+./include/dynamics/iiwa/iiwa_grid.cuh:1415:        gpuErrchk(cudaFree(h_robotModel.d_topology_helpers));
+./include/dynamics/iiwa/iiwa_grid.cuh:1416:        gpuErrchk(cudaFree(d_robotModel));
+./include/dynamics/iiwa/iiwa_grid.cuh:1428:        gpuErrchk(cudaMalloc((void**)&hd_data->d_q_qd_u, 3*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1429:        gpuErrchk(cudaMalloc((void**)&hd_data->d_q_qd, 2*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1430:        gpuErrchk(cudaMalloc((void**)&hd_data->d_q, NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1436:        gpuErrchk(cudaMalloc((void**)&hd_data->d_c, NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1437:        gpuErrchk(cudaMalloc((void**)&hd_data->d_Minv, NUM_JOINTS*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1438:        gpuErrchk(cudaMalloc((void**)&hd_data->d_qdd, NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1439:        gpuErrchk(cudaMalloc((void**)&hd_data->d_dc_du, NUM_JOINTS*2*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1440:        gpuErrchk(cudaMalloc((void**)&hd_data->d_df_du, NUM_JOINTS*2*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1460:        gpuErrchk(cudaMalloc((void**)&hd_data->d_q_qd_u, 3*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1461:        gpuErrchk(cudaMalloc((void**)&hd_data->d_q_qd, 2*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1462:        gpuErrchk(cudaMalloc((void**)&hd_data->d_q, NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1468:        gpuErrchk(cudaMalloc((void**)&hd_data->d_c, NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1469:        gpuErrchk(cudaMalloc((void**)&hd_data->d_Minv, NUM_JOINTS*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1470:        gpuErrchk(cudaMalloc((void**)&hd_data->d_qdd, NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1471:        gpuErrchk(cudaMalloc((void**)&hd_data->d_dc_du, NUM_JOINTS*2*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:1472:        gpuErrchk(cudaMalloc((void**)&hd_data->d_df_du, NUM_JOINTS*2*NUM_JOINTS*NUM_TIMESTEPS*sizeof(T)));
+./include/dynamics/iiwa/iiwa_grid.cuh:2730:                          const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_grid.cuh:2733:        if (USE_COMPRESSED_MEM) {stride_q_qd = 2*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd,hd_data->h_q_qd,stride_q_qd*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:2734:        else {stride_q_qd = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:2735:        if (USE_QDD_FLAG) {gpuErrchk(cudaMemcpyAsync(hd_data->d_qdd,hd_data->h_qdd,NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[1]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:2736:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:2746:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:2748:        gpuErrchk(cudaMemcpy(hd_data->h_c,hd_data->d_c,NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_grid.cuh:2749:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:2764:                                        const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_grid.cuh:2767:        if (USE_COMPRESSED_MEM) {stride_q_qd = 2*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd,hd_data->h_q_qd,stride_q_qd*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:2768:        else {stride_q_qd = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:2769:        if (USE_QDD_FLAG) {gpuErrchk(cudaMemcpyAsync(hd_data->d_qdd,hd_data->h_qdd,NUM_JOINTS*sizeof(T),cudaMemcpyHostToDevice,streams[1]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:2770:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:2781:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:2784:        gpuErrchk(cudaMemcpy(hd_data->h_c,hd_data->d_c,NUM_JOINTS*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_grid.cuh:2785:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:2812:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3358:                     const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_grid.cuh:3361:        if (USE_COMPRESSED_MEM) {stride_q = NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q,hd_data->h_q,stride_q*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:3362:        else {stride_q = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:3363:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3367:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3369:        gpuErrchk(cudaMemcpy(hd_data->h_Minv,hd_data->d_Minv,NUM_JOINTS*NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_grid.cuh:3370:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3384:                                   const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_grid.cuh:3387:        if (USE_COMPRESSED_MEM) {stride_q = NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q,hd_data->h_q,stride_q*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:3388:        else {stride_q = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:3389:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3394:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3397:        gpuErrchk(cudaMemcpy(hd_data->h_Minv,hd_data->d_Minv,NUM_JOINTS*NUM_JOINTS*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_grid.cuh:3398:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3418:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3573:                          const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_grid.cuh:3576:        gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd_u*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));
+./include/dynamics/iiwa/iiwa_grid.cuh:3577:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3580:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3582:        gpuErrchk(cudaMemcpy(hd_data->h_qdd,hd_data->d_qdd,NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_grid.cuh:3583:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3598:                                        const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_grid.cuh:3601:        gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd_u*sizeof(T),cudaMemcpyHostToDevice,streams[0]));
+./include/dynamics/iiwa/iiwa_grid.cuh:3602:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3606:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3609:        gpuErrchk(cudaMemcpy(hd_data->h_qdd,hd_data->d_qdd,NUM_JOINTS*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_grid.cuh:3610:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:3630:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4268:                                   const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_grid.cuh:4271:        if (USE_COMPRESSED_MEM) {stride_q_qd = 2*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd,hd_data->h_q_qd,stride_q_qd*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:4272:        else {stride_q_qd = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:4273:        if (USE_QDD_FLAG) {gpuErrchk(cudaMemcpyAsync(hd_data->d_qdd,hd_data->h_qdd,NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[1]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:4274:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4284:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4286:        gpuErrchk(cudaMemcpy(hd_data->h_dc_du,hd_data->d_dc_du,NUM_JOINTS*2*NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_grid.cuh:4287:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4302:                                                 const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_grid.cuh:4305:        if (USE_COMPRESSED_MEM) {stride_q_qd = 2*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd,hd_data->h_q_qd,stride_q_qd*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:4306:        else {stride_q_qd = 3*NUM_JOINTS; gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd*sizeof(T),cudaMemcpyHostToDevice,streams[0]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:4307:        if (USE_QDD_FLAG) {gpuErrchk(cudaMemcpyAsync(hd_data->d_qdd,hd_data->h_qdd,NUM_JOINTS*sizeof(T),cudaMemcpyHostToDevice,streams[1]));}
+./include/dynamics/iiwa/iiwa_grid.cuh:4308:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4319:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4322:        gpuErrchk(cudaMemcpy(hd_data->h_dc_du,hd_data->d_dc_du,NUM_JOINTS*2*NUM_JOINTS*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_grid.cuh:4323:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4350:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4714:                          const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_grid.cuh:4717:        gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[0]));
+./include/dynamics/iiwa/iiwa_grid.cuh:4719:            gpuErrchk(cudaMemcpyAsync(hd_data->d_qdd,hd_data->h_qdd,NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[1]));
+./include/dynamics/iiwa/iiwa_grid.cuh:4720:            gpuErrchk(cudaMemcpyAsync(hd_data->d_Minv,hd_data->h_Minv,NUM_JOINTS*NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyHostToDevice,streams[2]));
+./include/dynamics/iiwa/iiwa_grid.cuh:4722:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4726:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4728:        gpuErrchk(cudaMemcpy(hd_data->h_df_du,hd_data->d_df_du,NUM_JOINTS*2*NUM_JOINTS*num_timesteps*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_grid.cuh:4729:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4744:                                        const dim3 block_dimms, const dim3 thread_dimms, cudaStream_t *streams) {
+./include/dynamics/iiwa/iiwa_grid.cuh:4747:        gpuErrchk(cudaMemcpyAsync(hd_data->d_q_qd_u,hd_data->h_q_qd_u,stride_q_qd*sizeof(T),cudaMemcpyHostToDevice,streams[0]));
+./include/dynamics/iiwa/iiwa_grid.cuh:4749:            gpuErrchk(cudaMemcpyAsync(hd_data->d_qdd,hd_data->h_qdd,NUM_JOINTS*sizeof(T),cudaMemcpyHostToDevice,streams[1]));
+./include/dynamics/iiwa/iiwa_grid.cuh:4750:            gpuErrchk(cudaMemcpyAsync(hd_data->d_Minv,hd_data->h_Minv,NUM_JOINTS*NUM_JOINTS*sizeof(T),cudaMemcpyHostToDevice,streams[2]));
+./include/dynamics/iiwa/iiwa_grid.cuh:4752:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4757:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4760:        gpuErrchk(cudaMemcpy(hd_data->h_df_du,hd_data->d_df_du,NUM_JOINTS*2*NUM_JOINTS*sizeof(T),cudaMemcpyDeviceToHost));
+./include/dynamics/iiwa/iiwa_grid.cuh:4761:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4782:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4792:    cudaStream_t *init_grid(){
+./include/dynamics/iiwa/iiwa_grid.cuh:4802:        cudaFuncSetAttribute(id_kern1,cudaFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_grid.cuh:4803:        cudaFuncSetAttribute(id_kern2,cudaFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_grid.cuh:4804:        cudaFuncSetAttribute(id_kern_timing1,cudaFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_grid.cuh:4805:        cudaFuncSetAttribute(id_kern_timing2,cudaFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_grid.cuh:4806:        cudaFuncSetAttribute(fd_kern1,cudaFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_grid.cuh:4807:        cudaFuncSetAttribute(fd_kern2,cudaFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_grid.cuh:4808:        cudaFuncSetAttribute(fd_kern_timing1,cudaFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_grid.cuh:4809:        cudaFuncSetAttribute(fd_kern_timing2,cudaFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+./include/dynamics/iiwa/iiwa_grid.cuh:4810:        gpuErrchk(cudaDeviceSynchronize());
+./include/dynamics/iiwa/iiwa_grid.cuh:4812:        cudaStream_t *streams = (cudaStream_t *)malloc(3*sizeof(cudaStream_t));
+./include/dynamics/iiwa/iiwa_grid.cuh:4814:        gpuErrchk(cudaDeviceGetStreamPriorityRange(&minPriority, &maxPriority));
+./include/dynamics/iiwa/iiwa_grid.cuh:4817:            gpuErrchk(cudaStreamCreateWithPriority(&(streams[i]),cudaStreamNonBlocking,priority));
+./include/dynamics/iiwa/iiwa_grid.cuh:4831:    void close_grid(cudaStream_t *streams, robotModel<T> *d_robotModel, gridData<T> *hd_data){
+./include/dynamics/iiwa/iiwa_grid.cuh:4832:        gpuErrchk(cudaFree(d_robotModel));
+./include/dynamics/iiwa/iiwa_grid.cuh:4833:        gpuErrchk(cudaFree(hd_data->d_q_qd_u)); gpuErrchk(cudaFree(hd_data->d_q_qd)); gpuErrchk(cudaFree(hd_data->d_q));
+./include/dynamics/iiwa/iiwa_grid.cuh:4834:        gpuErrchk(cudaFree(hd_data->d_c)); gpuErrchk(cudaFree(hd_data->d_Minv)); gpuErrchk(cudaFree(hd_data->d_qdd));
+./include/dynamics/iiwa/iiwa_grid.cuh:4835:        gpuErrchk(cudaFree(hd_data->d_dc_du)); gpuErrchk(cudaFree(hd_data->d_df_du));
+./include/dynamics/iiwa/iiwa_grid.cuh:4839:        for(int i=0; i<3; i++){gpuErrchk(cudaStreamDestroy(streams[i]));} free(streams);
+./include/pcg/sqp.cuh:34:    gpuErrchk(cudaDeviceSynchronize());
+./include/pcg/sqp.cuh:64:    cudaStream_t streams[num_alphas];
+./include/pcg/sqp.cuh:66:        cudaStreamCreate(&streams[str]);
+./include/pcg/sqp.cuh:68:    gpuErrchk(cudaPeekAtLastError());
+./include/pcg/sqp.cuh:72:    gpuErrchk(cudaPeekAtLastError());
+./include/pcg/sqp.cuh:94:    gpuErrchk(cudaMalloc(&d_G_dense,  KKT_G_DENSE_SIZE_BYTES));
+./include/pcg/sqp.cuh:95:    gpuErrchk(cudaMalloc(&d_C_dense,  KKT_C_DENSE_SIZE_BYTES));
+./include/pcg/sqp.cuh:96:    gpuErrchk(cudaMalloc(&d_g,        KKT_g_SIZE_BYTES));
+./include/pcg/sqp.cuh:97:    gpuErrchk(cudaMalloc(&d_c,        KKT_c_SIZE_BYTES));
+./include/pcg/sqp.cuh:100:    gpuErrchk(cudaMalloc(&d_S, 3*states_sq*knot_points*sizeof(T)));
+./include/pcg/sqp.cuh:101:    gpuErrchk(cudaMalloc(&d_gamma, state_size*knot_points*sizeof(T)));
+./include/pcg/sqp.cuh:102:    gpuErrchk(cudaPeekAtLastError());
+./include/pcg/sqp.cuh:105:    gpuErrchk(cudaMalloc(&d_dz,       DZ_SIZE_BYTES));
+./include/pcg/sqp.cuh:106:    gpuErrchk(cudaMalloc(&d_xs,       state_size*sizeof(T)));
+./include/pcg/sqp.cuh:107:    gpuErrchk(cudaMemcpy(d_xs, d_xu,  state_size*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/pcg/sqp.cuh:108:    gpuErrchk(cudaMalloc(&d_merit_news, 8*sizeof(T)));
+./include/pcg/sqp.cuh:109:    gpuErrchk(cudaMalloc(&d_merit_temp, 8*knot_points*sizeof(T)));
+./include/pcg/sqp.cuh:112:    gpuErrchk(cudaMalloc(&d_merit_initial, sizeof(T)));
+./include/pcg/sqp.cuh:113:    gpuErrchk(cudaMemset(d_merit_initial, 0, sizeof(T)));
+./include/pcg/sqp.cuh:118:    gpuErrchk(cudaMalloc(&d_Pinv, 3*states_sq*knot_points*sizeof(T)));
+./include/pcg/sqp.cuh:122:    gpuErrchk(cudaMalloc(&d_r, state_size*knot_points*sizeof(T)));
+./include/pcg/sqp.cuh:123:    gpuErrchk(cudaMalloc(&d_p, state_size*knot_points*sizeof(T)));
+./include/pcg/sqp.cuh:124:    gpuErrchk(cudaMalloc(&d_v_temp, knot_points*sizeof(T)));
+./include/pcg/sqp.cuh:125:    gpuErrchk(cudaMalloc(&d_eta_new_temp, knot_points*sizeof(T)));
+./include/pcg/sqp.cuh:132:    gpuErrchk(cudaMalloc(&d_pcg_iters, sizeof(uint32_t)));
+./include/pcg/sqp.cuh:135:    gpuErrchk(cudaMalloc(&d_pcg_exit, sizeof(bool)));
+./include/pcg/sqp.cuh:154:    gpuErrchk(cudaPeekAtLastError());
+./include/pcg/sqp.cuh:155:    gpuErrchk(cudaDeviceSynchronize());
+./include/pcg/sqp.cuh:182:    gpuErrchk(cudaMemcpyAsync(&h_merit_initial, d_merit_initial, sizeof(T), cudaMemcpyDeviceToHost));
+./include/pcg/sqp.cuh:183:    gpuErrchk(cudaPeekAtLastError());
+./include/pcg/sqp.cuh:204:        gpuErrchk(cudaPeekAtLastError());
+./include/pcg/sqp.cuh:220:        gpuErrchk(cudaPeekAtLastError());
+./include/pcg/sqp.cuh:225:        gpuErrchk(cudaDeviceSynchronize());
+./include/pcg/sqp.cuh:230:        gpuErrchk(cudaLaunchCooperativeKernel(pcg_kernel, knot_points, PCG_NUM_THREADS, pcgKernelArgs, ppcg_kernel_smem_size));    
+./include/pcg/sqp.cuh:231:        gpuErrchk(cudaMemcpy(&pcg_iters, d_pcg_iters, sizeof(uint32_t), cudaMemcpyDeviceToHost));
+./include/pcg/sqp.cuh:232:        gpuErrchk(cudaMemcpy(&pcg_exit, d_pcg_exit, sizeof(bool), cudaMemcpyDeviceToHost));
+./include/pcg/sqp.cuh:233:        gpuErrchk(cudaPeekAtLastError());
+./include/pcg/sqp.cuh:236:        gpuErrchk(cudaDeviceSynchronize());
+./include/pcg/sqp.cuh:260:        gpuErrchk(cudaPeekAtLastError());
+./include/pcg/sqp.cuh:281:            gpuErrchk(cudaLaunchCooperativeKernel(ls_merit_kernel, knot_points, MERIT_THREADS, kernelArgs, get_merit_smem_size<T>(state_size, knot_points), streams[p]));
+./include/pcg/sqp.cuh:284:        gpuErrchk(cudaPeekAtLastError());
+./include/pcg/sqp.cuh:285:        gpuErrchk(cudaDeviceSynchronize());
+./include/pcg/sqp.cuh:288:        cudaMemcpy(h_merit_news, d_merit_news, 8*sizeof(T), cudaMemcpyDeviceToHost);
+./include/pcg/sqp.cuh:341:        gpuErrchk(cudaPeekAtLastError());
+./include/pcg/sqp.cuh:356:    gpuErrchk(cudaPeekAtLastError());
+./include/pcg/sqp.cuh:357:    gpuErrchk(cudaDeviceSynchronize());
+./include/pcg/sqp.cuh:363:        gpuErrchk(cudaStreamDestroy(streams[st]));
+./include/pcg/sqp.cuh:369:    gpuErrchk(cudaFree(d_merit_initial));
+./include/pcg/sqp.cuh:370:    gpuErrchk(cudaFree(d_merit_news));
+./include/pcg/sqp.cuh:371:    gpuErrchk(cudaFree(d_merit_temp));
+./include/pcg/sqp.cuh:372:    gpuErrchk(cudaFree(d_G_dense));
+./include/pcg/sqp.cuh:373:    gpuErrchk(cudaFree(d_C_dense));
+./include/pcg/sqp.cuh:374:    gpuErrchk(cudaFree(d_g));
+./include/pcg/sqp.cuh:375:    gpuErrchk(cudaFree(d_c));
+./include/pcg/sqp.cuh:376:    gpuErrchk(cudaFree(d_S));
+./include/pcg/sqp.cuh:377:    gpuErrchk(cudaFree(d_gamma));
+./include/pcg/sqp.cuh:378:    gpuErrchk(cudaFree(d_dz));
+./include/pcg/sqp.cuh:379:    gpuErrchk(cudaFree(d_xs));
+./include/pcg/sqp.cuh:380:    gpuErrchk(cudaFree(d_pcg_iters));
+./include/pcg/sqp.cuh:381:    gpuErrchk(cudaFree(d_pcg_exit));
+./include/pcg/sqp.cuh:382:    gpuErrchk(cudaFree(d_Pinv));
+./include/pcg/sqp.cuh:383:    gpuErrchk(cudaFree(d_r));
+./include/pcg/sqp.cuh:384:    gpuErrchk(cudaFree(d_p));
+./include/pcg/sqp.cuh:385:    gpuErrchk(cudaFree(d_v_temp));
+./include/pcg/sqp.cuh:386:    gpuErrchk(cudaFree(d_eta_new_temp));
+./include/pcg/linsys_setup.cuh:656:    gpuErrchk(cudaLaunchCooperativeKernel(kernel, knot_points, SCHUR_THREADS, args, s_temp_size));
+./include/qdldl/sqp.cuh:65:    gpuErrchk(cudaDeviceSynchronize());
+./include/qdldl/sqp.cuh:94:    cudaStream_t streams[num_alphas];
+./include/qdldl/sqp.cuh:96:        cudaStreamCreate(&streams[str]);
+./include/qdldl/sqp.cuh:98:    gpuErrchk(cudaPeekAtLastError());
+./include/qdldl/sqp.cuh:102:    gpuErrchk(cudaPeekAtLastError());
+./include/qdldl/sqp.cuh:124:    gpuErrchk(cudaMalloc(&d_G_dense,  KKT_G_DENSE_SIZE_BYTES));
+./include/qdldl/sqp.cuh:125:    gpuErrchk(cudaMalloc(&d_C_dense,  KKT_C_DENSE_SIZE_BYTES));
+./include/qdldl/sqp.cuh:126:    gpuErrchk(cudaMalloc(&d_g,        KKT_g_SIZE_BYTES));
+./include/qdldl/sqp.cuh:127:    gpuErrchk(cudaMalloc(&d_c,        KKT_c_SIZE_BYTES));
+./include/qdldl/sqp.cuh:130:    gpuErrchk(cudaMalloc(&d_S, 3*states_sq*knot_points*sizeof(T)));
+./include/qdldl/sqp.cuh:131:    gpuErrchk(cudaMalloc(&d_gamma, state_size*knot_points*sizeof(T)));
+./include/qdldl/sqp.cuh:132:    gpuErrchk(cudaPeekAtLastError());
+./include/qdldl/sqp.cuh:135:    gpuErrchk(cudaMalloc(&d_dz,       DZ_SIZE_BYTES));
+./include/qdldl/sqp.cuh:136:    gpuErrchk(cudaMalloc(&d_xs,       state_size*sizeof(T)));
+./include/qdldl/sqp.cuh:137:    gpuErrchk(cudaMemcpy(d_xs, d_xu,  state_size*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/qdldl/sqp.cuh:138:    gpuErrchk(cudaMalloc(&d_merit_news, 8*sizeof(T)));
+./include/qdldl/sqp.cuh:139:    gpuErrchk(cudaMalloc(&d_merit_temp, 8*knot_points*sizeof(T)));
+./include/qdldl/sqp.cuh:142:    gpuErrchk(cudaMalloc(&d_merit_initial, sizeof(T)));
+./include/qdldl/sqp.cuh:143:    gpuErrchk(cudaMemset(d_merit_initial, 0, sizeof(T)));
+./include/qdldl/sqp.cuh:158:    gpuErrchk(cudaMalloc(&d_col_ptr, (state_size*knot_points+1)*sizeof(QDLDL_int)));
+./include/qdldl/sqp.cuh:159:    gpuErrchk(cudaMalloc(&d_row_ind, nnz*sizeof(QDLDL_int)));
+./include/qdldl/sqp.cuh:160:	gpuErrchk(cudaMalloc(&d_val, nnz*sizeof(QDLDL_float)));
+./include/qdldl/sqp.cuh:161:	gpuErrchk(cudaMalloc(&d_lambda_double, (state_size*knot_points)*sizeof(QDLDL_float)));
+./include/qdldl/sqp.cuh:165:    gpuErrchk(cudaMemcpy(h_col_ptr, d_col_ptr, (state_size*knot_points+1)*sizeof(QDLDL_int), cudaMemcpyDeviceToHost));
+./include/qdldl/sqp.cuh:166:    gpuErrchk(cudaMemcpy(h_row_ind, d_row_ind, (nnz)*sizeof(QDLDL_int), cudaMemcpyDeviceToHost));
+./include/qdldl/sqp.cuh:200:    gpuErrchk(cudaPeekAtLastError());
+./include/qdldl/sqp.cuh:201:    gpuErrchk(cudaDeviceSynchronize());
+./include/qdldl/sqp.cuh:227:    gpuErrchk(cudaMemcpyAsync(&h_merit_initial, d_merit_initial, sizeof(T), cudaMemcpyDeviceToHost));
+./include/qdldl/sqp.cuh:228:    gpuErrchk(cudaPeekAtLastError());
+./include/qdldl/sqp.cuh:230:    // gpuErrchk(cudaDeviceSynchronize());
+./include/qdldl/sqp.cuh:253:        gpuErrchk(cudaPeekAtLastError());
+./include/qdldl/sqp.cuh:258:        gpuErrchk(cudaPeekAtLastError());
+./include/qdldl/sqp.cuh:262:        gpuErrchk(cudaDeviceSynchronize());
+./include/qdldl/sqp.cuh:268:        gpuErrchk(cudaMemcpy(h_val, d_val, (nnz)*sizeof(T), cudaMemcpyDeviceToHost));
+./include/qdldl/sqp.cuh:269:        gpuErrchk(cudaMemcpy(h_gamma, d_gamma, (state_size*knot_points)*sizeof(T), cudaMemcpyDeviceToHost))
+./include/qdldl/sqp.cuh:273:        gpuErrchk(cudaMemcpy(d_lambda, h_lambda, (state_size*knot_points)*sizeof(T), cudaMemcpyHostToDevice));
+./include/qdldl/sqp.cuh:277:        gpuErrchk(cudaDeviceSynchronize());
+./include/qdldl/sqp.cuh:297:        gpuErrchk(cudaPeekAtLastError());
+./include/qdldl/sqp.cuh:318:            gpuErrchk(cudaLaunchCooperativeKernel(ls_merit_kernel, knot_points, MERIT_THREADS, kernelArgs, get_merit_smem_size<T>(state_size, knot_points), streams[p]));
+./include/qdldl/sqp.cuh:321:        gpuErrchk(cudaPeekAtLastError());
+./include/qdldl/sqp.cuh:322:        gpuErrchk(cudaDeviceSynchronize());
+./include/qdldl/sqp.cuh:325:        cudaMemcpy(h_merit_news, d_merit_news, 8*sizeof(T), cudaMemcpyDeviceToHost);
+./include/qdldl/sqp.cuh:378:        gpuErrchk(cudaPeekAtLastError());
+./include/qdldl/sqp.cuh:393:    gpuErrchk(cudaPeekAtLastError());
+./include/qdldl/sqp.cuh:394:    gpuErrchk(cudaDeviceSynchronize());
+./include/qdldl/sqp.cuh:400:        gpuErrchk(cudaStreamDestroy(streams[st]));
+./include/qdldl/sqp.cuh:406:    gpuErrchk(cudaFree(d_merit_initial));
+./include/qdldl/sqp.cuh:407:    gpuErrchk(cudaFree(d_merit_news));
+./include/qdldl/sqp.cuh:408:    gpuErrchk(cudaFree(d_merit_temp));
+./include/qdldl/sqp.cuh:409:    gpuErrchk(cudaFree(d_G_dense));
+./include/qdldl/sqp.cuh:410:    gpuErrchk(cudaFree(d_C_dense));
+./include/qdldl/sqp.cuh:411:    gpuErrchk(cudaFree(d_g));
+./include/qdldl/sqp.cuh:412:    gpuErrchk(cudaFree(d_c));
+./include/qdldl/sqp.cuh:413:    gpuErrchk(cudaFree(d_S));
+./include/qdldl/sqp.cuh:414:    gpuErrchk(cudaFree(d_gamma));
+./include/qdldl/sqp.cuh:415:    gpuErrchk(cudaFree(d_dz));
+./include/qdldl/sqp.cuh:416:    gpuErrchk(cudaFree(d_xs));
+./include/qdldl/sqp.cuh:417:    gpuErrchk(cudaFree(d_col_ptr));
+./include/qdldl/sqp.cuh:418:    gpuErrchk(cudaFree(d_row_ind));
+./include/qdldl/sqp.cuh:419:    gpuErrchk(cudaFree(d_val));
+./include/qdldl/sqp.cuh:420:    gpuErrchk(cudaFree(d_lambda_double));
+./include/mpcsim.cuh:47:    gpuErrchk(cudaMalloc(&d_tracking_error, sizeof(T)));
+./include/mpcsim.cuh:48:    gpuErrchk(cudaMemcpy(d_tracking_error, &h_tracking_error, sizeof(T), cudaMemcpyHostToDevice));
+./include/mpcsim.cuh:52:    gpuErrchk(cudaMemcpy(&h_tracking_error, d_tracking_error, sizeof(T), cudaMemcpyDeviceToHost));
+./include/mpcsim.cuh:53:    gpuErrchk(cudaFree(d_tracking_error));
+./include/mpcsim.cuh:186:    gpuErrchk(cudaMalloc(&d_lambda, state_size*knot_points*sizeof(T)));
+./include/mpcsim.cuh:187:    gpuErrchk(cudaMalloc(&d_xu, traj_len*sizeof(T)));
+./include/mpcsim.cuh:188:    gpuErrchk(cudaMalloc(&d_xu_old, traj_len*sizeof(T)));
+./include/mpcsim.cuh:189:    gpuErrchk(cudaMalloc(&d_eePos_goal, 6*knot_points*sizeof(T)));
+./include/mpcsim.cuh:190:    gpuErrchk(cudaMemset(d_lambda, 0, state_size*knot_points*sizeof(T)));
+./include/mpcsim.cuh:191:    gpuErrchk(cudaMemcpy(d_eePos_goal, d_eePos_traj, 6*knot_points*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/mpcsim.cuh:192:    gpuErrchk(cudaMemcpy(d_xu_old, d_xu_traj, traj_len*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/mpcsim.cuh:193:    gpuErrchk(cudaMemcpy(d_xu, d_xu_traj, traj_len*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/mpcsim.cuh:201:    gpuErrchk(cudaMemcpy(h_xs, d_xs, state_size*sizeof(T), cudaMemcpyDeviceToHost));
+./include/mpcsim.cuh:203:    gpuErrchk(cudaPeekAtLastError());
+./include/mpcsim.cuh:210:    gpuErrchk(cudaMalloc(&d_eePos, 6*sizeof(T)));
+./include/mpcsim.cuh:229:        gpuErrchk(cudaMemcpy(d_xu, d_xu_traj, traj_len*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/mpcsim.cuh:237:        gpuErrchk(cudaMemcpy(d_xu, d_xu_traj, traj_len*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/mpcsim.cuh:258:        gpuErrchk(cudaMemcpy(h_eePos, d_eePos, 6*sizeof(T), cudaMemcpyDeviceToHost));
+./include/mpcsim.cuh:291:        gpuErrchk(cudaMemcpy(d_xu_old, d_xu, traj_len*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/mpcsim.cuh:301:            gpuErrchk(cudaMemcpy(h_eePos, d_eePos, 6*sizeof(T), cudaMemcpyDeviceToHost));
+./include/mpcsim.cuh:302:            gpuErrchk(cudaMemcpy(h_eePos_goal, d_eePos_goal, 6*sizeof(T), cudaMemcpyDeviceToHost));
+./include/mpcsim.cuh:316:                gpuErrchk(cudaMemcpy(&d_xu[traj_len - (state_size + control_size)], &d_xu_traj[(state_size+control_size)*traj_offset - control_size], sizeof(T)*(state_size+control_size), cudaMemcpyDeviceToDevice));     // last state filled from precomputed trajectory
+./include/mpcsim.cuh:320:                gpuErrchk(cudaMemcpy(&d_xu[traj_len - state_size], &d_xu_traj[(traj_steps-1)*(state_size+control_size)], (state_size/2)*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/mpcsim.cuh:321:                gpuErrchk(cudaMemset(&d_xu[traj_len - state_size / 2], 0, (state_size/2) * sizeof(T)));
+./include/mpcsim.cuh:322:                gpuErrchk(cudaMemset(&d_xu[traj_len - (state_size+control_size)], 0, control_size * sizeof(T)));
+./include/mpcsim.cuh:328:                gpuErrchk(cudaMemcpy(&d_eePos_goal[(knot_points-1)*(6)], &d_eePos_traj[(traj_offset+knot_points-1) * (6)], 6*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/mpcsim.cuh:332:                gpuErrchk(cudaMemcpy(&d_eePos_goal[(knot_points-1)*(6)], &d_eePos_traj[(traj_steps-1)*(6)], (6)*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/mpcsim.cuh:333:                // gpuErrchk(cudaMemset(&d_eePos_goal[(knot_points-1)*(6) + state_size / 2], 0, (state_size/2) * sizeof(T)));
+./include/mpcsim.cuh:338:                // gpuErrchk(cudaMemset(&lambdas[i][state_size*(knot_points-1)], 0, state_size*sizeof(T)));
+./include/mpcsim.cuh:348:        gpuErrchk(cudaMemcpy(d_xu, d_xs, state_size*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/mpcsim.cuh:354:        gpuErrchk(cudaPeekAtLastError());
+./include/mpcsim.cuh:361:        gpuErrchk(cudaMemcpy(h_xs, d_xs, state_size*sizeof(T), cudaMemcpyDeviceToHost));
+./include/mpcsim.cuh:405:    gpuErrchk(cudaMemcpy(h_eePos, d_eePos, 6*sizeof(T), cudaMemcpyDeviceToHost));
+./include/mpcsim.cuh:406:    gpuErrchk(cudaMemcpy(h_eePos_goal, d_eePos_goal, 6*sizeof(T), cudaMemcpyDeviceToHost));
+./include/mpcsim.cuh:414:    gpuErrchk(cudaFree(d_lambda));
+./include/mpcsim.cuh:415:    gpuErrchk(cudaFree(d_xu));
+./include/mpcsim.cuh:416:    gpuErrchk(cudaFree(d_eePos_goal));
+./include/mpcsim.cuh:417:    gpuErrchk(cudaFree(d_xu_old));
+./include/mpcsim.cuh:419:    gpuErrchk(cudaFree(d_eePos));
+./include/common/integrator.cuh:239:    // gpuErrchk(cudaMalloc(&d_xu, xu_size));
+./include/common/integrator.cuh:240:    // gpuErrchk(cudaMalloc(&d_xs_new, xs_size));
+./include/common/integrator.cuh:242:    // gpuErrchk(cudaMemcpy(d_xu, h_xs, state_size*sizeof(T), cudaMemcpyHostToDevice));
+./include/common/integrator.cuh:243:    // gpuErrchk(cudaMemcpy(d_xu + state_size, h_xu + state_size, control_size*sizeof(T), cudaMemcpyHostToDevice));
+./include/common/integrator.cuh:251:    // gpuErrchk(cudaMemcpy(h_xs, d_xs_new, xs_size, cudaMemcpyDeviceToHost));
+./include/common/integrator.cuh:253:    // gpuErrchk(cudaFree(d_xu));
+./include/common/integrator.cuh:254:    // gpuErrchk(cudaFree(d_xs_new));
+./include/common/integrator.cuh:261:        gpuErrchk(cudaMemcpy(&d_xu[knot*(state_size+control_size)], &d_xu[(knot+1)*(state_size+control_size)], stepsize*sizeof(T), cudaMemcpyDeviceToDevice));
+./include/utils/matrix.cuh:251:    cudaMemcpy2D(h_matrix, pitch, d_matrix, pitch, pitch, rows, cudaMemcpyDeviceToHost);
