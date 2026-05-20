@@ -1,14 +1,14 @@
 # Makefile for the linux server with NVIDIA and AMD GPU
 
-NVCC ?= nvcc
-HIPCC ?= hipcc
-HIPIFY ?= hipify-perl
+NVCC = nvcc
+HIPCC = /opt/rocm/bin/hipcc
+HIPIFY = /opt/rocm/bin/hipify-perl
 
 NVCC_FLAGS ?= -std=c++17 -O2
 HIPCC_FLAGS ?= -std=c++17 -O2
 
 BIN_DIR ?= bin_server
-HIPIFY_DIR = hipify_generated
+HIPIFY_DIR = hipify_generated_server
 
 # AMD Radeon RX 7700 XT architecture = gfx1101 , gpu_id = 0
 # AMD Radeon Graphics = gfx1036 , gpu_id = 1
@@ -20,46 +20,56 @@ ROCM_LIB = /opt/rocm/lib
 CUDA_LIB = /usr/local/cuda/lib64
 
 
+# 1. FILE DEFINITIONS
+
+# Hello World
 CUDA_HELLO_SRC = cuda/hello.cu
 CUDA_HELLO_BIN = $(BIN_DIR)/hello_cuda
+HIP_HELLO_SRC = $(HIPIFY_DIR)/hello.hip.cpp
+HIP_HELLO_AMD_BIN = $(BIN_DIR)/hello_hip_amd
 
+# Unified Add
 CUDA_ADD_SRC = cuda/unified_add.cu
 CUDA_ADD_BIN = $(BIN_DIR)/unified_add_cuda
-
-HIP_HELLO_SRC = $(HIPIFY_DIR)/hello.hip.cpp
 HIP_ADD_SRC = $(HIPIFY_DIR)/unified_add.hip.cpp
-
-HIP_HELLO_NVIDIA_BIN = $(BIN_DIR)/hello_hip_nvidia
-HIP_ADD_NVIDIA_BIN = $(BIN_DIR)/unified_add_hip_nvidia
-
-HIP_HELLO_AMD_BIN = $(BIN_DIR)/hello_hip_amd
 HIP_ADD_AMD_BIN = $(BIN_DIR)/unified_add_hip_amd
 
-
+# Matmul
 CUDA_MATMUL_SRC = cuda/matmul.cu
 CUDA_MATMUL_BIN = $(BIN_DIR)/matmul_cuda
 HIP_MATMUL_SRC = $(HIPIFY_DIR)/matmul.hip.cpp
-HIP_MATMUL_NVIDIA_BIN = $(BIN_DIR)/matmul_hip_nvidia
 HIP_MATMUL_AMD_BIN = $(BIN_DIR)/matmul_hip_amd
 
+# Reduction
+CUDA_RED_SRC = cuda/reduction.cu
+CUDA_RED_BIN = $(BIN_DIR)/reduction_cuda
+HIP_RED_SRC = $(HIPIFY_DIR)/reduction.hip.cpp
+HIP_RED_AMD_BIN = $(BIN_DIR)/reduction_hip_amd
 
+# Streams
+CUDA_STR_SRC = cuda/streams.cu
+CUDA_STR_BIN = $(BIN_DIR)/streams_cuda
+HIP_STR_SRC = $(HIPIFY_DIR)/streams.hip.cpp
+HIP_STR_AMD_BIN = $(BIN_DIR)/streams_hip_amd
 
-.PHONY: all cuda hipify hip hip-nvidia hip-amd run-cuda run-hello run-add run-matmul run-hip run-hip-nvidia run-hip-amd clean
+# Constant Memory
+CUDA_CON_SRC = cuda/constant_memory.cu
+CUDA_CON_BIN = $(BIN_DIR)/constant_memory_cuda
+HIP_CON_SRC = $(HIPIFY_DIR)/constant_memory.hip.cpp
+HIP_CON_AMD_BIN = $(BIN_DIR)/constant_memory_hip_amd
+
+# 2. MAIN TARGETS
+.PHONY: all cuda hipify hip-amd clean
 
 all: cuda hip-amd
 
-cuda: $(CUDA_HELLO_BIN) $(CUDA_ADD_BIN) $(CUDA_MATMUL_BIN)
+cuda: $(CUDA_HELLO_BIN) $(CUDA_ADD_BIN) $(CUDA_MATMUL_BIN) $(CUDA_RED_BIN) $(CUDA_STR_BIN) $(CUDA_CON_BIN)
 
-hipify: $(HIP_HELLO_SRC) $(HIP_ADD_SRC) $(HIP_MATMUL_SRC)
+hipify: $(HIP_HELLO_SRC) $(HIP_ADD_SRC) $(HIP_MATMUL_SRC) $(HIP_RED_SRC) $(HIP_STR_SRC) $(HIP_CON_SRC)
 
-hip: hip-nvidia
+hip-amd: $(HIP_HELLO_AMD_BIN) $(HIP_ADD_AMD_BIN) $(HIP_MATMUL_AMD_BIN) $(HIP_RED_AMD_BIN) $(HIP_STR_AMD_BIN) $(HIP_CON_AMD_BIN)
 
-hip-nvidia: $(HIP_HELLO_NVIDIA_BIN) $(HIP_ADD_NVIDIA_BIN) $(HIP_MATMUL_NVIDIA_BIN)
-
-hip-amd: $(HIP_HELLO_AMD_BIN) $(HIP_ADD_AMD_BIN) $(HIP_MATMUL_AMD_BIN)
-
-
-
+# 3. BUILD RULES (NATIVE CUDA)
 $(CUDA_HELLO_BIN): $(CUDA_HELLO_SRC)
 	mkdir -p $(BIN_DIR)
 	$(NVCC) $(NVCC_FLAGS) $(CUDA_HELLO_SRC) -o $(CUDA_HELLO_BIN)
@@ -72,8 +82,19 @@ $(CUDA_MATMUL_BIN): $(CUDA_MATMUL_SRC)
 	mkdir -p $(BIN_DIR)
 	$(NVCC) $(NVCC_FLAGS) $(CUDA_MATMUL_SRC) -o $(CUDA_MATMUL_BIN)
 
+$(CUDA_RED_BIN): $(CUDA_RED_SRC)
+	mkdir -p $(BIN_DIR)
+	$(NVCC) $(NVCC_FLAGS) $(CUDA_RED_SRC) -o $(CUDA_RED_BIN)
 
+$(CUDA_STR_BIN): $(CUDA_STR_SRC)
+	mkdir -p $(BIN_DIR)
+	$(NVCC) $(NVCC_FLAGS) $(CUDA_STR_SRC) -o $(CUDA_STR_BIN)
 
+$(CUDA_CON_BIN): $(CUDA_CON_SRC)
+	mkdir -p $(BIN_DIR)
+	$(NVCC) $(NVCC_FLAGS) $(CUDA_CON_SRC) -o $(CUDA_CON_BIN)
+
+# 4. BUILD RULES (HIPIFY TRANSLATION)
 $(HIP_HELLO_SRC): $(CUDA_HELLO_SRC)
 	mkdir -p $(HIPIFY_DIR)
 	$(HIPIFY) $(CUDA_HELLO_SRC) > $(HIP_HELLO_SRC)
@@ -86,19 +107,19 @@ $(HIP_MATMUL_SRC): $(CUDA_MATMUL_SRC)
 	mkdir -p $(HIPIFY_DIR)
 	$(HIPIFY) $(CUDA_MATMUL_SRC) > $(HIP_MATMUL_SRC)
 
+$(HIP_RED_SRC): $(CUDA_RED_SRC)
+	mkdir -p $(HIPIFY_DIR)
+	$(HIPIFY) $(CUDA_RED_SRC) > $(HIP_RED_SRC)
 
-$(HIP_HELLO_NVIDIA_BIN): $(HIP_HELLO_SRC)
-	mkdir -p $(BIN_DIR)
-	$(HIPCC) $(HIPCC_FLAGS) $(HIP_HELLO_SRC) -o $(HIP_HELLO_NVIDIA_BIN)
+$(HIP_STR_SRC): $(CUDA_STR_SRC)
+	mkdir -p $(HIPIFY_DIR)
+	$(HIPIFY) $(CUDA_STR_SRC) > $(HIP_STR_SRC)
 
-$(HIP_ADD_NVIDIA_BIN): $(HIP_ADD_SRC)
-	mkdir -p $(BIN_DIR)
-	$(HIPCC) $(HIPCC_FLAGS) $(HIP_ADD_SRC) -o $(HIP_ADD_NVIDIA_BIN)
+$(HIP_CON_SRC): $(CUDA_CON_SRC)
+	mkdir -p $(HIPIFY_DIR)
+	$(HIPIFY) $(CUDA_CON_SRC) > $(HIP_CON_SRC)
 
-$(HIP_MATMUL_NVIDIA_BIN): $(HIP_MATMUL_SRC)
-	mkdir -p $(BIN_DIR)
-	$(HIPCC) $(HIPCC_FLAGS) $(HIP_MATMUL_SRC) -o $(HIP_MATMUL_NVIDIA_BIN)
-
+# 5. BUILD RULES (HIP/AMD COMPILER)
 $(HIP_HELLO_AMD_BIN): $(HIP_HELLO_SRC)
 	mkdir -p $(BIN_DIR)
 	$(HIPCC) $(HIPCC_FLAGS) --offload-arch=$(AMD_ARCH) $(HIP_HELLO_SRC) -o $(HIP_HELLO_AMD_BIN)
@@ -111,29 +132,56 @@ $(HIP_MATMUL_AMD_BIN): $(HIP_MATMUL_SRC)
 	mkdir -p $(BIN_DIR)
 	$(HIPCC) $(HIPCC_FLAGS) --offload-arch=$(AMD_ARCH) $(HIP_MATMUL_SRC) -o $(HIP_MATMUL_AMD_BIN)
 
+$(HIP_RED_AMD_BIN): $(HIP_RED_SRC)
+	mkdir -p $(BIN_DIR)
+	$(HIPCC) $(HIPCC_FLAGS) --offload-arch=$(AMD_ARCH) $(HIP_RED_SRC) -o $(HIP_RED_AMD_BIN)
 
-run-cuda: cuda
-	LD_LIBRARY_PATH=$(CUDA_LIB):$$LD_LIBRARY_PATH ./$(CUDA_HELLO_BIN)
-	LD_LIBRARY_PATH=$(CUDA_LIB):$$LD_LIBRARY_PATH ./$(CUDA_ADD_BIN)
-	LD_LIBRARY_PATH=$(CUDA_LIB):$$LD_LIBRARY_PATH ./$(CUDA_MATMUL_BIN)
+$(HIP_STR_AMD_BIN): $(HIP_STR_SRC)
+	mkdir -p $(BIN_DIR)
+	$(HIPCC) $(HIPCC_FLAGS) --offload-arch=$(AMD_ARCH) $(HIP_STR_SRC) -o $(HIP_STR_AMD_BIN)
 
-run-hello: $(CUDA_HELLO_BIN)
-	LD_LIBRARY_PATH=$(CUDA_LIB):$$LD_LIBRARY_PATH ./$(CUDA_HELLO_BIN)
+$(HIP_CON_AMD_BIN): $(HIP_CON_SRC)
+	mkdir -p $(BIN_DIR)
+	$(HIPCC) $(HIPCC_FLAGS) --offload-arch=$(AMD_ARCH) $(HIP_CON_SRC) -o $(HIP_CON_AMD_BIN)
 
-run-add: $(CUDA_ADD_BIN)
-	LD_LIBRARY_PATH=$(CUDA_LIB):$$LD_LIBRARY_PATH ./$(CUDA_ADD_BIN)
+# 6. EXECUTION (AMD/HIP INDIVIDUAL)
+run-hello: $(HIP_HELLO_AMD_BIN)
+	env HIP_VISIBLE_DEVICES=$(HIP_GPU_ID) LD_LIBRARY_PATH=$(ROCM_LIB) ./$(HIP_HELLO_AMD_BIN)
 
-run-hip: run-hip-nvidia
+run-add: $(HIP_ADD_AMD_BIN)
+	env HIP_VISIBLE_DEVICES=$(HIP_GPU_ID) LD_LIBRARY_PATH=$(ROCM_LIB) ./$(HIP_ADD_AMD_BIN)
 
-run-hip-nvidia: hip-nvidia
-	LD_LIBRARY_PATH=$(CUDA_LIB):$$LD_LIBRARY_PATH ./$(HIP_HELLO_NVIDIA_BIN)
-	LD_LIBRARY_PATH=$(CUDA_LIB):$$LD_LIBRARY_PATH ./$(HIP_ADD_NVIDIA_BIN)
-	LD_LIBRARY_PATH=$(CUDA_LIB):$$LD_LIBRARY_PATH ./$(HIP_MATMUL_NVIDIA_BIN)
+run-matmul: $(HIP_MATMUL_AMD_BIN)
+	env HIP_VISIBLE_DEVICES=$(HIP_GPU_ID) LD_LIBRARY_PATH=$(ROCM_LIB) ./$(HIP_MATMUL_AMD_BIN)
 
+run-reduction: $(HIP_RED_AMD_BIN)
+	env HIP_VISIBLE_DEVICES=$(HIP_GPU_ID) LD_LIBRARY_PATH=$(ROCM_LIB) ./$(HIP_RED_AMD_BIN)
+
+run-streams: $(HIP_STR_AMD_BIN)
+	env HIP_VISIBLE_DEVICES=$(HIP_GPU_ID) LD_LIBRARY_PATH=$(ROCM_LIB) ./$(HIP_STR_AMD_BIN)
+
+run-constant: $(HIP_CON_AMD_BIN)
+	env HIP_VISIBLE_DEVICES=$(HIP_GPU_ID) LD_LIBRARY_PATH=$(ROCM_LIB) ./$(HIP_CON_AMD_BIN)
+
+# Run all AMD binaries sequentially
 run-hip-amd: hip-amd
 	env HIP_VISIBLE_DEVICES=$(HIP_GPU_ID) LD_LIBRARY_PATH=$(ROCM_LIB) ./$(HIP_HELLO_AMD_BIN)
 	env HIP_VISIBLE_DEVICES=$(HIP_GPU_ID) LD_LIBRARY_PATH=$(ROCM_LIB) ./$(HIP_ADD_AMD_BIN)
 	env HIP_VISIBLE_DEVICES=$(HIP_GPU_ID) LD_LIBRARY_PATH=$(ROCM_LIB) ./$(HIP_MATMUL_AMD_BIN)
-	
+	env HIP_VISIBLE_DEVICES=$(HIP_GPU_ID) LD_LIBRARY_PATH=$(ROCM_LIB) ./$(HIP_RED_AMD_BIN)
+	env HIP_VISIBLE_DEVICES=$(HIP_GPU_ID) LD_LIBRARY_PATH=$(ROCM_LIB) ./$(HIP_STR_AMD_BIN)
+	env HIP_VISIBLE_DEVICES=$(HIP_GPU_ID) LD_LIBRARY_PATH=$(ROCM_LIB) ./$(HIP_CON_AMD_BIN)
+
+# 7. EXECUTION (NVIDIA / NATIVE CUDA)
+run-cuda-reduction: $(CUDA_RED_BIN)
+	LD_LIBRARY_PATH=$(CUDA_LIB):$$LD_LIBRARY_PATH ./$(CUDA_RED_BIN)
+
+run-cuda-streams: $(CUDA_STR_BIN)
+	LD_LIBRARY_PATH=$(CUDA_LIB):$$LD_LIBRARY_PATH ./$(CUDA_STR_BIN)
+
+run-cuda-constant: $(CUDA_CON_BIN)
+	LD_LIBRARY_PATH=$(CUDA_LIB):$$LD_LIBRARY_PATH ./$(CUDA_CON_BIN)
+
+# 8. CLEANUP
 clean:
 	rm -rf $(BIN_DIR)
