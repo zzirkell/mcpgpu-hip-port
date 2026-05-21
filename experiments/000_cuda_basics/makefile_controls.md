@@ -119,5 +119,3 @@ make run-hip
 ```
 
 Currently default HIP backend is NVIDIA. (you can change it)
-
-```
