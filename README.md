@@ -30,13 +30,16 @@ docs/setup_rocm_amd_wsl.md # AMD ROCm/ROCDXG setup and AMD HIP compile/run
 #_amd in ./bin compiled files mean that it was HIP compiled for AMD backend
 ```
 
-### CUDA API call tests from MPCGPU
+### MPCGPU CUDA/HIP feature tests
 
-To test concrete CUDA API calls and their HIPIFY translation, look at:
+To test concrete CUDA API calls, CUDA language features, and their HIPIFY translation, look at:
+
 ```bash
-001_api_calls_mpcgpu/        # isolated CUDA API call translation tests
-001_api_calls_mpcgpu/api_collection.md
+experiments/001_api_calls_mpcgpu/                # isolated CUDA/HIP feature translation tests
+experiments/001_api_calls_mpcgpu/api_collection.md # tested calls/features and results
 ```
+
+This folder is for small isolated tests before touching the real MPCGPU code.
 
 ### Docker setup
 
@@ -46,3 +49,12 @@ We have decided to provide Dockerfiles for configuring both NVIDIA/AMD environme
 
 Docker can package compilers, HIPIFY, ROCm/CUDA userspace, Makefiles, dependencies.
 Docker **CANNOT** package the Windows GPU driver, WSL kernel, or /dev/dxg GPU bridge.
+
+### Project plan and work separation
+
+The detailed porting plan, ownership split, and scan findings are in:
+```bash
+docs/project_plan/mpcgpu_overview_plan.md              # main detailed project plan
+docs/project_plan/final_table_separation.md            # concrete test/feature ownership table
+docs/project_plan/tobias_grep_findings/                # grep/static-scan findings for CUDA usage
+```
