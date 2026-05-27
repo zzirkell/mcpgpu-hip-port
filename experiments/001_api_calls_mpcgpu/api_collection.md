@@ -1,3 +1,6 @@
+### Portability notes!!!
+
+General CUDA → HIP findings that may affect the real MPCGPU port are collected in: portability_notes.md
 # MPCGPU CUDA API Call Collection
 
 This folder contains small isolated tests for CUDA API calls that are relevant for CUDA → HIP porting.
@@ -31,7 +34,7 @@ free GPU memory
 check that the copied value is still correct
 ```
 
-## API calls tested
+### API calls tested
 
 | CUDA call                | HIPIFY result           | Meaning                                        |
 | ------------------------ | ----------------------- | ---------------------------------------------- |
@@ -61,7 +64,7 @@ wait for GPU completion
 copy result back to CPU
 free GPU memory
 ```
-## API Calls tested
+### API Calls tested
 | CUDA / feature           | HIPIFY result           | Meaning                                                |
 | ------------------------ | ----------------------- | ------------------------------------------------------ |
 | `__global__`             | same                    | Marks a GPU kernel callable from CPU.                  |
@@ -91,7 +94,7 @@ write global indices into GPU memory
 copy results back to CPU
 check that every index is correct
 ```
-## API Calls tested
+### API Calls tested
 | CUDA / feature              | HIPIFY result   | Meaning                                             |
 | --------------------------- | --------------- | --------------------------------------------------- |
 | `dim3`                      | same            | CUDA/HIP type for 1D/2D/3D grid and block sizes.    |
@@ -105,3 +108,117 @@ check that every index is correct
 | `gridDim.x`                 | same            | Number of blocks in the grid in x direction.        |
 | `gridDim.y`                 | same            | Number of blocks in the grid in y direction.        |
 | `__global__`                | same            | Marks a function as a GPU kernel callable from CPU. |
+
+## Test 004: CUDA language qualifiers
+
+Files:
+
+```text
+cuda/004_cuda_language_qualifiers.cu
+hipify_generated/004_cuda_language_qualifiers.hip.cpp
+```
+This test checks whether CUDA function qualifiers compile and run correctly after HIPIFY.
+```
+call a normal host-only helper from CPU
+call a host-device helper from CPU
+launch a GPU kernel
+inside the kernel, call device-only helpers
+inside the kernel, call a host-device helper
+copy results back to CPU
+check all computed values
+```
+## CUDA  features tested:
+| CUDA / feature        | HIPIFY result            | Meaning                                              |
+| --------------------- | ------------------------ | ---------------------------------------------------- |
+| `__global__`          | same                     | Marks a function as a GPU kernel callable from CPU.  |
+| `__device__`          | same                     | Marks a function callable from GPU code.             |
+| `__host__`            | same                     | Marks a function callable from CPU code.             |
+| `__host__ __device__` | same                     | Function can be compiled for both CPU and GPU.       |
+| `__forceinline__`     | same / backend dependent | Suggests strongly inlining a device helper function. |
+| `kernel<<<1, n>>>()`  | same HIP syntax          | Launches a GPU kernel.
+                               |
+## Test 005: shared memory and block synchronization
+
+Files:
+
+```text
+cuda/005_shared_memory_block_sync.cu
+hipify_generated/005_shared_memory_block_sync.hip.cpp
+```
+This test checks whether static shared memory, dynamic shared memory, and block-level synchronization work after HIPIFY.
+```
+launch a kernel with multiple blocks and multiple threads
+each thread writes values into shared memory
+synchronize all threads inside the block
+each thread reads another thread's value from shared memory
+copy results back to CPU
+check all values
+```
+
+### CUDA features tested
+| CUDA / feature                                      | HIPIFY result   | Meaning                                                 |
+| --------------------------------------------------- | --------------- | ------------------------------------------------------- |
+| `__shared__`                                        | same            | Static shared memory allocated per block.               |
+| `extern __shared__`                                 | same            | Dynamic shared memory size passed during kernel launch. |
+| `__syncthreads()`                                   | same            | Synchronizes all threads inside one block.              |
+| `kernel<<<blocks, threads, shared_memory_size>>>()` | same HIP syntax | Launches a kernel with dynamic shared memory.           |
+| `threadIdx.x`                                       | same            | Thread index inside the block.                          |
+| `blockIdx.x`                                        | same            | Block index inside the grid.                            |
+| `blockDim.x`                                        | same            | Number of threads in each block.                        |
+
+## Test 009: device properties and occupancy
+
+Files:
+
+```text
+cuda/009_device_props_occupancy.cu
+hipify_generated/009_device_props_occupancy.hip.cpp
+```
+This test checks whether device property queries, device attribute queries, and occupancy calculation work after HIPIFY.
+```
+query visible GPU device count
+query current GPU device
+read full device properties
+query selected device attributes
+query cooperative launch support
+calculate theoretical kernel occupancy
+check that returned values are valid
+```
+### CUDA API / features tested
+| CUDA / feature                                  | HIPIFY result                                  | Meaning                                         |
+| ----------------------------------------------- | ---------------------------------------------- | ----------------------------------------------- |
+| `cudaDeviceProp`                                | `hipDeviceProp_t`                              | Structure containing GPU properties.            |
+| `cudaGetDeviceProperties`                       | `hipGetDeviceProperties`                       | Reads full device property structure.           |
+| `cudaDeviceGetAttribute`                        | `hipDeviceGetAttribute`                        | Reads one specific device capability.           |
+| `cudaDevAttrMaxThreadsPerBlock`                 | HIP equivalent                                 | Maximum number of threads allowed in one block. |
+| `cudaDevAttrMultiProcessorCount`                | HIP equivalent                                 | Number of GPU compute units / SMs.              |
+| `cudaDevAttrCooperativeLaunch`                  | HIP equivalent                                 | Whether cooperative kernel launch is supported. |
+| `cudaOccupancyMaxActiveBlocksPerMultiprocessor` | `hipOccupancyMaxActiveBlocksPerMultiprocessor` | Estimates active blocks per SM/CU for a kernel. |
+
+## Test 015: HIP header translation
+
+Files:
+
+```text
+cuda/015_hip_headers.cu
+hipify_generated/015_hip_headers.hip.cpp
+```
+This test checks whether CUDA runtime headers and simple runtime API calls are translated correctly by HIPIFY.
+```
+include CUDA runtime headers
+query number of GPU devices
+query current device
+set current device again
+check all return values
+```
+### CUDA API / headers tested
+| CUDA / feature       | HIPIFY result           | Meaning                                   |
+| -------------------- | ----------------------- | ----------------------------------------- |
+| `cuda_runtime.h`     | `hip/hip_runtime.h`     | Main CUDA/HIP runtime header.             |
+| `cuda_runtime_api.h` | `hip/hip_runtime_api.h` | Runtime API declarations.                 |
+| `cudaError_t`        | `hipError_t`            | Error/status type returned by API calls.  |
+| `cudaSuccess`        | `hipSuccess`            | Successful API result.                    |
+| `cudaGetErrorString` | `hipGetErrorString`     | Converts GPU error code to readable text. |
+| `cudaGetDeviceCount` | `hipGetDeviceCount`     | Returns number of visible GPU devices.    |
+| `cudaGetDevice`      | `hipGetDevice`          | Returns currently selected GPU device.    |
+| `cudaSetDevice`      | `hipSetDevice`          | Selects active GPU device.                |
