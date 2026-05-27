@@ -194,6 +194,37 @@ check that returned values are valid
 | `cudaDevAttrMultiProcessorCount`                | HIP equivalent                                 | Number of GPU compute units / SMs.              |
 | `cudaDevAttrCooperativeLaunch`                  | HIP equivalent                                 | Whether cooperative kernel launch is supported. |
 | `cudaOccupancyMaxActiveBlocksPerMultiprocessor` | `hipOccupancyMaxActiveBlocksPerMultiprocessor` | Estimates active blocks per SM/CU for a kernel. |
+## Test 012: cooperative launch with dynamic shared memory
+
+Files:
+
+```text
+cuda/012_cooperative_launch_shared_memory.cu
+hipify_generated/012_cooperative_launch_shared_memory.hip.cpp
+```
+
+This test checks cooperative kernel launch together with dynamic shared memory.
+
+```
+check whether cooperative launch is supported
+if not supported, skip cleanly
+allocate GPU memory for block sums and final result
+launch cooperative kernel with dynamic shared memory
+each block reduces values in shared memory
+grid.sync() synchronizes all blocks
+one thread combines block sums into final result
+copy result back to CPU
+check expected sum
+```
+### CUDA API / features tested
+| CUDA / feature                        | HIPIFY result                | Meaning                                        |
+| ------------------------------------- | ---------------------------- | ---------------------------------------------- |
+| `extern __shared__`                   | same                         | Dynamic shared memory inside kernel.           |
+| `__syncthreads()`                     | same                         | Synchronizes threads inside one block.         |
+| `cooperative_groups::this_grid()`     | HIP equivalent               | Creates full-grid cooperative group.           |
+| `grid.sync()`                         | HIP equivalent               | Synchronizes all blocks in cooperative launch. |
+| `cudaLaunchCooperativeKernel`         | `hipLaunchCooperativeKernel` | Explicit cooperative kernel launch.            |
+| `shared_memory_bytes` launch argument | same role                    | Controls dynamic shared memory size.           |
 
 ## Test 015: HIP header translation
 
@@ -221,4 +252,34 @@ check all return values
 | `cudaGetErrorString` | `hipGetErrorString`     | Converts GPU error code to readable text. |
 | `cudaGetDeviceCount` | `hipGetDeviceCount`     | Returns number of visible GPU devices.    |
 | `cudaGetDevice`      | `hipGetDevice`          | Returns currently selected GPU device.    |
-| `cudaSetDevice`      | `hipSetDevice`          | Selects active GPU device.                |
+| `cudaSetDevice`      | `hipSetDevice`          | Selects active GPU device.
+                |
+## 016_blas_axpy
+
+### Purpose
+
+This test checks CUDA BLAS usage from cuBLAS and its HIPIFY translation to hipBLAS.
+
+It is important because MPCGPU uses NVIDIA libraries in addition to normal CUDA runtime calls. These library calls are not kernels written by us, but they still have to be translated and linked correctly for HIP.
+
+### CUDA features tested
+
+| CUDA / cuBLAS item | HIPIFY result | Meaning |
+| --- | --- | --- |
+| `#include <cublas_v2.h>` | `#include <hipblas.h>` | BLAS library header |
+| `cublasHandle_t` | `hipblasHandle_t` | BLAS context/handle |
+| `cublasCreate` | `hipblasCreate` | Creates BLAS handle |
+| `cublasDestroy` | `hipblasDestroy` | Destroys BLAS handle |
+| `cublasSaxpy` | `hipblasSaxpy` | Single-precision AXPY: `y = alpha*x + y` |
+| `cublasDaxpy` | `hipblasDaxpy` | Double-precision AXPY: `y = alpha*x + y` |
+| `CUBLAS_STATUS_SUCCESS` | `HIPBLAS_STATUS_SUCCESS` | Success status check |
+| `cudaMalloc`, `cudaMemcpy`, `cudaFree` | `hipMalloc`, `hipMemcpy`, `hipFree` | Device memory management |
+
+### Result
+
+| Backend | Result | Notes |
+| --- | --- | --- |
+| CUDA / NVIDIA | PASS | cuBLAS works correctly. |
+| HIP / NVIDIA | SKIPPED | Mixed HIP NVIDIA + hipBLAS setup is not reliable locally. |
+| HIP / AMD WSL / gfx1103 | COMPILES, RUNTIME FAILS | Program builds, but crashes with segmentation fault inside the hipBLAS/rocBLAS runtime path. |
+
