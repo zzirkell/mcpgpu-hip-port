@@ -146,3 +146,178 @@ grep -R "double .*\\[.*\\]" -n include examples GBD-PCG GLASS
 ```
 
 Not every result is bad. Fixed-size arrays are fine. The risky case is an array whose size depends on a runtime variable.
+---
+
+## P003: AMD WSL ROCDXG may report SharedSignalPool resource leaks
+
+### Found in
+
+```text
+HIP AMD backend runs with HSA_ENABLE_DXG_DETECTION=1
+```
+
+### Observed message
+
+```text
+Warning: Resource leak detected by SharedSignalPool, 2 Signals leaked.
+```
+
+### Meaning
+
+This warning comes from the AMD ROCm/HSA/ROCDXG runtime layer on WSL, not from CUDA `__shared__` memory.
+
+A "signal" is an internal HSA synchronization object used by the AMD runtime. The warning means the runtime detected that some internal synchronization objects were still allocated during shutdown.
+
+### Current interpretation
+
+If the test prints its expected `OK` output and exits normally, this warning is treated as a backend/runtime warning, not as a failed porting test.
+
+### Porting rule
+
+Still make sure real code correctly cleans up all explicit resources:
+
+```text
+hipFree / cudaFree
+hipStreamDestroy / cudaStreamDestroy
+hipblasDestroy / cublasDestroy
+hipDeviceSynchronize / cudaDeviceSynchronize where needed
+```
+
+For debugging, we can also try adding:
+
+```cpp
+cudaDeviceReset();
+```
+
+which HIPIFY translates to:
+
+```cpp
+hipDeviceReset();
+```
+
+### Possible MPCGPU impact
+
+This warning may appear during HIP AMD testing on WSL even when the program result is correct. It should be documented separately from real correctness failures.
+
+---
+
+## P004: AMD WSL iGPU reports no cooperative launch support
+
+### Found in
+
+```text
+009_device_props_occupancy
+```
+
+### Observed result
+
+```text
+CUDA native / NVIDIA: cooperativeLaunch = 1
+HIP NVIDIA / NVIDIA: cooperativeLaunch = 1
+HIP AMD / AMD Radeon 780M Graphics through WSL/ROCDXG: cooperativeLaunch = 0
+```
+
+### Meaning
+
+The AMD WSL/ROCDXG backend currently reports that cooperative kernel launch is not supported on this local AMD iGPU setup.
+
+This does not necessarily mean that AMD GPUs in general cannot support the port. It only describes this specific local backend:
+
+```text
+AMD Radeon 780M Graphics
+WSL
+ROCDXG
+HSA_ENABLE_DXG_DETECTION=1
+```
+
+### Why it matters
+
+MPCGPU's PCG solver uses cooperative kernel launch and grid-level synchronization. These features are part of the high-risk PCG porting area.
+
+### Porting consequence
+
+Tests for cooperative groups and cooperative kernel launch should still be implemented, but we should expect:
+
+```text
+NVIDIA CUDA: pass
+HIP NVIDIA: pass
+HIP AMD WSL/iGPU: may fail or need to be skipped
+```
+
+If AMD cooperative launch is unavailable, the PCG solver may need:
+
+```text
+an alternative non-cooperative implementation
+a different synchronization strategy
+testing on another AMD/Linux setup with better cooperative launch support
+```
+
+### Current decision
+
+Do not block the whole project on this local AMD WSL result.
+
+Continue testing the exact PCG-related features, but document clearly when a test passes on NVIDIA and fails or is skipped on AMD because of missing cooperative launch support.
+---
+
+## P005: Cooperative kernel launch needs explicit full signature
+
+### Found in
+
+```text
+011_cooperative_groups_grid_sync
+```
+
+### Problem
+
+CUDA accepted the short form:
+
+```cpp
+cudaLaunchCooperativeKernel(
+    (void*)grid_sync_kernel,
+    blocks,
+    threads_per_block,
+    kernel_args
+);
+```
+
+After HIPIFY, HIP compilation failed because `hipLaunchCooperativeKernel` expects the full form.
+
+### Porting rule
+
+Write the full CUDA form before HIPIFY:
+
+```cpp
+const unsigned int shared_memory_bytes = 0;
+cudaStream_t stream = 0;
+
+CHECK_GPU(cudaLaunchCooperativeKernel(
+    (void*)grid_sync_kernel,
+    dim3(blocks),
+    dim3(threads_per_block),
+    kernel_args,
+    shared_memory_bytes,
+    stream
+));
+```
+
+HIPIFY then translates it cleanly to `hipStream_t` and `hipLaunchCooperativeKernel`.
+
+### MPCGPU impact
+
+MPCGPU/GBD-PCG uses cooperative kernel launch, so real code should be checked for short `cudaLaunchCooperativeKernel` calls.
+
+Search:
+
+```bash
+grep -R "cudaLaunchCooperativeKernel" -n include examples GBD-PCG GLASS
+```
+
+### Current result
+
+```text
+CUDA native / NVIDIA: OK
+HIP NVIDIA: OK
+HIP AMD WSL/iGPU: SKIP, because cooperativeLaunch = 0
+```
+
+This AMD result is a local backend/device limitation, not a HIPIFY failure. The same test should be run on the real AMD Linux target.
