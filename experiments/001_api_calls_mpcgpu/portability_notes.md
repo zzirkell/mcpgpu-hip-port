@@ -144,8 +144,8 @@ grep -R "int .*\\[.*\\]" -n include examples GBD-PCG GLASS
 grep -R "float .*\\[.*\\]" -n include examples GBD-PCG GLASS
 grep -R "double .*\\[.*\\]" -n include examples GBD-PCG GLASS
 ```
-
 Not every result is bad. Fixed-size arrays are fine. The risky case is an array whose size depends on a runtime variable.
+
 ---
 
 ## P003: AMD WSL ROCDXG may report SharedSignalPool resource leaks
@@ -321,3 +321,58 @@ HIP AMD WSL/iGPU: SKIP, because cooperativeLaunch = 0
 ```
 
 This AMD result is a local backend/device limitation, not a HIPIFY failure. The same test should be run on the real AMD Linux target.
+## P004: cuBLAS to hipBLAS needs separate build and runtime validation
+
+### Found in
+
+`016_blas_axpy`
+
+### Pattern
+
+CUDA BLAS code uses cuBLAS:
+
+`cublasHandle_t`, `cublasCreate`, `cublasSaxpy`, `cublasDaxpy`, `cublasDestroy`
+
+HIPIFY translates this to hipBLAS:
+
+`hipblasHandle_t`, `hipblasCreate`, `hipblasSaxpy`, `hipblasDaxpy`, `hipblasDestroy`
+
+### Build notes
+
+On ROCm 7.2, HIPIFY generated:
+
+`#include <hipblas.h>`
+
+but the actual header was located at:
+
+`/opt/rocm-7.2.0/include/hipblas/hipblas.h`
+
+So the HIP build needed:
+
+`-I$(ROCM_PATH)/include/hipblas`
+
+For AMD linking, the test used:
+
+`-L$(ROCM_PATH)/lib -lhipblas -lrocblas`
+
+For CUDA linking, the test used:
+
+`-L$(CUDA_NATIVE)/lib64 -lcublas`
+
+### Runtime notes
+
+CUDA/NVIDIA passed.
+
+HIP/AMD on local WSL with AMD Radeon 780M compiled, but crashed at runtime with a segmentation fault after loading the AMD WSL GPU bridge.
+
+This means the issue is probably not normal HIPIFY translation anymore. It is more likely related to the local AMD WSL/iGPU hipBLAS/rocBLAS runtime path.
+
+### Porting rule
+
+Do not mix normal CUDA runtime tests and BLAS-library tests in the same category.
+
+For MPCGPU:
+
+- normal kernels and runtime calls can be tested locally with HIP AMD;
+- cuBLAS to hipBLAS translation can be checked locally for compilation;
+- final hipBLAS runtime validation should be done on a native Linux AMD GPU/server.

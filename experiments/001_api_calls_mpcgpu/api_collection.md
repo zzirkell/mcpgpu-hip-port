@@ -252,9 +252,8 @@ check all return values
 | `cudaGetErrorString` | `hipGetErrorString`     | Converts GPU error code to readable text. |
 | `cudaGetDeviceCount` | `hipGetDeviceCount`     | Returns number of visible GPU devices.    |
 | `cudaGetDevice`      | `hipGetDevice`          | Returns currently selected GPU device.    |
-| `cudaSetDevice`      | `hipSetDevice`          | Selects active GPU device.
-                |
-## 016_blas_axpy
+| `cudaSetDevice`      | `hipSetDevice`          | Selects active GPU device.                |
+## Test 16: blas_axpy usage
 
 ### Purpose
 
@@ -282,4 +281,32 @@ It is important because MPCGPU uses NVIDIA libraries in addition to normal CUDA 
 | CUDA / NVIDIA | PASS | cuBLAS works correctly. |
 | HIP / NVIDIA | SKIPPED | Mixed HIP NVIDIA + hipBLAS setup is not reliable locally. |
 | HIP / AMD WSL / gfx1103 | COMPILES, RUNTIME FAILS | Program builds, but crashes with segmentation fault inside the hipBLAS/rocBLAS runtime path. |
+## Test 17: glass vector helper pattern
 
+This test checks a GLASS-like L1 vector helper pattern:
+
+```cpp
+template <typename T>
+__device__
+void glass_like_copy(const T* src, T* dst, int n)
+```
+GLASS-style helper functions are used in the solver-side code. This test verifies that a small templated __device__ helper can be translated by HIPIFY and executed on CUDA, HIP NVIDIA, and HIP AMD.
+### CUDA/HIP features tested
+| Feature                    | Meaning                                                |
+| -------------------------- | ------------------------------------------------------ |
+| `template <typename T>`    | Same helper works for `float` and `double`.            |
+| `__device__` helper        | Function runs on the GPU and is called by a kernel.    |
+| `__global__` kernel        | Entry point launched from CPU.                         |
+| Grid-stride loop           | Lets all GPU threads cover a vector of arbitrary size. |
+| `cudaMemcpy` / `hipMemcpy` | Copies input/output data between CPU and GPU.          |
+## Test 18: glass axpy_scal
+tested:
+
+| CUDA / feature | HIPIFY result | Meaning |
+|---|---|---|
+| device helper `scal` | same | Scales vector values on GPU. |
+| device helper `axpy` | same | Computes `y = alpha * x + y` on GPU. |
+| `float` and `double` templates | same | Both precision types compile and run. |
+| grid-stride loop inside helper | same | Multiple GPU threads process the vector. |
+
+Conclusion: basic GLASS L1 arithmetic helpers are portable on CUDA, HIP NVIDIA, and HIP AMD.
