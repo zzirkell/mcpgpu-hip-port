@@ -10,6 +10,7 @@ HIPCC_FLAGS = -std=c++17 -O2
 
 BIN_DIR = bin
 HIPIFY_DIR = hipify_generated
+CUDA_DIR = cuda
 
 AMD_ARCH ?= gfx1103
 
@@ -17,18 +18,24 @@ HIP_NVIDIA_ENV = env CUDA_PATH=$(CUDA_FOR_HIP) CUDA_HOME=$(CUDA_FOR_HIP) CUDACXX
 
 HIP_AMD_ENV = env -u CUDA_PATH -u CUDA_HOME -u CUDACXX HIP_PLATFORM=amd HSA_ENABLE_DXG_DETECTION=1 PATH="/opt/rocm/bin:$$PATH" LD_LIBRARY_PATH="/opt/rocm/lib:/usr/lib/wsl/lib:$$LD_LIBRARY_PATH"
 
-TEST_NAME = test
+TEST_NAME ?= 001_basic_malloc_memcpy_free
 
-CUDA_SRC = cuda/$(TEST_NAME).cu
+CUDA_SRC = $(CUDA_DIR)/$(TEST_NAME).cu
 HIP_SRC = $(HIPIFY_DIR)/$(TEST_NAME).hip.cpp
 
 CUDA_BIN = $(BIN_DIR)/$(TEST_NAME)_cuda
 HIP_NVIDIA_BIN = $(BIN_DIR)/$(TEST_NAME)_hip_nvidia
 HIP_AMD_BIN = $(BIN_DIR)/$(TEST_NAME)_hip_amd
 
-.PHONY: all cuda hipify hip hip-nvidia hip-amd run-cuda run-hip run-hip-nvidia run-hip-amd run-all diff clean
+TESTS = $(basename $(notdir $(wildcard $(CUDA_DIR)/*.cu)))
+
+.PHONY: all list cuda hipify hip hip-nvidia hip-amd run-cuda run-hip run-hip-nvidia run-hip-amd run-all diff run-all-tests clean clean-generated
 
 all: cuda
+
+list:
+	@echo "Available tests:"
+	@for t in $(TESTS); do echo "  $$t"; done
 
 cuda: $(CUDA_BIN)
 
@@ -72,5 +79,18 @@ run-all: run-cuda run-hip-nvidia run-hip-amd
 diff: hipify
 	diff -u $(CUDA_SRC) $(HIP_SRC) || true
 
+run-all-tests:
+	@set -e; \
+	for t in $(TESTS); do \
+		echo ""; \
+		echo "=============================="; \
+		echo "Running $$t"; \
+		echo "=============================="; \
+		$(MAKE) run-all TEST_NAME=$$t; \
+	done
+
 clean:
 	rm -rf $(BIN_DIR)
+
+clean-generated:
+	rm -rf $(HIPIFY_DIR)
