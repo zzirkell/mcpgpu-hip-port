@@ -310,3 +310,107 @@ tested:
 | grid-stride loop inside helper | same | Multiple GPU threads process the vector. |
 
 Conclusion: basic GLASS L1 arithmetic helpers are portable on CUDA, HIP NVIDIA, and HIP AMD.
+## Test 019: GLASS-like L1 reduction / dot / norms
+
+Files:
+
+```text
+cuda/019_glass_l1_reduce_dot_norm.cu
+hipify_generated/019_glass_l1_reduce_dot_norm.hip.cpp
+```
+This test checks GLASS-like L1 reduction helpers. tests:
+```
+dot product
+L2 norm
+infinity norm
+float
+double
+block-level reduction logic
+```
+### CUDA / HIP features tested
+| CUDA / feature                           | HIPIFY result            | Meaning                                   |
+| ---------------------------------------- | ------------------------ | ----------------------------------------- |
+| `__device__` helper functions            | same                     | Small GPU-only functions used by kernels. |
+| `__shared__`                             | same                     | Shared memory used for block reduction.   |
+| `__syncthreads()`                        | same                     | Synchronizes threads during reduction.    |
+| `threadIdx.x`                            | same                     | Thread index inside block.                |
+| `blockDim.x`                             | same                     | Number of threads in block.               |
+| `atomicAdd` or final block write pattern | same / backend-dependent | Combines partial reduction results.       |
+| `float` / `double` math                  | same                     | Confirms both precisions work.            |
+Yes, for your **Masha part**, `021_glass_l3_gemm` is the last planned main test. After this, only `029` is optional/later, and `030` is for both of you together.
+
+Append this to `api_collection.md` after Test 019. I checked the current uploaded md structure before writing this. 
+
+## Test 020: GLASS-like L2 GEMV
+
+Files:
+```text
+cuda/020_glass_l2_gemv.cu
+hipify_generated/020_glass_l2_gemv.hip.cpp
+```
+
+This test checks a GLASS-like L2 matrix-vector multiplication pattern.
+It is relevant because solver code often needs operations of the form:
+y = A * x where `A` is a matrix, `x` is a vector, and `y` is the output vector.
+
+The test checks:
+
+```text
+float matrix-vector multiplication
+double matrix-vector multiplication
+2D data stored in flat 1D arrays
+GPU kernel with one output element per thread
+CUDA → HIPIFY translation
+execution on CUDA, HIP NVIDIA, and HIP AMD
+```
+
+### CUDA / HIP features tested
+
+| CUDA / feature                           | HIPIFY result          | Meaning                                |
+| ---------------------------------------- | ---------------------- | -------------------------------------- |
+| `__global__` kernel                      | same                   | GPU kernel launched from CPU.          |
+| `__device__` helper logic                | same                   | Matrix-vector computation runs on GPU. |
+| Flat matrix indexing                     | same                   | Matrix is stored as a 1D array.        |
+| `float` / `double` templates             | same                   | Both precision types compile and run.  |
+| `cudaMalloc` / `cudaMemcpy` / `cudaFree` | HIP equivalents        | Device memory management.              |
+| `cudaDeviceSynchronize`                  | `hipDeviceSynchronize` | Waits for GPU computation to finish.   |
+
+---
+
+## Test 021: GLASS-like L3 GEMM
+
+Files:
+
+```text
+cuda/021_glass_l3_gemm.cu
+hipify_generated/021_glass_l3_gemm.hip.cpp
+```
+
+This test checks a GLASS-like L3 matrix-matrix multiplication pattern.
+
+It is relevant because solver-side code may need operations of the form:
+C = A * B where all matrices are stored in flat GPU arrays.
+
+The test checks:
+
+```text
+float matrix-matrix multiplication
+double matrix-matrix multiplication
+2D matrix indexing in flat arrays
+GPU kernel computing matrix output elements
+CUDA → HIPIFY translation
+execution on CUDA, HIP NVIDIA, and HIP AMD
+```
+
+### CUDA / HIP features tested
+
+| CUDA / feature                           | HIPIFY result          | Meaning                                |
+| ---------------------------------------- | ---------------------- | -------------------------------------- |
+| `__global__` kernel                      | same                   | GPU kernel launched from CPU.          |
+| `__device__` helper logic                | same                   | Matrix-matrix computation runs on GPU. |
+| Flat matrix indexing                     | same                   | Matrices are stored as 1D arrays.      |
+| `float` / `double` templates             | same                   | Both precision types compile and run.  |
+| `dim3` grid/block setup                  | same                   | 2D GPU launch configuration.           |
+| `threadIdx` / `blockIdx`                 | same                   | Used to choose matrix output element.  |
+| `cudaMalloc` / `cudaMemcpy` / `cudaFree` | HIP equivalents        | Device memory management.              |
+| `cudaDeviceSynchronize`                  | `hipDeviceSynchronize` | Waits for GPU computation to finish.   |
