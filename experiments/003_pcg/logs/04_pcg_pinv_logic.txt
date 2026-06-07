@@ -65,8 +65,7 @@ void pcg(
          uint32_t *d_iters, 
          bool *d_max_iter_exit,
          uint32_t max_iter, 
-         T exit_tol,
-         int empty_pinv)
+         T exit_tol)
 {   
 
     const cgrps::thread_block block = cgrps::this_thread_block();	 
@@ -129,19 +128,10 @@ void pcg(
     grid.sync(); //-------------------------------------
 
     // r_tilde = Pinv * r
-    // If no preconditioner is provided, use identity preconditioner:
-    // r_tilde = r.
-    if (empty_pinv) {
-        for (unsigned ind = thread_id; ind < state_size; ind += block_dim) {
-            s_r_tilde[ind] = s_r_b[ind];
-        }
-        __syncthreads();
-    } else {
-        loadbdVec<T, state_size, knot_points-1>(s_r, block_id, &d_r[block_x_statesize]);
-        __syncthreads();
-        bdmv<T>(s_r_tilde, s_Pinv, s_r, state_size, knot_points-1, block_id);
-        __syncthreads();
-    }
+    loadbdVec<T, state_size, knot_points-1>(s_r, block_id, &d_r[block_x_statesize]);
+    __syncthreads();
+    bdmv<T>(s_r_tilde, s_Pinv, s_r, state_size, knot_points-1,  block_id);
+    __syncthreads();
     
     // p = r_tilde
     for (unsigned ind = thread_id; ind < state_size; ind += block_dim){
@@ -188,19 +178,10 @@ void pcg(
         grid.sync(); //-------------------------------------
 
         // r_tilde = Pinv * r
-        // If no preconditioner is provided, use identity preconditioner:
-        // r_tilde = r.
-        if (empty_pinv) {
-            for (unsigned ind = thread_id; ind < state_size; ind += block_dim) {
-                s_r_tilde[ind] = s_r_b[ind];
-            }
-            __syncthreads();
-        } else {
-            loadbdVec<T, state_size, knot_points-1>(s_r, block_id, &d_r[block_x_statesize]);
-            __syncthreads();
-            bdmv<T>(s_r_tilde, s_Pinv, s_r, state_size, knot_points-1, block_id);
-            __syncthreads();
-        }
+        loadbdVec<T, state_size, knot_points-1>(s_r, block_id, &d_r[block_x_statesize]);
+        __syncthreads();
+        bdmv<T>(s_r_tilde, s_Pinv, s_r, state_size, knot_points-1, block_id);
+        __syncthreads();
 
         // eta = r * r_tilde
         glass::dot<T, state_size>(s_eta_new_b, s_r_b, s_r_tilde);

@@ -1,0 +1,5 @@
+include/pcg.cuh:121:    bdmv<T>(s_r_b, s_S, s_lambda, state_size, knot_points-1,  block_id);
+include/pcg.cuh:133:    bdmv<T>(s_r_tilde, s_Pinv, s_r, state_size, knot_points-1,  block_id);
+include/pcg.cuh:159:        bdmv<T>(s_upsilon,  s_S, s_p,state_size, knot_points-1, block_id);
+include/pcg.cuh:183:        bdmv<T>(s_r_tilde, s_Pinv, s_r, state_size, knot_points-1, block_id);
+include/utils.cuh:48:void bdmv(T *s_dst, 

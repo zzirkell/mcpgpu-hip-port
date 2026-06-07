@@ -1,0 +1,5 @@
+include/interface.cuh:33:	if (!config->empty_pinv)
+include/interface.cuh:126:		(void *)&config->empty_pinv
+include/types.cuh:27:	int empty_pinv;
+include/types.cuh:33:			   int 		empty_pinv = 1)             
+include/types.cuh:34:        : pcg_exit_tol(exit_tol), pcg_max_iter(max_iter), pcg_grid(grid), pcg_block(block), empty_pinv(empty_pinv) {}

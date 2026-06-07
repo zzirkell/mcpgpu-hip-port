@@ -1,0 +1,3 @@
+rm -rf *.exe
+nvcc --compiler-options -Wall  -O3 -I../include -I../GLASS   -DKNOT_POINTS=3 -DSTATE_SIZE=2 pcg_solve.cu -o pcg.exe 
+nvcc --compiler-options -Wall  -O3 -I../include -I../GLASS   -DKNOT_POINTS=3 -DSTATE_SIZE=2 pcg_solve.cu -o pcg_dp.exe 
