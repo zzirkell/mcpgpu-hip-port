@@ -1,6 +1,14 @@
 ### Portability notes!!!
 
 General CUDA → HIP findings that may affect the real MPCGPU port are collected in: portability_notes.md
+
+## COMMANDS TO RUN ALL TESTS AT ONCE ON AMD!
+```bash
+make clean
+make clean-generated
+make run-all-hip-amd-tests
+```
+
 # MPCGPU CUDA API Call Collection
 
 This folder contains small isolated tests for CUDA API calls that are relevant for CUDA → HIP porting.

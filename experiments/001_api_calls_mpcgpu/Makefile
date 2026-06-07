@@ -2,9 +2,15 @@ CUDA_NATIVE ?= /usr/local/cuda
 CUDA_FOR_HIP ?= $(CUDA_NATIVE)
 ROCM_PATH ?= /opt/rocm-7.2.0
 
-NVCC ?= $(CUDA_NATIVE)/bin/nvcc
-HIPCC ?= hipcc
-HIPIFY ?= hipify-perl
+# masha local
+#NVCC ?= $(CUDA_NATIVE)/bin/nvcc
+#HIPCC ?= hipcc
+#HIPIFY ?= hipify-perl
+
+# Server
+NVCC = nvcc
+HIPCC = /opt/rocm/bin/hipcc
+HIPIFY = /opt/rocm/bin/hipify-perl
 
 NVCC_FLAGS = -std=c++17 -O2
 HIPCC_FLAGS = -std=c++17 -O2
@@ -13,7 +19,9 @@ BIN_DIR = bin
 HIPIFY_DIR = hipify_generated
 CUDA_DIR = cuda
 
-AMD_ARCH ?= gfx1103
+# for server with the integrated GPU: gfx1101
+# masha local: gfx1103
+AMD_ARCH ?= gfx1101
 
 TEST_NAME ?= 001_basic_malloc_memcpy_free
 
@@ -75,7 +83,7 @@ HIP_AMD_ENV = env \
 	cuda hipify hip hip-nvidia hip-amd \
 	run-cuda run-hip run-hip-nvidia run-hip-amd run-all \
 	check-hip-amd check-hip-nvidia \
-	diff run-all-tests \
+	diff run-all-tests run-all-hip-amd-tests hipify-all \
 	clean clean-generated clean-all
 
 all: cuda
@@ -155,3 +163,22 @@ clean-generated:
 	rm -rf $(HIPIFY_DIR)
 
 clean-all: clean clean-generated
+hipify-all:
+	@set -e; \
+	for t in $(TESTS); do \
+		echo ""; \
+		echo "=============================="; \
+		echo "HIPIFY $$t"; \
+		echo "=============================="; \
+		$(MAKE) hipify TEST_NAME=$$t; \
+	done
+
+run-all-hip-amd-tests:
+	@set -e; \
+	for t in $(TESTS); do \
+		echo ""; \
+		echo "=============================="; \
+		echo "HIP AMD test: $$t"; \
+		echo "=============================="; \
+		$(MAKE) run-hip-amd TEST_NAME=$$t; \
+	done
