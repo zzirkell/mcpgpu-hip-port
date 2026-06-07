@@ -2,6 +2,18 @@
 
 This repository contains setup notes, small experiments, and later the MPCGPU CUDA → HIP porting work.
 
+### HIP port folder
+
+Cleaned HIP ports are stored in:
+
+```bash
+hip_port/
+```
+concretely:
+```bash
+hip_port/GBD-PCG/ # standalone HIP AMD port of the GBD-PCG solver
+...
+```
 ### CUDA setup and basic programs
 
 To start working with CUDA, look at:
@@ -57,4 +69,18 @@ The detailed porting plan, ownership split, and scan findings are in:
 docs/project_plan/mpcgpu_overview_plan.md              # main detailed project plan
 docs/project_plan/final_table_separation.md            # concrete test/feature ownership table
 docs/project_plan/tobias_grep_findings/                # grep/static-scan findings for CUDA usage
+```
+
+### Standalone GBD-PCG CUDA → HIP port
+
+To see the first real MPCGPU component port, look at:
+
+```bash
+experiments/003_pcg/                 # step-by-step CUDA baseline and HIP porting experiment
+experiments/003_pcg/global_report.md        # notes, fixes, commands, and results
+hip_port/GBD-PCG/                    # cleaned standalone HIP AMD port of GBD-PCG
+```
+GBD-PCG was copied, fixed, translated with HIPIFY, compiled, and tested. use to run:
+```cd hip_port/GBD-PCG/examples
+make run-hip
 ```
