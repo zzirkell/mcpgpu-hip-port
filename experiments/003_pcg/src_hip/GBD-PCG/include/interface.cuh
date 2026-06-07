@@ -129,7 +129,18 @@ uint32_t solvePCG(const uint32_t state_size,
 
     size_t ppcg_kernel_smem_size = pcgSharedMemSize<T>(state_size, knot_points);
 
-    gpuErrchk(hipLaunchCooperativeKernel(reinterpret_cast<const void*>(pcg_kernel), knot_points, pcg_constants::DEFAULT_BLOCK, kernelArgs, ppcg_kernel_smem_size));    
+    dim3 pcg_grid(knot_points);
+    dim3 pcg_block = pcg_constants::DEFAULT_BLOCK;
+    hipStream_t pcg_stream = 0;
+
+    gpuErrchk(hipLaunchCooperativeKernel(
+        reinterpret_cast<const void*>(pcg_kernel),
+        pcg_grid,
+        pcg_block,
+        kernelArgs,
+        static_cast<unsigned int>(ppcg_kernel_smem_size),
+        pcg_stream
+    ));    
     gpuErrchk(hipPeekAtLastError());
 
 

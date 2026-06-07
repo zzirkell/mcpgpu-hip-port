@@ -1,5 +1,7 @@
 #pragma once
 #include <stdio.h>
+#include <stdlib.h>
+#include <hip/hip_runtime.h>
 
 
 inline void gpuAssert(hipError_t code, const char *file, int line, bool abort=true)
