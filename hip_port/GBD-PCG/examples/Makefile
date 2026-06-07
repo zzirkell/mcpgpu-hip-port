@@ -5,10 +5,10 @@ examples: pcg.exe pcg_dp.exe
 
 
 pcg.exe:
-	$(NVCC) $(CFLAGS) -DKNOT_POINTS=3 -DSTATE_SIZE=2 pcg_solve.cu -o pcg.exe 
+	$(NVCC) $(CFLAGS) -DKNOT_POINTS=3 -DSTATE_SIZE=2 pcg_solve.hip.cpp -o pcg.exe 
 
 pcg_dp.exe:
-	$(NVCC) $(CFLAGS) -DKNOT_POINTS=3 -DSTATE_SIZE=2 pcg_solve_dp.cu -o pcg_dp.exe
+	$(NVCC) $(CFLAGS) -DKNOT_POINTS=3 -DSTATE_SIZE=2 pcg_solve_dp.hip.cpp -o pcg_dp.exe
 
 clean:
 	rm -rf *.exe

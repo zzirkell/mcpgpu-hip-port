@@ -2,7 +2,7 @@
 
 #include <cstdint>              // for uint32_t
 #include <hip/hip_runtime.h>       // for dim3
-#include "constants.cuh"
+#include "constants.hip.hpp"
 
 template <typename T>
 struct csr_t{

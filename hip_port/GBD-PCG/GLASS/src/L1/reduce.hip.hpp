@@ -1,7 +1,7 @@
 #include "hip/hip_runtime.h"
 #include <cstdint>
 #include <hip/hip_cooperative_groups.h>
-#include "copy.cuh"
+#include "copy.hip.hpp"
 namespace cgrps = cooperative_groups;
 
 template <typename T>

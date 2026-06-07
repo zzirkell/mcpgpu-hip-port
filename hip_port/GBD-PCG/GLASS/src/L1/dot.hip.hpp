@@ -3,7 +3,7 @@
 #include <hip/hip_cooperative_groups.h>
 namespace cgrps = cooperative_groups;
 
-#include "reduce.cuh"
+#include "reduce.hip.hpp"
 
 
 /*

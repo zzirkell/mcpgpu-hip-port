@@ -1,9 +1,9 @@
 #pragma once
 #include <iostream>
 #include <stdint.h>
-#include "gpuassert.cuh"
-#include "types.cuh"
-#include "pcg.cuh"
+#include "gpuassert.hip.hpp"
+#include "types.hip.hpp"
+#include "pcg.hip.hpp"
 
 template <typename T>
 uint32_t solvePCG(

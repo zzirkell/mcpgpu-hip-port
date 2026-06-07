@@ -1,8 +1,8 @@
 #pragma once
 #include <stdint.h>
 #include <hip/hip_cooperative_groups.h>
-#include "types.cuh"
-#include "glass.cuh"
+#include "types.hip.hpp"
+#include "glass.hip.hpp"
 
 namespace cgrps = cooperative_groups;
 

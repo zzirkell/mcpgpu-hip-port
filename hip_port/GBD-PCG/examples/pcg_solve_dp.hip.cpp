@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdio.h>
-#include "gpu_pcg.cuh"
-#include "gpuassert.cuh"
+#include "gpu_pcg.hip.hpp"
+#include "gpuassert.hip.hpp"
 
 
 

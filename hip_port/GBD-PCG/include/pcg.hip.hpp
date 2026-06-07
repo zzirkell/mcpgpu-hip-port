@@ -3,10 +3,10 @@
 #include <stdint.h>
 #include <hip/hip_runtime.h>
 #include <hip/hip_cooperative_groups.h>
-#include "types.cuh"
-#include "gpuassert.cuh"
-#include "utils.cuh"
-#include "glass.cuh"
+#include "types.hip.hpp"
+#include "gpuassert.hip.hpp"
+#include "utils.hip.hpp"
+#include "glass.hip.hpp"
 
 
 namespace cgrps = cooperative_groups;
