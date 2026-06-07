@@ -6,8 +6,6 @@ For this phase, port only this folder from the original MPCGPU repo:
 MPCGPU/GBD-PCG/
 ```
 
----
-
 ## Exact files in scope
 
 ### 0. Example entry points
@@ -55,7 +53,6 @@ Purpose: GLASS math helpers included by the PCG solver.
 
 Even if some L3 files are not heavily used by the small PCG example, they are included through `glass.cuh`, so they should be translated together.
 
----
 
 ## Translation/testing order
 
@@ -119,3 +116,76 @@ GBD-PCG returned in 1 iters.
 Lambda:
 -303.708 -46.4161 -315.182 -14.898 -298.795 13.5047
 ```
+## Step 03: HIPIFY and first HIP compile fixes
+
+Goal: translate the patched CUDA baseline to HIP and compile it on the AMD server.
+
+
+
+
+
+### HIPIFY
+
+The full `GBD-PCG` working copy was translated with `hipify-perl`.
+
+The example entry files were renamed for clarity:
+
+```text
+examples/pcg_solve.cu -> examples/pcg_solve.hip.cpp
+examples/pcg_solve_dp.cu -> examples/pcg_solve_dp.hip.cpp
+```
+
+Internal `.cuh` headers were kept as `.cuh` for now to avoid unnecessary include-renaming noise.
+
+### Fix 1: missing HIP runtime include
+
+After HIPIFY, `gpuassert.cuh` used `hipError_t` and `hipSuccess`, but did not include the HIP runtime header directly.
+
+Fix:
+
+```cpp
+#include <hip/hip_runtime.h>
+```
+
+### Fix 2: cooperative kernel launch signature
+
+HIPIFY translated the cooperative launch, but kept the short CUDA-style call.
+
+HIP needs the full explicit form:
+
+```cpp
+dim3 pcg_grid(knot_points);
+dim3 pcg_block = pcg_constants::DEFAULT_BLOCK;
+hipStream_t pcg_stream = 0;
+
+gpuErrchk(hipLaunchCooperativeKernel(
+    reinterpret_cast<const void*>(pcg_kernel),
+    pcg_grid,
+    pcg_block,
+    kernelArgs,
+    static_cast<unsigned int>(ppcg_kernel_smem_size),
+    pcg_stream
+));
+```
+
+This is the same issue already found in isolated test `011`.
+
+### Result
+
+The HIP float and double standalone examples compile and run on the AMD server.
+
+Float output:
+
+```text
+GBD-PCG returned in 1 iters.
+Lambda:
+-303.708 -46.4161 -315.182 -14.898 -298.795 13.5047
+```
+
+Double output also runs successfully and matches the CUDA double baseline closely.
+
+### Current warning
+
+The HIP build still prints warnings about ignored `hipError_t` return values, mostly from `hipFree` and `hipGetDeviceProperties`.
+
+These are cleanup warnings, not runtime blockers. They should be fixed later by wrapping those calls with `gpuErrchk(...)`.
