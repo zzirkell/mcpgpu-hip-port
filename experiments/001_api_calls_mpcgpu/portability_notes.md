@@ -252,11 +252,6 @@ a different synchronization strategy
 testing on another AMD/Linux setup with better cooperative launch support
 ```
 
-### Current decision
-
-Do not block the whole project on this local AMD WSL result.
-
-Continue testing the exact PCG-related features, but document clearly when a test passes on NVIDIA and fails or is skipped on AMD because of missing cooperative launch support.
 ---
 
 ## P005: Cooperative kernel launch needs explicit full signature
@@ -321,7 +316,7 @@ HIP AMD WSL/iGPU: SKIP, because cooperativeLaunch = 0
 ```
 
 This AMD result is a local backend/device limitation, not a HIPIFY failure. The same test should be run on the real AMD Linux target.
-## P004: cuBLAS to hipBLAS needs separate build and runtime validation
+## P006: cuBLAS to hipBLAS needs separate build and runtime validation
 
 ### Found in
 
