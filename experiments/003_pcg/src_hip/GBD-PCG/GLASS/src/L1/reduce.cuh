@@ -1,5 +1,6 @@
+#include "hip/hip_runtime.h"
 #include <cstdint>
-#include <cooperative_groups.h>
+#include <hip/hip_cooperative_groups.h>
 #include "copy.cuh"
 namespace cgrps = cooperative_groups;
 

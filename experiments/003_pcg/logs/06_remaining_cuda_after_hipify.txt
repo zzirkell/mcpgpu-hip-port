@@ -1,0 +1,5 @@
+include/pcg.cuh.before_empty_pinv_fix:3:#include <cuda_runtime.h>
+include/pcg.cuh.before_empty_pinv_fix:29:    cudaDeviceProp deviceProp; 
+include/pcg.cuh.before_empty_pinv_fix:30:    cudaGetDeviceProperties(&deviceProp, dev);
+include/pcg.cuh.before_empty_pinv_fix:33:    gpuErrchk(cudaDeviceGetAttribute(&supportsCoopLaunch, cudaDevAttrCooperativeLaunch, dev));
+include/pcg.cuh.before_empty_pinv_fix:41:    gpuErrchk(cudaOccupancyMaxActiveBlocksPerMultiprocessor(&numBlocksPerSm, kernel, block.x*block.y*block.z, smem_size));

@@ -37,26 +37,26 @@ uint32_t solvePCG(
     /* Create device memory d_s, d_Pinv, d_gamma, d_lambda, d_r, d_p, d_v_temp
 	d_eta_new_temp */
 	T *d_S, *d_gamma, *d_lambda;
-	gpuErrchk(cudaMalloc(&d_lambda, stateSize*knotPoints*sizeof(T)));
-	gpuErrchk(cudaMalloc(&d_S, 3*states_sq*knotPoints*sizeof(T)));
-    gpuErrchk(cudaMalloc(&d_gamma, stateSize*knotPoints*sizeof(T)));
+	gpuErrchk(hipMalloc(&d_lambda, stateSize*knotPoints*sizeof(T)));
+	gpuErrchk(hipMalloc(&d_S, 3*states_sq*knotPoints*sizeof(T)));
+    gpuErrchk(hipMalloc(&d_gamma, stateSize*knotPoints*sizeof(T)));
 
 
 	T *d_Pinv;
-    gpuErrchk(cudaMalloc(&d_Pinv, 3*states_sq*knotPoints*sizeof(T)));
+    gpuErrchk(hipMalloc(&d_Pinv, 3*states_sq*knotPoints*sizeof(T)));
     
     /*   PCG vars   */
     T  *d_r, *d_p, *d_v_temp, *d_eta_new_temp;
-    gpuErrchk(cudaMalloc(&d_r, stateSize*knotPoints*sizeof(T)));
-    gpuErrchk(cudaMalloc(&d_p, stateSize*knotPoints*sizeof(T)));
-    gpuErrchk(cudaMalloc(&d_v_temp, knotPoints*sizeof(T)));
-    gpuErrchk(cudaMalloc(&d_eta_new_temp, knotPoints*sizeof(T)));
+    gpuErrchk(hipMalloc(&d_r, stateSize*knotPoints*sizeof(T)));
+    gpuErrchk(hipMalloc(&d_p, stateSize*knotPoints*sizeof(T)));
+    gpuErrchk(hipMalloc(&d_v_temp, knotPoints*sizeof(T)));
+    gpuErrchk(hipMalloc(&d_eta_new_temp, knotPoints*sizeof(T)));
 
 
 	/* Copy s, gamma, lambda*/
-	gpuErrchk(cudaMemcpy(d_S, h_S, 3 * states_sq * knotPoints * sizeof(T), cudaMemcpyHostToDevice));
-	gpuErrchk(cudaMemcpy(d_lambda, h_lambda, stateSize * knotPoints * sizeof(T), cudaMemcpyHostToDevice));
-	gpuErrchk(cudaMemcpy(d_gamma, h_gamma, stateSize * knotPoints * sizeof(T), cudaMemcpyHostToDevice));
+	gpuErrchk(hipMemcpy(d_S, h_S, 3 * states_sq * knotPoints * sizeof(T), hipMemcpyHostToDevice));
+	gpuErrchk(hipMemcpy(d_lambda, h_lambda, stateSize * knotPoints * sizeof(T), hipMemcpyHostToDevice));
+	gpuErrchk(hipMemcpy(d_gamma, h_gamma, stateSize * knotPoints * sizeof(T), hipMemcpyHostToDevice));
 
 
 	solvePCG(stateSize, knotPoints,
@@ -72,18 +72,18 @@ uint32_t solvePCG(
 
 
     /* Copy data back */
-	gpuErrchk(cudaMemcpy(h_S, d_S, 3 * states_sq * knotPoints * sizeof(T), cudaMemcpyDeviceToHost));
-	gpuErrchk(cudaMemcpy(h_lambda, d_lambda, stateSize * knotPoints * sizeof(T), cudaMemcpyDeviceToHost));
-	gpuErrchk(cudaMemcpy(h_gamma, d_gamma, stateSize * knotPoints * sizeof(T), cudaMemcpyDeviceToHost));
+	gpuErrchk(hipMemcpy(h_S, d_S, 3 * states_sq * knotPoints * sizeof(T), hipMemcpyDeviceToHost));
+	gpuErrchk(hipMemcpy(h_lambda, d_lambda, stateSize * knotPoints * sizeof(T), hipMemcpyDeviceToHost));
+	gpuErrchk(hipMemcpy(h_gamma, d_gamma, stateSize * knotPoints * sizeof(T), hipMemcpyDeviceToHost));
 
-	cudaFree(d_lambda);
-	cudaFree(d_S);
-	cudaFree(d_gamma);
-	cudaFree(d_Pinv);
-	cudaFree(d_r);
-	cudaFree(d_p);
-	cudaFree(d_v_temp);
-	cudaFree(d_eta_new_temp);
+	hipFree(d_lambda);
+	hipFree(d_S);
+	hipFree(d_gamma);
+	hipFree(d_Pinv);
+	hipFree(d_r);
+	hipFree(d_p);
+	hipFree(d_v_temp);
+	hipFree(d_eta_new_temp);
 
 	return 1;
 }
@@ -103,9 +103,9 @@ uint32_t solvePCG(const uint32_t state_size,
                   struct pcg_config<T> *config)
 {
     uint32_t *d_pcg_iters;
-    gpuErrchk(cudaMalloc(&d_pcg_iters, sizeof(uint32_t)));
+    gpuErrchk(hipMalloc(&d_pcg_iters, sizeof(uint32_t)));
     bool *d_pcg_exit;
-    gpuErrchk(cudaMalloc(&d_pcg_exit, sizeof(bool)));
+    gpuErrchk(hipMalloc(&d_pcg_exit, sizeof(bool)));
     
     void *pcg_kernel = (void *) pcg<T, STATE_SIZE, KNOT_POINTS>;
 
@@ -129,16 +129,16 @@ uint32_t solvePCG(const uint32_t state_size,
 
     size_t ppcg_kernel_smem_size = pcgSharedMemSize<T>(state_size, knot_points);
 
-    gpuErrchk(cudaLaunchCooperativeKernel(pcg_kernel, knot_points, pcg_constants::DEFAULT_BLOCK, kernelArgs, ppcg_kernel_smem_size));    
-    gpuErrchk(cudaPeekAtLastError());
+    gpuErrchk(hipLaunchCooperativeKernel(reinterpret_cast<const void*>(pcg_kernel), knot_points, pcg_constants::DEFAULT_BLOCK, kernelArgs, ppcg_kernel_smem_size));    
+    gpuErrchk(hipPeekAtLastError());
 
 
-    gpuErrchk(cudaMemcpy(&h_pcg_iters, d_pcg_iters, sizeof(uint32_t), cudaMemcpyDeviceToHost));
+    gpuErrchk(hipMemcpy(&h_pcg_iters, d_pcg_iters, sizeof(uint32_t), hipMemcpyDeviceToHost));
 
 
 
-    gpuErrchk(cudaFree(d_pcg_iters));
-	gpuErrchk(cudaFree(d_pcg_exit));
+    gpuErrchk(hipFree(d_pcg_iters));
+	gpuErrchk(hipFree(d_pcg_exit));
 
     return h_pcg_iters;
 }

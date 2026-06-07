@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>              // for uint32_t
-#include <cuda_runtime.h>       // for dim3
+#include <hip/hip_runtime.h>       // for dim3
 #include "constants.cuh"
 
 template <typename T>

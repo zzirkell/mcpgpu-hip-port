@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include <cooperative_groups.h>
+#include <hip/hip_cooperative_groups.h>
 #include "types.cuh"
 #include "glass.cuh"
 

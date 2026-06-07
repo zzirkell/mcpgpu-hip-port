@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include <cuda_runtime.h>
+#include <hip/hip_runtime.h>
 
 #ifndef STATE_SIZE
 #define STATE_SIZE  3

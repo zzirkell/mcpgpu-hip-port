@@ -1,5 +1,5 @@
 #pragma once
-#include <cooperative_groups.h>
+#include <hip/hip_cooperative_groups.h>
 namespace glass{
     /*      L1      */
     #include "./src/L1/axpy.cuh"

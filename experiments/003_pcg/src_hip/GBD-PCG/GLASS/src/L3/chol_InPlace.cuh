@@ -1,3 +1,4 @@
+#include "hip/hip_runtime.h"
 /**
  * @brief Perform a Cholesky decomposition in place.
  *

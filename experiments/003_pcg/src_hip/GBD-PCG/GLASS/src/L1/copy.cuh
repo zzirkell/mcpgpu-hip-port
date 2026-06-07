@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include <cooperative_groups.h>
+#include <hip/hip_cooperative_groups.h>
 namespace cgrps = cooperative_groups;
 
 /*
