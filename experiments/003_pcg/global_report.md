@@ -184,8 +184,23 @@ Lambda:
 
 Double output also runs successfully and matches the CUDA double baseline closely.
 
-### Current warning
+## Final standalone GBD-PCG result
 
-The HIP build still prints warnings about ignored `hipError_t` return values, mostly from `hipFree` and `hipGetDeviceProperties`.
+| Version | Float | Double | Notes |
+|---|---|---|---|
+| CUDA | PASS | PASS | Patched baseline. |
+| HIP AMD | PASS | PASS | Runs on AMD server with cooperative launch. |
 
-These are cleanup warnings, not runtime blockers. They should be fixed later by wrapping those calls with `gpuErrchk(...)`.
+Conclusion: standalone GBD-PCG is portable to HIP AMD after small fixes.
+```
+mmp_hybridmpc@c3po:~/mpcgpu_project/mcpgpu-hip-port/experiments/003_pcg/src_hip/GBD-PCG/examples$ make run-hip
+/opt/rocm/bin/hipcc -std=c++17 -O3 --offload-arch=gfx1101 -I../include -I../GLASS -DKNOT_POINTS=3 -DSTATE_SIZE=2 pcg_solve.hip.cpp -o pcg_hip.exe
+/opt/rocm/bin/hipcc -std=c++17 -O3 --offload-arch=gfx1101 -I../include -I../GLASS -DKNOT_POINTS=3 -DSTATE_SIZE=2 pcg_solve_dp.hip.cpp -o pcg_dp_hip.exe
+./pcg_hip.exe
+GBD-PCG returned in 1 iters.
+Lambda: 
+-303.708 -46.4161 -315.182 -14.898 -298.795 13.5047 
+./pcg_dp_hip.exe
+GBD-PCG returned in 1 iters.
+Lambda: 
+-303.703 -46.4159 -315.176 -14.8983 -298.791 13.5038 ```

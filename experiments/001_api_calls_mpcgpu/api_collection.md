@@ -1,14 +1,6 @@
 ### Portability notes!!!
 
 General CUDA → HIP findings that may affect the real MPCGPU port are collected in: portability_notes.md
-
-## COMMANDS TO RUN ALL TESTS AT ONCE ON AMD!
-```bash
-make clean
-make clean-generated
-make run-all-hip-amd-tests
-```
-
 # MPCGPU CUDA API Call Collection
 
 This folder contains small isolated tests for CUDA API calls that are relevant for CUDA → HIP porting.
@@ -202,37 +194,66 @@ check that returned values are valid
 | `cudaDevAttrMultiProcessorCount`                | HIP equivalent                                 | Number of GPU compute units / SMs.              |
 | `cudaDevAttrCooperativeLaunch`                  | HIP equivalent                                 | Whether cooperative kernel launch is supported. |
 | `cudaOccupancyMaxActiveBlocksPerMultiprocessor` | `hipOccupancyMaxActiveBlocksPerMultiprocessor` | Estimates active blocks per SM/CU for a kernel. |
-## Test 012: cooperative launch with dynamic shared memory
+## Test 010: cooperative groups block synchronization
 
 Files:
 
 ```text
-cuda/012_cooperative_launch_shared_memory.cu
-hipify_generated/012_cooperative_launch_shared_memory.hip.cpp
+cuda/010_cooperative_groups_block.cu
+hipify_generated/010_cooperative_groups_block.hip.cpp
 ```
-
-This test checks cooperative kernel launch together with dynamic shared memory.
-
+This test checks whether CUDA cooperative groups work for block-level synchronization after HIPIFY.
 ```
-check whether cooperative launch is supported
-if not supported, skip cleanly
-allocate GPU memory for block sums and final result
-launch cooperative kernel with dynamic shared memory
-each block reduces values in shared memory
-grid.sync() synchronizes all blocks
-one thread combines block sums into final result
+include cooperative groups header
+create a thread block group inside the kernel
+each thread gets its rank inside the block
+each thread writes one value into shared memory
+synchronize the whole block using block.sync()
+one thread per block sums the shared values
+copy results back to CPU
+check block size and block sums
+```
+### CUDA features tested
+| CUDA / feature                            | HIPIFY result                 | Meaning                                         |
+| ----------------------------------------- | ----------------------------- | ----------------------------------------------- |
+| `cooperative_groups.h`                    | HIP cooperative groups header | Header for cooperative groups API.              |
+| `cooperative_groups::this_thread_block()` | HIP equivalent                | Creates a group representing the current block. |
+| `cooperative_groups::thread_block`        | HIP equivalent                | Type representing one thread block.             |
+| `block.thread_rank()`                     | same / HIP equivalent         | Thread rank inside the block group.             |
+| `block.size()`                            | same / HIP equivalent         | Number of threads in the block group.           |
+| `block.sync()`                            | same / HIP equivalent         | Synchronizes all threads in the block group.    |
+| `__shared__`                              | same                          | Shared memory used by threads in one block.     |
+
+## Test 011: cooperative groups grid synchronization
+
+Files:
+
+```text
+cuda/011_cooperative_groups_grid_sync.cu
+hipify_generated/011_cooperative_groups_grid_sync.hip.cpp
+```
+This test checks whether grid-level cooperative groups and cooperative kernel launch work after HIPIFY.
+```
+query whether cooperative launch is supported
+if not supported, skip the test cleanly
+allocate GPU memory
+launch a cooperative kernel using cudaLaunchCooperativeKernel
+inside the kernel, write data from all threads
+synchronize the whole grid using grid.sync()
+one thread sums the data after grid synchronization
 copy result back to CPU
-check expected sum
+check the final sum
 ```
 ### CUDA API / features tested
-| CUDA / feature                        | HIPIFY result                | Meaning                                        |
-| ------------------------------------- | ---------------------------- | ---------------------------------------------- |
-| `extern __shared__`                   | same                         | Dynamic shared memory inside kernel.           |
-| `__syncthreads()`                     | same                         | Synchronizes threads inside one block.         |
-| `cooperative_groups::this_grid()`     | HIP equivalent               | Creates full-grid cooperative group.           |
-| `grid.sync()`                         | HIP equivalent               | Synchronizes all blocks in cooperative launch. |
-| `cudaLaunchCooperativeKernel`         | `hipLaunchCooperativeKernel` | Explicit cooperative kernel launch.            |
-| `shared_memory_bytes` launch argument | same role                    | Controls dynamic shared memory size.           |
+| CUDA / feature                    | HIPIFY result                | Meaning                                                        |
+| --------------------------------- | ---------------------------- | -------------------------------------------------------------- |
+| `cooperative_groups::this_grid()` | HIP equivalent               | Creates a group representing the whole launched grid.          |
+| `cooperative_groups::grid_group`  | HIP equivalent               | Type representing all threads in the cooperative grid.         |
+| `grid.sync()`                     | HIP equivalent               | Synchronizes all threads in the cooperative grid.              |
+| `cudaDeviceGetAttribute`          | `hipDeviceGetAttribute`      | Used to check whether cooperative launch is supported.         |
+| `cudaDevAttrCooperativeLaunch`    | HIP equivalent               | Device capability flag for cooperative launch.                 |
+| `cudaLaunchCooperativeKernel`     | `hipLaunchCooperativeKernel` | Launches a kernel that supports grid-wide synchronization.     |
+| `cudaStream_t`                    | `hipStream_t`                | Stream type used by the explicit cooperative launch signature. |
 
 ## Test 015: HIP header translation
 
@@ -261,164 +282,3 @@ check all return values
 | `cudaGetDeviceCount` | `hipGetDeviceCount`     | Returns number of visible GPU devices.    |
 | `cudaGetDevice`      | `hipGetDevice`          | Returns currently selected GPU device.    |
 | `cudaSetDevice`      | `hipSetDevice`          | Selects active GPU device.                |
-## Test 16: blas_axpy usage
-
-### Purpose
-
-This test checks CUDA BLAS usage from cuBLAS and its HIPIFY translation to hipBLAS.
-
-It is important because MPCGPU uses NVIDIA libraries in addition to normal CUDA runtime calls. These library calls are not kernels written by us, but they still have to be translated and linked correctly for HIP.
-
-### CUDA features tested
-
-| CUDA / cuBLAS item | HIPIFY result | Meaning |
-| --- | --- | --- |
-| `#include <cublas_v2.h>` | `#include <hipblas.h>` | BLAS library header |
-| `cublasHandle_t` | `hipblasHandle_t` | BLAS context/handle |
-| `cublasCreate` | `hipblasCreate` | Creates BLAS handle |
-| `cublasDestroy` | `hipblasDestroy` | Destroys BLAS handle |
-| `cublasSaxpy` | `hipblasSaxpy` | Single-precision AXPY: `y = alpha*x + y` |
-| `cublasDaxpy` | `hipblasDaxpy` | Double-precision AXPY: `y = alpha*x + y` |
-| `CUBLAS_STATUS_SUCCESS` | `HIPBLAS_STATUS_SUCCESS` | Success status check |
-| `cudaMalloc`, `cudaMemcpy`, `cudaFree` | `hipMalloc`, `hipMemcpy`, `hipFree` | Device memory management |
-
-### Result
-
-| Backend | Result | Notes |
-| --- | --- | --- |
-| CUDA / NVIDIA | PASS | cuBLAS works correctly. |
-| HIP / NVIDIA | SKIPPED | Mixed HIP NVIDIA + hipBLAS setup is not reliable locally. |
-| HIP / AMD WSL / gfx1103 | COMPILES, RUNTIME FAILS | Program builds, but crashes with segmentation fault inside the hipBLAS/rocBLAS runtime path. |
-## Test 17: glass vector helper pattern
-
-This test checks a GLASS-like L1 vector helper pattern:
-
-```cpp
-template <typename T>
-__device__
-void glass_like_copy(const T* src, T* dst, int n)
-```
-GLASS-style helper functions are used in the solver-side code. This test verifies that a small templated __device__ helper can be translated by HIPIFY and executed on CUDA, HIP NVIDIA, and HIP AMD.
-### CUDA/HIP features tested
-| Feature                    | Meaning                                                |
-| -------------------------- | ------------------------------------------------------ |
-| `template <typename T>`    | Same helper works for `float` and `double`.            |
-| `__device__` helper        | Function runs on the GPU and is called by a kernel.    |
-| `__global__` kernel        | Entry point launched from CPU.                         |
-| Grid-stride loop           | Lets all GPU threads cover a vector of arbitrary size. |
-| `cudaMemcpy` / `hipMemcpy` | Copies input/output data between CPU and GPU.          |
-## Test 18: glass axpy_scal
-tested:
-
-| CUDA / feature | HIPIFY result | Meaning |
-|---|---|---|
-| device helper `scal` | same | Scales vector values on GPU. |
-| device helper `axpy` | same | Computes `y = alpha * x + y` on GPU. |
-| `float` and `double` templates | same | Both precision types compile and run. |
-| grid-stride loop inside helper | same | Multiple GPU threads process the vector. |
-
-Conclusion: basic GLASS L1 arithmetic helpers are portable on CUDA, HIP NVIDIA, and HIP AMD.
-## Test 019: GLASS-like L1 reduction / dot / norms
-
-Files:
-
-```text
-cuda/019_glass_l1_reduce_dot_norm.cu
-hipify_generated/019_glass_l1_reduce_dot_norm.hip.cpp
-```
-This test checks GLASS-like L1 reduction helpers. tests:
-```
-dot product
-L2 norm
-infinity norm
-float
-double
-block-level reduction logic
-```
-### CUDA / HIP features tested
-| CUDA / feature                           | HIPIFY result            | Meaning                                   |
-| ---------------------------------------- | ------------------------ | ----------------------------------------- |
-| `__device__` helper functions            | same                     | Small GPU-only functions used by kernels. |
-| `__shared__`                             | same                     | Shared memory used for block reduction.   |
-| `__syncthreads()`                        | same                     | Synchronizes threads during reduction.    |
-| `threadIdx.x`                            | same                     | Thread index inside block.                |
-| `blockDim.x`                             | same                     | Number of threads in block.               |
-| `atomicAdd` or final block write pattern | same / backend-dependent | Combines partial reduction results.       |
-| `float` / `double` math                  | same                     | Confirms both precisions work.            |
-Yes, for your **Masha part**, `021_glass_l3_gemm` is the last planned main test. After this, only `029` is optional/later, and `030` is for both of you together.
-
-Append this to `api_collection.md` after Test 019. I checked the current uploaded md structure before writing this. 
-
-## Test 020: GLASS-like L2 GEMV
-
-Files:
-```text
-cuda/020_glass_l2_gemv.cu
-hipify_generated/020_glass_l2_gemv.hip.cpp
-```
-
-This test checks a GLASS-like L2 matrix-vector multiplication pattern.
-It is relevant because solver code often needs operations of the form:
-y = A * x where `A` is a matrix, `x` is a vector, and `y` is the output vector.
-
-The test checks:
-
-```text
-float matrix-vector multiplication
-double matrix-vector multiplication
-2D data stored in flat 1D arrays
-GPU kernel with one output element per thread
-CUDA → HIPIFY translation
-execution on CUDA, HIP NVIDIA, and HIP AMD
-```
-
-### CUDA / HIP features tested
-
-| CUDA / feature                           | HIPIFY result          | Meaning                                |
-| ---------------------------------------- | ---------------------- | -------------------------------------- |
-| `__global__` kernel                      | same                   | GPU kernel launched from CPU.          |
-| `__device__` helper logic                | same                   | Matrix-vector computation runs on GPU. |
-| Flat matrix indexing                     | same                   | Matrix is stored as a 1D array.        |
-| `float` / `double` templates             | same                   | Both precision types compile and run.  |
-| `cudaMalloc` / `cudaMemcpy` / `cudaFree` | HIP equivalents        | Device memory management.              |
-| `cudaDeviceSynchronize`                  | `hipDeviceSynchronize` | Waits for GPU computation to finish.   |
-
----
-
-## Test 021: GLASS-like L3 GEMM
-
-Files:
-
-```text
-cuda/021_glass_l3_gemm.cu
-hipify_generated/021_glass_l3_gemm.hip.cpp
-```
-
-This test checks a GLASS-like L3 matrix-matrix multiplication pattern.
-
-It is relevant because solver-side code may need operations of the form:
-C = A * B where all matrices are stored in flat GPU arrays.
-
-The test checks:
-
-```text
-float matrix-matrix multiplication
-double matrix-matrix multiplication
-2D matrix indexing in flat arrays
-GPU kernel computing matrix output elements
-CUDA → HIPIFY translation
-execution on CUDA, HIP NVIDIA, and HIP AMD
-```
-
-### CUDA / HIP features tested
-
-| CUDA / feature                           | HIPIFY result          | Meaning                                |
-| ---------------------------------------- | ---------------------- | -------------------------------------- |
-| `__global__` kernel                      | same                   | GPU kernel launched from CPU.          |
-| `__device__` helper logic                | same                   | Matrix-matrix computation runs on GPU. |
-| Flat matrix indexing                     | same                   | Matrices are stored as 1D arrays.      |
-| `float` / `double` templates             | same                   | Both precision types compile and run.  |
-| `dim3` grid/block setup                  | same                   | 2D GPU launch configuration.           |
-| `threadIdx` / `blockIdx`                 | same                   | Used to choose matrix output element.  |
-| `cudaMalloc` / `cudaMemcpy` / `cudaFree` | HIP equivalents        | Device memory management.              |
-| `cudaDeviceSynchronize`                  | `hipDeviceSynchronize` | Waits for GPU computation to finish.   |
