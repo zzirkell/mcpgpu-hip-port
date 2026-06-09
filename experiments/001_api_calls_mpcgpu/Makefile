@@ -83,7 +83,7 @@ HIP_AMD_ENV = env \
 	cuda hipify hip hip-nvidia hip-amd \
 	run-cuda run-hip run-hip-nvidia run-hip-amd run-all \
 	check-hip-amd check-hip-nvidia \
-	diff run-all-tests run-all-hip-amd-tests hipify-all \
+	diff run-all-tests run-all-hip-amd-tests run-all-hip-nvidia-tests hipify-all \
 	clean clean-generated clean-all
 
 all: cuda
@@ -145,6 +145,16 @@ check-hip-nvidia:
 
 diff: hipify
 	diff -u $(CUDA_SRC) $(HIP_SRC) || true
+
+run-all-hip-nvidia-tests:
+	@set -e; \
+	for t in $(TESTS); do \
+		echo ""; \
+		echo "=============================="; \
+		echo "HIP NVIDIA test: $$t"; \
+		echo "=============================="; \
+		$(MAKE) run-hip-nvidia TEST_NAME=$$t; \
+	done
 
 run-all-tests:
 	@set -e; \
