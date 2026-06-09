@@ -1,8 +1,11 @@
-CUDA_NATIVE ?= /usr/local/cuda
+SKIP_HIP_NVIDIA = 1 # nvcc not compitable with hip version at the moment?
+
+CUDA_NATIVE ?= /usr
 CUDA_FOR_HIP ?= $(CUDA_NATIVE)
 ROCM_PATH ?= /opt/rocm-7.2.0
 
 # masha local
+#CUDA_NATIVE ?= /usr/local/cuda
 #NVCC ?= $(CUDA_NATIVE)/bin/nvcc
 #HIPCC ?= hipcc
 #HIPIFY ?= hipify-perl
@@ -134,7 +137,9 @@ endif
 run-hip-amd: hip-amd
 	$(HIP_AMD_ENV) ./$(HIP_AMD_BIN)
 
-run-all: run-cuda run-hip-nvidia run-hip-amd
+#run-all: run-cuda run-hip-nvidia run-hip-amd
+
+run-all: run-cuda run-hip-amd
 
 check-hip-amd:
 	$(HIP_AMD_ENV) hipconfig --full | sed -n '1,100p'
