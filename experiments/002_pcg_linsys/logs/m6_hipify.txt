@@ -1,0 +1,3 @@
+HIPIFY src_hip/include/pcg/linsys_setup.cuh
+HIPIFY src_hip/include/utils/matrix.cuh
+HIPIFY tests/m6_compile_linsys_setup.hip.cpp

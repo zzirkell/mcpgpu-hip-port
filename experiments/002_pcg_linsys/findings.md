@@ -172,3 +172,36 @@ form_S_gamma_Pinv_kernel is templated on T. The compile-only test instantiates b
 extern __shared__ __align__(16) unsigned char s_temp_raw[];
 T* s_temp = reinterpret_cast<T*>(s_temp_raw);
 ```
+## M6 CUDA compile result
+
+After the manual fixes, the CUDA compile-only baseline succeeded.
+## Manual finding 4: HIP cooperative launch signature
+
+After HIPIFY, `linsys_setup.hip.hpp` still used the short CUDA-style cooperative launch form:
+
+```cpp
+hipLaunchCooperativeKernel(reinterpret_cast<const void*>(kernel), knot_points, 128, args, s_temp_size)
+```
+fix:
+```cpp
+dim3 schur_grid(knot_points);
+dim3 schur_block(SCHUR_THREADS);
+hipStream_t schur_stream = 0;
+
+gpuErrchk(hipLaunchCooperativeKernel(
+    reinterpret_cast<const void*>(kernel),
+    schur_grid,
+    schur_block,
+    args,
+    static_cast<unsigned int>(s_temp_size),
+    schur_stream
+));
+```
+Remaining warning:
+
+matrix.hip.hpp ignores the return value of hipMemcpy2D.
+
+Fix:
+```cpp
+gpuErrchk(hipMemcpy2D(h_matrix, pitch, d_matrix, pitch, pitch, rows, hipMemcpyDeviceToHost));
+```
