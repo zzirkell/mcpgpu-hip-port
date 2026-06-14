@@ -64,7 +64,7 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
     // streams n cublas init
     hipStream_t streams[num_alphas];
     for(uint32_t str = 0; str < num_alphas; str++){
-        hipStreamCreate(&streams[str]);
+        gpuErrchk(hipStreamCreate(&streams[str]));
     }
     gpuErrchk(hipPeekAtLastError());
 
@@ -228,7 +228,18 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
         clock_gettime(CLOCK_MONOTONIC,&linsys_start);
     #endif // #if TIME_LINSYS
 
-        gpuErrchk(hipLaunchCooperativeKernel(reinterpret_cast<const void*>(pcg_kernel), knot_points, PCG_NUM_THREADS, pcgKernelArgs, ppcg_kernel_smem_size));    
+        dim3 pcg_grid(knot_points);
+        dim3 pcg_block(PCG_NUM_THREADS);
+        hipStream_t pcg_stream = 0;
+
+        gpuErrchk(hipLaunchCooperativeKernel(
+            reinterpret_cast<const void*>(pcg_kernel),
+            pcg_grid,
+            pcg_block,
+            pcgKernelArgs,
+            static_cast<unsigned int>(ppcg_kernel_smem_size),
+            pcg_stream
+        ));
         gpuErrchk(hipMemcpy(&pcg_iters, d_pcg_iters, sizeof(uint32_t), hipMemcpyDeviceToHost));
         gpuErrchk(hipMemcpy(&pcg_exit, d_pcg_exit, sizeof(bool), hipMemcpyDeviceToHost));
         gpuErrchk(hipPeekAtLastError());
@@ -279,14 +290,23 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
                 (void *)&d_merit_news,
                 (void *)&d_merit_temp
             };
-            gpuErrchk(hipLaunchCooperativeKernel(reinterpret_cast<const void*>(ls_merit_kernel), knot_points, MERIT_THREADS, kernelArgs, get_merit_smem_size<T>(state_size, knot_points), streams[p]));
-        }
+            dim3 merit_grid(knot_points);
+            dim3 merit_block(MERIT_THREADS);
+
+            gpuErrchk(hipLaunchCooperativeKernel(
+                reinterpret_cast<const void*>(ls_merit_kernel),
+                merit_grid,
+                merit_block,
+                kernelArgs,
+                static_cast<unsigned int>(get_merit_smem_size<T>(state_size, knot_points)),
+                streams[p]
+            ));        }
         if (sqpTimecheck()){ break; }
         gpuErrchk(hipPeekAtLastError());
         gpuErrchk(hipDeviceSynchronize());
         
         
-        hipMemcpy(h_merit_news, d_merit_news, 8*sizeof(T), hipMemcpyDeviceToHost);
+        gpuErrchk(hipMemcpy(h_merit_news, d_merit_news, 8*sizeof(T), hipMemcpyDeviceToHost));
         if (sqpTimecheck()){ break; }
 
 

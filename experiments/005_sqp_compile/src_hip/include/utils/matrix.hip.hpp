@@ -253,7 +253,7 @@ void write_device_matrix_to_file(float* d_matrix, int rows, int cols, const char
 
     // Copy the data from the device to the host memory
     size_t pitch = cols * sizeof(float);
-    hipMemcpy2D(h_matrix, pitch, d_matrix, pitch, pitch, rows, hipMemcpyDeviceToHost);
+    gpuErrchk(hipMemcpy2D(h_matrix, pitch, d_matrix, pitch, pitch, rows, hipMemcpyDeviceToHost));
 
     // Write the data to a file in column-major order
     std::ofstream outfile(fname);

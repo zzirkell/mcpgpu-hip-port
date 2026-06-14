@@ -654,5 +654,16 @@ void form_schur_system(
         (void *) &rho
     };
 
-    gpuErrchk(hipLaunchCooperativeKernel(reinterpret_cast<const void*>(kernel), knot_points, SCHUR_THREADS, args, s_temp_size));
+    dim3 schur_grid(knot_points);
+    dim3 schur_block(SCHUR_THREADS);
+    hipStream_t schur_stream = 0;
+
+    gpuErrchk(hipLaunchCooperativeKernel(
+        reinterpret_cast<const void*>(kernel),
+        schur_grid,
+        schur_block,
+        args,
+        static_cast<unsigned int>(s_temp_size),
+        schur_stream
+    ));
 }
