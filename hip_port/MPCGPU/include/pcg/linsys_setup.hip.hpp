@@ -579,8 +579,7 @@ void form_S_gamma_Pinv_kernel(
     T rho
 ){
 
-    extern __shared__ __align__(16) unsigned char s_temp_raw[];
-T* s_temp = reinterpret_cast<T*>(s_temp_raw);
+    extern __shared__ T s_temp[ ];
 
     for(unsigned blockrow=blockIdx.x; blockrow<knot_points; blockrow+=gridDim.x){
         form_S_gamma_and_jacobi_Pinv_blockrow<T>(

@@ -1,11 +1,10 @@
 #include "hip/hip_runtime.h"
-#pragma once
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <limits>
+#pragma once
 #include <cstdint>
-#include "gpuassert.hip.hpp"
 // TODO: GBD-PCG utils include fix
 #include "utils.hip.hpp"
 
@@ -255,6 +254,7 @@ void write_device_matrix_to_file(float* d_matrix, int rows, int cols, const char
     // Copy the data from the device to the host memory
     size_t pitch = cols * sizeof(float);
     gpuErrchk(hipMemcpy2D(h_matrix, pitch, d_matrix, pitch, pitch, rows, hipMemcpyDeviceToHost));
+
     // Write the data to a file in column-major order
     std::ofstream outfile(fname);
     if (outfile.is_open()) {
