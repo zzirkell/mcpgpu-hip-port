@@ -205,3 +205,5 @@ Fix:
 ```cpp
 gpuErrchk(hipMemcpy2D(h_matrix, pitch, d_matrix, pitch, pitch, rows, hipMemcpyDeviceToHost));
 ```
+
+works both on NVIDIA and AMD without errors.
