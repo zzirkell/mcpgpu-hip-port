@@ -4,7 +4,7 @@
 #include "gpuassert.hip.hpp"
 #include "glass.hip.hpp"
 #include "utils/matrix.hip.hpp"
-
+#include <iostream>
 
 
 template <typename T>
@@ -613,6 +613,67 @@ T* s_temp = reinterpret_cast<T*>(s_temp_raw);
     }
 }
 
+template <typename T>
+__global__
+void form_S_gamma_Pinv_phase1_kernel(
+    uint32_t state_size,
+    uint32_t control_size,
+    uint32_t knot_points,
+    T *d_G,
+    T *d_C,
+    T *d_g,
+    T *d_c,
+    T *d_S,
+    T *d_Pinv,
+    T *d_gamma,
+    T rho
+){
+    extern __shared__ __align__(16) unsigned char s_temp_raw[];
+    T* s_temp = reinterpret_cast<T*>(s_temp_raw);
+
+    for(unsigned blockrow=blockIdx.x; blockrow<knot_points; blockrow+=gridDim.x){
+        form_S_gamma_and_jacobi_Pinv_blockrow<T>(
+            state_size,
+            control_size,
+            knot_points,
+            d_G,
+            d_C,
+            d_g,
+            d_c,
+            d_S,
+            d_Pinv,
+            d_gamma,
+            rho,
+            s_temp,
+            blockrow
+        );
+    }
+}
+
+template <typename T>
+__global__
+void form_S_gamma_Pinv_phase2_kernel(
+    uint32_t state_size,
+    uint32_t knot_points,
+    T *d_S,
+    T *d_Pinv,
+    T *d_gamma
+){
+    extern __shared__ __align__(16) unsigned char s_temp_raw[];
+    T* s_temp = reinterpret_cast<T*>(s_temp_raw);
+
+    for(unsigned blockrow=blockIdx.x; blockrow<knot_points; blockrow+=gridDim.x){
+        complete_SS_Pinv_blockrow<T>(
+            state_size,
+            knot_points,
+            d_S,
+            d_Pinv,
+            d_gamma,
+            s_temp,
+            blockrow
+        );
+    }
+}
 
 /*******************************************************************************
  *                           Interface Functions                                *
@@ -640,31 +701,45 @@ void form_schur_system(
                                             2 * control_size * control_size + 
                                             3);
 
-    void *kernel = (void *) form_S_gamma_Pinv_kernel<T>;
-    void *args[] = {
-        (void *) &state_size,
-        (void *) &control_size,
-        (void *) &knot_points,
-        (void *) &d_G_dense,
-        (void *) &d_C_dense,
-        (void *) &d_g,
-        (void *) &d_c,
-        (void *) &d_S,
-        (void *) &d_Pinv,
-        (void *) &d_gamma,
-        (void *) &rho
-    };
-
     dim3 schur_grid(knot_points);
     dim3 schur_block(SCHUR_THREADS);
     hipStream_t schur_stream = 0;
 
-    gpuErrchk(hipLaunchCooperativeKernel(
-        reinterpret_cast<const void*>(kernel),
+    form_S_gamma_Pinv_phase1_kernel<T><<<
         schur_grid,
         schur_block,
-        args,
         static_cast<unsigned int>(s_temp_size),
         schur_stream
-    ));
+    >>>(
+        state_size,
+        control_size,
+        knot_points,
+        d_G_dense,
+        d_C_dense,
+        d_g,
+        d_c,
+        d_S,
+        d_Pinv,
+        d_gamma,
+        rho
+    );
+
+    gpuErrchk(hipGetLastError());
+    gpuErrchk(hipDeviceSynchronize());
+
+    form_S_gamma_Pinv_phase2_kernel<T><<<
+        schur_grid,
+        schur_block,
+        static_cast<unsigned int>(s_temp_size),
+        schur_stream
+    >>>(
+        state_size,
+        knot_points,
+        d_S,
+        d_Pinv,
+        d_gamma
+    );
+
+    gpuErrchk(hipGetLastError());
+    gpuErrchk(hipDeviceSynchronize());
 }
