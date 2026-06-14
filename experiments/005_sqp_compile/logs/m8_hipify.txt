@@ -1,0 +1,14 @@
+HIPIFY src_hip/include/dynamics/rbd_plant.cuh
+HIPIFY src_hip/include/dynamics/iiwa/iiwa_eepos_grid.cuh
+HIPIFY src_hip/include/dynamics/iiwa/iiwa_grid.cuh
+HIPIFY src_hip/include/dynamics/iiwa/iiwa_plant.cuh
+HIPIFY src_hip/include/dynamics/iiwa/iiwa_eepos_plant.cuh
+HIPIFY src_hip/include/common/kkt.cuh
+HIPIFY src_hip/include/common/integrator.cuh
+HIPIFY src_hip/include/common/dz.cuh
+HIPIFY src_hip/include/common/settings.cuh
+HIPIFY src_hip/include/common/merit.cuh
+HIPIFY src_hip/include/pcg/sqp.cuh
+HIPIFY src_hip/include/pcg/linsys_setup.cuh
+HIPIFY src_hip/include/utils/matrix.cuh
+HIPIFY tests/m8_compile_sqp.hip.cpp

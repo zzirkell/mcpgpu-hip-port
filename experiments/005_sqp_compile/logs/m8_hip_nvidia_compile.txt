@@ -1,0 +1,34 @@
+src_hip/include/utils/matrix.hip.hpp(256): warning #2810-D: ignoring return value type with "nodiscard" attribute
+      hipMemcpy2D(h_matrix, pitch, d_matrix, pitch, pitch, rows, 
+                 ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+src_hip/include/pcg/linsys_setup.hip.hpp(657): error: no instance of overloaded function "hipLaunchCooperativeKernel" matches the argument list
+            argument types are: (const void *, uint32_t, int, void *[11], const uint32_t)
+      { gpuAssert((hipLaunchCooperativeKernel(reinterpret_cast<const void*>(kernel), knot_points, 128, args, s_temp_size)), "src_hip/include/pcg/linsys_setup.hip.hpp", 657); };
+                   ^
+/opt/rocm-7.2.0/include/hip/nvidia_detail/nvidia_hip_runtime_api.h(4190): note #3322-D: number of parameters of function template "hipLaunchCooperativeKernel(T, dim3, dim3, void **, unsigned int, hipStream_t)" does not match the call
+  inline static hipError_t hipLaunchCooperativeKernel(T f, dim3 gridDim, dim3 blockDim,
+                           ^
+/opt/rocm-7.2.0/include/hip/nvidia_detail/nvidia_hip_runtime_api.h(3889): note #3322-D: number of parameters of function "hipLaunchCooperativeKernel(const void *, dim3, dim3, void **, unsigned int, hipStream_t)" does not match the call
+  inline static hipError_t hipLaunchCooperativeKernel(const void* f, dim3 gridDim, dim3 blockDim,
+                           ^
+
+src_hip/include/pcg/sqp.hip.hpp(67): warning #2810-D: ignoring return value type with "nodiscard" attribute
+          hipStreamCreate(&streams[str]);
+                         ^
+
+src_hip/include/pcg/sqp.hip.hpp(231): error: no instance of overloaded function "hipLaunchCooperativeKernel" matches the argument list
+            argument types are: (const void *, const uint32_t, int, void *[12], size_t)
+          { gpuAssert((hipLaunchCooperativeKernel(reinterpret_cast<const void*>(pcg_kernel), knot_points, 128, pcgKernelArgs, ppcg_kernel_smem_size)), "src_hip/include/pcg/sqp.hip.hpp", 231); };
+                       ^
+/opt/rocm-7.2.0/include/hip/nvidia_detail/nvidia_hip_runtime_api.h(4190): note #3322-D: number of parameters of function template "hipLaunchCooperativeKernel(T, dim3, dim3, void **, unsigned int, hipStream_t)" does not match the call
+  inline static hipError_t hipLaunchCooperativeKernel(T f, dim3 gridDim, dim3 blockDim,
+                           ^
+/opt/rocm-7.2.0/include/hip/nvidia_detail/nvidia_hip_runtime_api.h(3889): note #3322-D: number of parameters of function "hipLaunchCooperativeKernel(const void *, dim3, dim3, void **, unsigned int, hipStream_t)" does not match the call
+  inline static hipError_t hipLaunchCooperativeKernel(const void* f, dim3 gridDim, dim3 blockDim,
+                           ^
+
+2 errors detected in the compilation of "tests/m8_compile_sqp.hip.cpp".
+failed to execute:/usr/local/cuda-12.8/bin/nvcc  -Wno-deprecated-gpu-targets  -isystem "/opt/rocm-7.2.0/include" -x cu  -Wno-deprecated-gpu-targets -lcuda -lcudart -L/usr/local/cuda-12.8/lib64  -std=c++17 -O2 -DSCHUR_THREADS=128 -I /opt/rocm-7.2.0/include/hipblas -I src_hip/include -I src_hip/include/common -I src_hip/GLASS -I src_hip/GBD-PCG/include tests/m8_compile_sqp.hip.cpp -L/opt/rocm-7.2.0/lib -L/usr/local/cuda-12.8/lib64 -lhipblas -lcublas -o "bin/m8_compile_sqp_hip_nvidia"
