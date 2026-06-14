@@ -1,0 +1,2 @@
+nvcc fatal   : No input files specified; use option --help for more information
+failed to execute:/usr/local/cuda-12.8/bin/nvcc  -Wno-deprecated-gpu-targets -lcuda -lcudart -L/usr/local/cuda-12.8/lib64  -std=c++17 -O2

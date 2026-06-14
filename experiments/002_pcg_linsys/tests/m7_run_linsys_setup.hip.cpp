@@ -177,9 +177,9 @@ bool run_one_linsys_test(const std::string& label)
     const bool ok = all_finite(h_S) && all_finite(h_Pinv) && all_finite(h_gamma);
 
     std::cout << "\n" << label << std::endl;
-    print_vector("S", h_S);
-    print_vector("Pinv", h_Pinv);
-    print_vector("gamma", h_gamma);
+    print_vector("S", h_S, h_S.size());
+    print_vector("Pinv", h_Pinv, h_Pinv.size());
+    print_vector("gamma", h_gamma, h_gamma.size());
 
     if (!ok) {
         std::cerr << "FAIL: non-finite value detected" << std::endl;
