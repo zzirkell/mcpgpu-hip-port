@@ -1,0 +1,20 @@
+Knot points: 32
+State size: 14
+Datatype: FLOAT
+Sqp exits condition: CONSTANT ITERS
+QD COST: 0.0001
+R COST: 0.0001
+Rho factor: 1.2
+Rho max: 10
+Test iters: 1
+Max sqp iter: 20
+Solver: PCG
+Max pcg iter: 173
+Save data: OFF
+Jitters: OFF
+
+
+start: 0 goal: 0
+pid:44174 tid:0x780133a87000 [topology_sysfs_get_system_props] No WDDM adapters found.
+Logging test results to files with prefix tmp/results/32_PCG_0.000005 
+CUBLAS initialization failed

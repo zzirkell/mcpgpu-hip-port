@@ -4,11 +4,7 @@
 #include <numeric>
 #include <algorithm>
 #include <cstdint>
-#ifdef __HIP_PLATFORM_NVIDIA__
-#include <cublas_v2.h>
-#else
 #include <hipblas.h>
-#endif  
 #include <math.h>
 #include <cmath>
 #include <random>
@@ -16,19 +12,50 @@
 #include <hip/hip_runtime.h>
 #include <tuple>
 #include <time.h>
-#include "linsys_setup.hip.hpp"
-#include "common/kkt.hip.hpp"
-#include "common/dz.hip.hpp"
+#include "qdldl.h"
+#include "qdldl/linsys_setup.hip.hpp"
 #include "merit.hip.hpp"
-#include "gpu_pcg.hip.hpp"
 #include "settings.hip.hpp"
+#include "kkt.hip.hpp"
+#include "dz.hip.hpp"
+
+
+__host__
+void qdldl_solve_schur(const QDLDL_int An,
+					   QDLDL_int *h_col_ptr, QDLDL_int *h_row_ind, QDLDL_float *Ax, QDLDL_float *b, 
+					   QDLDL_float *h_lambda,
+					   QDLDL_int *Lp, QDLDL_int *Li, QDLDL_float *Lx, QDLDL_float *D, QDLDL_float *Dinv, QDLDL_int *Lnz, QDLDL_int *etree, QDLDL_bool *bwork, QDLDL_int *iwork, QDLDL_float *fwork){
+
+	
+
+
+
+    QDLDL_int i;
+
+	const QDLDL_int *Ap = h_col_ptr;
+	const QDLDL_int *Ai = h_row_ind;
+
+    //data for L and D factors
+	QDLDL_int Ln = An;
+
+
+	//Data for results of A\b
+	QDLDL_float *x = h_lambda;
+
+	QDLDL_factor(An,Ap,Ai,Ax,Lp,Li,Lx,D,Dinv,Lnz,etree,bwork,iwork,fwork);
+
+	for(i=0;i < Ln; i++) x[i] = b[i];
+
+	QDLDL_solve(Ln,Lp,Li,Lx,Dinv,x);
+}
+
 
 template <typename T>
-auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const uint32_t knot_points, float timestep, T *d_eePos_traj, T *d_lambda, T *d_xu, void *d_dynMem_const, pcg_config<T>& config, T &rho, T rho_reset){
+auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_points, float timestep, T *d_eePos_traj, T *d_lambda, T *d_xu, void *d_dynMem_const, T &rho, T rho_reset){
     
     // data storage
-    std::vector<int> pcg_iter_vec;
-    std::vector<bool> pcg_exit_vec;
+    std::vector<int> linsys_iter_vec;
+    std::vector<bool> linsys_exit_vec;
     std::vector<double> linsys_time_vec;
     bool sqp_time_exit = 1;     // for data recording, not a flag
     
@@ -38,7 +65,6 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
     struct timespec sqp_solve_start, sqp_solve_end;
     gpuErrchk(hipDeviceSynchronize());
     clock_gettime(CLOCK_MONOTONIC, &sqp_solve_start);
-
 
 
     const uint32_t states_sq = state_size*state_size;
@@ -68,25 +94,12 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
     // streams n cublas init
     hipStream_t streams[num_alphas];
     for(uint32_t str = 0; str < num_alphas; str++){
-        gpuErrchk(hipStreamCreate(&streams[str]));
+        hipStreamCreate(&streams[str]);
     }
     gpuErrchk(hipPeekAtLastError());
 
-    //hipblasHandle_t handle;
-    //if (hipblasCreate(&handle) != HIPBLAS_STATUS_SUCCESS) { printf ("CUBLAS initialization failed\n"); exit(13); }
-    #ifdef __HIP_PLATFORM_NVIDIA__
-        cublasHandle_t handle;
-        if (cublasCreate(&handle) != CUBLAS_STATUS_SUCCESS) {
-            printf("cuBLAS initialization failed\n");
-            exit(13);
-        }
-    #else
-        hipblasHandle_t handle;
-        if (hipblasCreate(&handle) != HIPBLAS_STATUS_SUCCESS) {
-            printf("hipBLAS initialization failed\n");
-            exit(13);
-        }
-    #endif
+    hipblasHandle_t handle;
+    if (hipblasCreate(&handle) != HIPBLAS_STATUS_SUCCESS) { printf ("CUBLAS initialization failed\n"); exit(13); }
     gpuErrchk(hipPeekAtLastError());
 
 
@@ -125,54 +138,69 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
     gpuErrchk(hipMemcpy(d_xs, d_xu,  state_size*sizeof(T), hipMemcpyDeviceToDevice));
     gpuErrchk(hipMalloc(&d_merit_news, 8*sizeof(T)));
     gpuErrchk(hipMalloc(&d_merit_temp, 8*knot_points*sizeof(T)));
-    // pcg iterates
+    // linsys iterates
 
     gpuErrchk(hipMalloc(&d_merit_initial, sizeof(T)));
     gpuErrchk(hipMemset(d_merit_initial, 0, sizeof(T)));
     
 
-    // pcg things
-    T *d_Pinv;
-    gpuErrchk(hipMalloc(&d_Pinv, 3*states_sq*knot_points*sizeof(T)));
-    
-    /*   PCG vars   */
-    T  *d_r, *d_p, *d_v_temp, *d_eta_new_temp;// *d_r_tilde, *d_upsilon;
-    gpuErrchk(hipMalloc(&d_r, state_size*knot_points*sizeof(T)));
-    gpuErrchk(hipMalloc(&d_p, state_size*knot_points*sizeof(T)));
-    gpuErrchk(hipMalloc(&d_v_temp, knot_points*sizeof(T)));
-    gpuErrchk(hipMalloc(&d_eta_new_temp, knot_points*sizeof(T)));
-    
-    
-    
-    void *pcg_kernel = (void *) pcg<T, STATE_SIZE, KNOT_POINTS>;
-    uint32_t pcg_iters;
-    uint32_t *d_pcg_iters;
-    gpuErrchk(hipMalloc(&d_pcg_iters, sizeof(uint32_t)));
-    bool pcg_exit;
-    bool *d_pcg_exit;
-    gpuErrchk(hipMalloc(&d_pcg_exit, sizeof(bool)));
-    
-    void *pcgKernelArgs[] = {
-        (void *)&d_S,
-        (void *)&d_Pinv,
-        (void *)&d_gamma, 
-        (void *)&d_lambda,
-        (void *)&d_r,
-        (void *)&d_p,
-        (void *)&d_v_temp,
-        (void *)&d_eta_new_temp,
-        (void *)&d_pcg_iters,
-        (void *)&d_pcg_exit,
-        (void *)&config.pcg_max_iter,
-        (void *)&config.pcg_exit_tol
-    };
-    size_t ppcg_kernel_smem_size = pcgSharedMemSize<T>(state_size, knot_points);
 
+
+    const int nnz = (knot_points-1)*states_sq + knot_points*(((state_size+1)*state_size)/2);
+    
+    QDLDL_float h_lambda[state_size*knot_points];
+    QDLDL_float h_gamma[state_size*knot_points];
+    QDLDL_int h_col_ptr[state_size*knot_points+1];
+    QDLDL_int h_row_ind[nnz];
+    QDLDL_float h_val[nnz];
+    
+    QDLDL_int *d_row_ind, *d_col_ptr;
+    QDLDL_float *d_val, *d_lambda_double;
+    gpuErrchk(hipMalloc(&d_col_ptr, (state_size*knot_points+1)*sizeof(QDLDL_int)));
+    gpuErrchk(hipMalloc(&d_row_ind, nnz*sizeof(QDLDL_int)));
+	gpuErrchk(hipMalloc(&d_val, nnz*sizeof(QDLDL_float)));
+	gpuErrchk(hipMalloc(&d_lambda_double, (state_size*knot_points)*sizeof(QDLDL_float)));
+    
+    // fill col ptr and row ind, these won't change 
+    prep_csr<<<knot_points, 64>>>(state_size, knot_points, d_col_ptr, d_row_ind);
+    gpuErrchk(hipMemcpy(h_col_ptr, d_col_ptr, (state_size*knot_points+1)*sizeof(QDLDL_int), hipMemcpyDeviceToHost));
+    gpuErrchk(hipMemcpy(h_row_ind, d_row_ind, (nnz)*sizeof(QDLDL_int), hipMemcpyDeviceToHost));
+
+    
+    const QDLDL_int An = state_size*knot_points;
+
+    // Q things
+    QDLDL_int  sumLnz;
+    QDLDL_int *etree;
+	QDLDL_int *Lnz;
+    etree = (QDLDL_int*)malloc(sizeof(QDLDL_int)*An);
+	Lnz   = (QDLDL_int*)malloc(sizeof(QDLDL_int)*An);
+    
+    QDLDL_int *Lp;
+	QDLDL_float *D;
+	QDLDL_float *Dinv;
+    Lp    = (QDLDL_int*)malloc(sizeof(QDLDL_int)*(An+1));
+	D     = (QDLDL_float*)malloc(sizeof(QDLDL_float)*An);
+	Dinv  = (QDLDL_float*)malloc(sizeof(QDLDL_float)*An);
+
+    //working data for factorisation
+	QDLDL_int   *iwork;
+	QDLDL_bool  *bwork;
+	QDLDL_float *fwork;
+    iwork = (QDLDL_int*)malloc(sizeof(QDLDL_int)*(3*An));
+	bwork = (QDLDL_bool*)malloc(sizeof(QDLDL_bool)*An);
+	fwork = (QDLDL_float*)malloc(sizeof(QDLDL_float)*An);
+
+    sumLnz = QDLDL_etree(An,h_col_ptr,h_row_ind,iwork,Lnz,etree);
+    
+    QDLDL_int *Li;
+	QDLDL_float *Lx;
+    Li    = (QDLDL_int*)malloc(sizeof(QDLDL_int)*sumLnz);
+	Lx    = (QDLDL_float*)malloc(sizeof(QDLDL_float)*sumLnz);
 
     gpuErrchk(hipPeekAtLastError());
     gpuErrchk(hipDeviceSynchronize());
-
-#if TIME_LINSYS
+#if TIME_LINSYS == 1
     struct timespec linsys_start, linsys_end;
     double linsys_time;
 #endif
@@ -200,6 +228,10 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
     gpuErrchk(hipMemcpyAsync(&h_merit_initial, d_merit_initial, sizeof(T), hipMemcpyDeviceToHost));
     gpuErrchk(hipPeekAtLastError());
 
+    // gpuErrchk(hipDeviceSynchronize());
+    // std::cout << "initial merit " << h_merit_initial << std::endl;
+    // exit(0);
+
     //
     //      SQP LOOP
     //
@@ -222,57 +254,33 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
         gpuErrchk(hipPeekAtLastError());
         if (sqpTimecheck()){ break; }
 
-        form_schur_system<T>(
-            state_size, 
-            control_size, 
-            knot_points, 
-            d_G_dense, 
-            d_C_dense, 
-            d_g, 
-            d_c,
-            d_S, 
-            d_Pinv, 
-            d_gamma,
-            rho
-        );
+
+        form_schur_system_qdldl<T>(state_size, control_size, knot_points, d_G_dense, d_C_dense, d_g, d_c, d_val, d_gamma, rho);
         gpuErrchk(hipPeekAtLastError());
         if (sqpTimecheck()){ break; }
-        
 
-    #if TIME_LINSYS    
+    #if TIME_LINSYS == 1
         gpuErrchk(hipDeviceSynchronize());
         if (sqpTimecheck()){ break; }
-        clock_gettime(CLOCK_MONOTONIC,&linsys_start);
+        clock_gettime(CLOCK_MONOTONIC, &linsys_start);
     #endif // #if TIME_LINSYS
 
-        //gpuErrchk(hipLaunchCooperativeKernel(reinterpret_cast<const void*>(pcg_kernel), knot_points, PCG_NUM_THREADS, pcgKernelArgs, ppcg_kernel_smem_size));
-        dim3 pcg_grid(knot_points);
-        dim3 pcg_block(PCG_NUM_THREADS);
-        hipStream_t pcg_stream = 0;
 
-        gpuErrchk(hipLaunchCooperativeKernel(
-            reinterpret_cast<const void*>(pcg_kernel),
-            pcg_grid,
-            pcg_block,
-            pcgKernelArgs,
-            static_cast<unsigned int>(ppcg_kernel_smem_size),
-            pcg_stream
-        ));    
-        gpuErrchk(hipMemcpy(&pcg_iters, d_pcg_iters, sizeof(uint32_t), hipMemcpyDeviceToHost));
-        gpuErrchk(hipMemcpy(&pcg_exit, d_pcg_exit, sizeof(bool), hipMemcpyDeviceToHost));
-        gpuErrchk(hipPeekAtLastError());
+        gpuErrchk(hipMemcpy(h_val, d_val, (nnz)*sizeof(T), hipMemcpyDeviceToHost));
+        gpuErrchk(hipMemcpy(h_gamma, d_gamma, (state_size*knot_points)*sizeof(T), hipMemcpyDeviceToHost))
 
-    #if TIME_LINSYS
-        gpuErrchk(hipDeviceSynchronize());
-        clock_gettime(CLOCK_MONOTONIC,&linsys_end);
+        qdldl_solve_schur(An, h_col_ptr, h_row_ind, h_val, h_gamma, h_lambda, Lp, Li, Lx, D, Dinv, Lnz, etree, bwork, iwork, fwork);
         
-        linsys_time = time_delta_us_timespec(linsys_start,linsys_end);
+        gpuErrchk(hipMemcpy(d_lambda, h_lambda, (state_size*knot_points)*sizeof(T), hipMemcpyHostToDevice));
+
+
+    #if TIME_LINSYS == 1
+        gpuErrchk(hipDeviceSynchronize());
+        clock_gettime(CLOCK_MONOTONIC, &linsys_end);
+        
+        linsys_time = time_delta_us_timespec(linsys_start, linsys_end);
         linsys_time_vec.push_back(linsys_time);
     #endif // #if TIME_LINSYS
-
-        pcg_iter_vec.push_back(pcg_iters);
-        pcg_exit_vec.push_back(pcg_exit);
-
         
         if (sqpTimecheck()){ break; }
         
@@ -315,7 +323,7 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
         gpuErrchk(hipDeviceSynchronize());
         
         
-        gpuErrchk(hipMemcpy(h_merit_news, d_merit_news, 8*sizeof(T), hipMemcpyDeviceToHost));
+        hipMemcpy(h_merit_news, d_merit_news, 8*sizeof(T), hipMemcpyDeviceToHost);
         if (sqpTimecheck()){ break; }
 
 
@@ -351,29 +359,21 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
         
 
 #if USE_DOUBLES
-#ifdef __HIP_PLATFORM_NVIDIA__
-        if (cublasDaxpy(handle, DZ_SIZE_BYTES / sizeof(T), &alphafinal, d_dz, 1, d_xu, 1) != CUBLAS_STATUS_SUCCESS) {
-            printf("cuBLAS Daxpy failed\n");
-            exit(14);
-        }
+        hipblasDaxpy(
+            handle, 
+            DZ_SIZE_BYTES / sizeof(T),
+            &alphafinal,
+            d_dz, 1,
+            d_xu, 1
+        );
 #else
-        if (hipblasDaxpy(handle, DZ_SIZE_BYTES / sizeof(T), &alphafinal, d_dz, 1, d_xu, 1) != HIPBLAS_STATUS_SUCCESS) {
-            printf("hipBLAS Daxpy failed\n");
-            exit(14);
-        }
-#endif
-#else
-#ifdef __HIP_PLATFORM_NVIDIA__
-        if (cublasSaxpy(handle, DZ_SIZE_BYTES / sizeof(T), &alphafinal, d_dz, 1, d_xu, 1) != CUBLAS_STATUS_SUCCESS) {
-            printf("cuBLAS Saxpy failed\n");
-            exit(14);
-        }
-#else
-        if (hipblasSaxpy(handle, DZ_SIZE_BYTES / sizeof(T), &alphafinal, d_dz, 1, d_xu, 1) != HIPBLAS_STATUS_SUCCESS) {
-            printf("hipBLAS Saxpy failed\n");
-            exit(14);
-        }
-#endif
+        hipblasSaxpy(
+            handle, 
+            DZ_SIZE_BYTES / sizeof(T),
+            &alphafinal,
+            d_dz, 1,
+            d_xu, 1
+        );
 #endif
 
         gpuErrchk(hipPeekAtLastError());
@@ -395,11 +395,7 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
     gpuErrchk(hipDeviceSynchronize());
     clock_gettime(CLOCK_MONOTONIC, &sqp_solve_end);
 
-    #ifdef __HIP_PLATFORM_NVIDIA__
-        cublasDestroy(handle);
-    #else
-        hipblasDestroy(handle);
-    #endif
+    hipblasDestroy(handle);
 
     for(uint32_t st=0; st < num_alphas; st++){
         gpuErrchk(hipStreamDestroy(streams[st]));
@@ -419,17 +415,22 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
     gpuErrchk(hipFree(d_gamma));
     gpuErrchk(hipFree(d_dz));
     gpuErrchk(hipFree(d_xs));
-    gpuErrchk(hipFree(d_pcg_iters));
-    gpuErrchk(hipFree(d_pcg_exit));
-    gpuErrchk(hipFree(d_Pinv));
-    gpuErrchk(hipFree(d_r));
-    gpuErrchk(hipFree(d_p));
-    gpuErrchk(hipFree(d_v_temp));
-    gpuErrchk(hipFree(d_eta_new_temp));
-
-
+    gpuErrchk(hipFree(d_col_ptr));
+    gpuErrchk(hipFree(d_row_ind));
+    gpuErrchk(hipFree(d_val));
+    gpuErrchk(hipFree(d_lambda_double));
+	free(etree);
+	free(Lnz);
+    free(Lp);
+	free(D);
+	free(Dinv);
+	free(iwork);
+	free(bwork);
+	free(fwork);
+	free(Li);
+	free(Lx);
 
     double sqp_solve_time = time_delta_us_timespec(sqp_solve_start, sqp_solve_end);
 
-    return std::make_tuple(pcg_iter_vec, linsys_time_vec, sqp_solve_time, sqp_iter, sqp_time_exit, pcg_exit_vec);
+    return std::make_tuple(linsys_iter_vec, linsys_time_vec, sqp_solve_time, sqp_iter, sqp_time_exit, linsys_exit_vec);
 }
