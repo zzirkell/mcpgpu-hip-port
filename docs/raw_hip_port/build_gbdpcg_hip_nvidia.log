@@ -1,0 +1,122 @@
+../include/pcg.hip.hpp(31): warning #2810-D: ignoring return value type with "nodiscard" attribute
+                           (&deviceProp, dev);
+                           ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+../include/interface.hip.hpp(79): warning #2810-D: ignoring return value type with "nodiscard" attribute
+   hipFree(d_lambda);
+          ^
+          detected during instantiation of "uint32_t solvePCG(T *, T *, T *, unsigned int, unsigned int, pcg_config<T> *) [with T=float]" at line 29 of pcg_solve.hip.cpp
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+../include/interface.hip.hpp(80): warning #2810-D: ignoring return value type with "nodiscard" attribute
+   hipFree(d_S);
+          ^
+          detected during instantiation of "uint32_t solvePCG(T *, T *, T *, unsigned int, unsigned int, pcg_config<T> *) [with T=float]" at line 29 of pcg_solve.hip.cpp
+
+../include/interface.hip.hpp(81): warning #2810-D: ignoring return value type with "nodiscard" attribute
+   hipFree(d_gamma);
+          ^
+          detected during instantiation of "uint32_t solvePCG(T *, T *, T *, unsigned int, unsigned int, pcg_config<T> *) [with T=float]" at line 29 of pcg_solve.hip.cpp
+
+../include/interface.hip.hpp(82): warning #2810-D: ignoring return value type with "nodiscard" attribute
+   hipFree(d_Pinv);
+          ^
+          detected during instantiation of "uint32_t solvePCG(T *, T *, T *, unsigned int, unsigned int, pcg_config<T> *) [with T=float]" at line 29 of pcg_solve.hip.cpp
+
+../include/interface.hip.hpp(83): warning #2810-D: ignoring return value type with "nodiscard" attribute
+   hipFree(d_r);
+          ^
+          detected during instantiation of "uint32_t solvePCG(T *, T *, T *, unsigned int, unsigned int, pcg_config<T> *) [with T=float]" at line 29 of pcg_solve.hip.cpp
+
+../include/interface.hip.hpp(84): warning #2810-D: ignoring return value type with "nodiscard" attribute
+   hipFree(d_p);
+          ^
+          detected during instantiation of "uint32_t solvePCG(T *, T *, T *, unsigned int, unsigned int, pcg_config<T> *) [with T=float]" at line 29 of pcg_solve.hip.cpp
+
+../include/interface.hip.hpp(85): warning #2810-D: ignoring return value type with "nodiscard" attribute
+   hipFree(d_v_temp);
+          ^
+          detected during instantiation of "uint32_t solvePCG(T *, T *, T *, unsigned int, unsigned int, pcg_config<T> *) [with T=float]" at line 29 of pcg_solve.hip.cpp
+
+../include/interface.hip.hpp(86): warning #2810-D: ignoring return value type with "nodiscard" attribute
+   hipFree(d_eta_new_temp);
+          ^
+          detected during instantiation of "uint32_t solvePCG(T *, T *, T *, unsigned int, unsigned int, pcg_config<T> *) [with T=float]" at line 29 of pcg_solve.hip.cpp
+
+../include/interface.hip.hpp: In instantiation of ‘uint32_t solvePCG(T*, T*, T*, unsigned int, unsigned int, pcg_config<T>*) [with T = float; uint32_t = unsigned int]’:
+pcg_solve.hip.cpp:29:33:   required from here
+../include/interface.hip.hpp:79:15: warning: ignoring returned value of type ‘hipError_t’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   79 |         hipFree(d_lambda);
+      |         ~~~~~~^~~~~~~~~~
+/opt/rocm-7.2.0/include/hip/nvidia_detail/nvidia_hip_runtime_api.h:2030:26: note: in call to ‘hipError_t hipFree(void*)’, declared here
+ 2030 | inline static hipError_t hipFree(void* ptr) { return hipCUDAErrorTohipError(cudaFree(ptr)); }
+      |                          ^~~~~~~
+/opt/rocm-7.2.0/include/hip/hip_runtime_api.h:419:3: note: ‘hipError_t’ declared here
+  419 | } hipError_t;
+      |   ^~~~~~~~~~
+../include/interface.hip.hpp:80:15: warning: ignoring returned value of type ‘hipError_t’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   80 |         hipFree(d_S);
+      |         ~~~~~~^~~~~
+/opt/rocm-7.2.0/include/hip/nvidia_detail/nvidia_hip_runtime_api.h:2030:26: note: in call to ‘hipError_t hipFree(void*)’, declared here
+ 2030 | inline static hipError_t hipFree(void* ptr) { return hipCUDAErrorTohipError(cudaFree(ptr)); }
+      |                          ^~~~~~~
+/opt/rocm-7.2.0/include/hip/hip_runtime_api.h:419:3: note: ‘hipError_t’ declared here
+  419 | } hipError_t;
+      |   ^~~~~~~~~~
+../include/interface.hip.hpp:81:15: warning: ignoring returned value of type ‘hipError_t’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   81 |         hipFree(d_gamma);
+      |         ~~~~~~^~~~~~~~~
+/opt/rocm-7.2.0/include/hip/nvidia_detail/nvidia_hip_runtime_api.h:2030:26: note: in call to ‘hipError_t hipFree(void*)’, declared here
+ 2030 | inline static hipError_t hipFree(void* ptr) { return hipCUDAErrorTohipError(cudaFree(ptr)); }
+      |                          ^~~~~~~
+/opt/rocm-7.2.0/include/hip/hip_runtime_api.h:419:3: note: ‘hipError_t’ declared here
+  419 | } hipError_t;
+      |   ^~~~~~~~~~
+../include/interface.hip.hpp:82:15: warning: ignoring returned value of type ‘hipError_t’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   82 |         hipFree(d_Pinv);
+      |         ~~~~~~^~~~~~~~
+/opt/rocm-7.2.0/include/hip/nvidia_detail/nvidia_hip_runtime_api.h:2030:26: note: in call to ‘hipError_t hipFree(void*)’, declared here
+ 2030 | inline static hipError_t hipFree(void* ptr) { return hipCUDAErrorTohipError(cudaFree(ptr)); }
+      |                          ^~~~~~~
+/opt/rocm-7.2.0/include/hip/hip_runtime_api.h:419:3: note: ‘hipError_t’ declared here
+  419 | } hipError_t;
+      |   ^~~~~~~~~~
+../include/interface.hip.hpp:83:15: warning: ignoring returned value of type ‘hipError_t’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   83 |         hipFree(d_r);
+      |         ~~~~~~^~~~~
+/opt/rocm-7.2.0/include/hip/nvidia_detail/nvidia_hip_runtime_api.h:2030:26: note: in call to ‘hipError_t hipFree(void*)’, declared here
+ 2030 | inline static hipError_t hipFree(void* ptr) { return hipCUDAErrorTohipError(cudaFree(ptr)); }
+      |                          ^~~~~~~
+/opt/rocm-7.2.0/include/hip/hip_runtime_api.h:419:3: note: ‘hipError_t’ declared here
+  419 | } hipError_t;
+      |   ^~~~~~~~~~
+../include/interface.hip.hpp:84:15: warning: ignoring returned value of type ‘hipError_t’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   84 |         hipFree(d_p);
+      |         ~~~~~~^~~~~
+/opt/rocm-7.2.0/include/hip/nvidia_detail/nvidia_hip_runtime_api.h:2030:26: note: in call to ‘hipError_t hipFree(void*)’, declared here
+ 2030 | inline static hipError_t hipFree(void* ptr) { return hipCUDAErrorTohipError(cudaFree(ptr)); }
+      |                          ^~~~~~~
+/opt/rocm-7.2.0/include/hip/hip_runtime_api.h:419:3: note: ‘hipError_t’ declared here
+  419 | } hipError_t;
+      |   ^~~~~~~~~~
+../include/interface.hip.hpp:85:15: warning: ignoring returned value of type ‘hipError_t’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   85 |         hipFree(d_v_temp);
+      |         ~~~~~~^~~~~~~~~~
+/opt/rocm-7.2.0/include/hip/nvidia_detail/nvidia_hip_runtime_api.h:2030:26: note: in call to ‘hipError_t hipFree(void*)’, declared here
+ 2030 | inline static hipError_t hipFree(void* ptr) { return hipCUDAErrorTohipError(cudaFree(ptr)); }
+      |                          ^~~~~~~
+/opt/rocm-7.2.0/include/hip/hip_runtime_api.h:419:3: note: ‘hipError_t’ declared here
+  419 | } hipError_t;
+      |   ^~~~~~~~~~
+../include/interface.hip.hpp:86:15: warning: ignoring returned value of type ‘hipError_t’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   86 |         hipFree(d_eta_new_temp);
+      |         ~~~~~~^~~~~~~~~~~~~~~~
+/opt/rocm-7.2.0/include/hip/nvidia_detail/nvidia_hip_runtime_api.h:2030:26: note: in call to ‘hipError_t hipFree(void*)’, declared here
+ 2030 | inline static hipError_t hipFree(void* ptr) { return hipCUDAErrorTohipError(cudaFree(ptr)); }
+      |                          ^~~~~~~
+/opt/rocm-7.2.0/include/hip/hip_runtime_api.h:419:3: note: ‘hipError_t’ declared here
+  419 | } hipError_t;
+      |   ^~~~~~~~~~
