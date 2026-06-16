@@ -371,3 +371,39 @@ For MPCGPU:
 - normal kernels and runtime calls can be tested locally with HIP AMD;
 - cuBLAS to hipBLAS translation can be checked locally for compilation;
 - final hipBLAS runtime validation should be done on a native Linux AMD GPU/server.
+
+---
+
+## P007: Dynamic Shared Memory in Direct Kernel Launches
+
+### Found in
+Isolated component tests (e.g., T3 / `generate_kkt_submatrices`)
+
+### Problem
+Launching a `__global__` function directly with `<<<blocks, threads>>>` defaults the dynamic shared memory to 0 bytes. If the kernel internally declares `extern __shared__ T s_mem[];`, it instantly crashes with an "illegal memory access" on the AMD GPU when trying to read or write.
+
+### Porting rule
+Always pass the exact shared memory size as the third execution configuration parameter. If the codebase provides a helper function for this calculation, use it explicitly in the test runner:
+    size_t smem_size = get_kkt_smem_size<float>(state_size, control_size);
+    generate_kkt_submatrices<<<blocks, threads, smem_size>>>(...);
+
+### Possible MPCGPU impact
+The high-level wrappers (like `compute_dz`) usually handle this automatically. However, any manual kernel launch or isolated unit test will fatally crash on the AMD backend if the third parameter is omitted.
+
+---
+
+## P008: Hardcoded Dimensions in GRiD-Generated Code
+
+### Found in
+Isolated dynamics tests (e.g., T3 / `gato_plant`, `integratorAndGradient`)
+
+### Problem
+Using arbitrary dummy dimensions (e.g., `state_size = 12`) in isolated tests causes "illegal memory access" crashes. The underlying GRiD-generated code has loop bounds and shared memory accesses strictly hardcoded to the physical degrees of freedom of the target robot (e.g., the KUKA iiwa rigidly expects `state_size = 14` and `control_size = 7`).
+
+### Porting rule
+Isolated tests interacting with generated dynamics must strictly use the target robot's exact physical dimensions, even when just passing dummy arrays to verify compilation and execution.
+
+### Possible MPCGPU impact
+Applies to all tests isolating the generated robot dynamics. Falsely sized dummy variables will mask themselves as GPU hardware/memory faults.
+
+---

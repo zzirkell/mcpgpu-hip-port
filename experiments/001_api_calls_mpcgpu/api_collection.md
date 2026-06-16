@@ -166,6 +166,52 @@ check all values
 | `blockIdx.x`                                        | same            | Block index inside the grid.                            |
 | `blockDim.x`                                        | same            | Number of threads in each block.                        |
 
+## Test 006: stream and async copy
+
+Files:
+    cuda/006_stream_async_copy.cu
+    hipify_generated/006_stream_async_copy.hip.cpp
+
+This test checks whether basic stream creation, asynchronous memory copies, and stream destruction work after HIPIFY. Streams are critical for overlapping computation and memory transfers.
+
+### API calls / features tested
+| CUDA / feature | HIPIFY result | Meaning |
+|---|---|---|
+| `cudaStream_t` | `hipStream_t` | Handle for managing an asynchronous stream of GPU operations. |
+| `cudaStreamCreate` | `hipStreamCreate` | Creates a new asynchronous stream. |
+| `cudaMemcpyAsync` | `hipMemcpyAsync` | Copies memory asynchronously on a specific stream. |
+| `cudaStreamDestroy` | `hipStreamDestroy` | Destroys the stream and frees associated resources. |
+
+## Test 007: stream priority
+
+Files:
+    cuda/007_stream_priority.cu
+    hipify_generated/007_stream_priority.hip.cpp
+
+This test ensures that streams can be created with specific priorities and queried for supported priority ranges on the AMD backend.
+
+### API calls / features tested
+| CUDA / feature | HIPIFY result | Meaning |
+|---|---|---|
+| `cudaDeviceGetStreamPriorityRange` | `hipDeviceGetStreamPriorityRange` | Queries the valid priority range for the current device. |
+| `cudaStreamCreateWithPriority` | `hipStreamCreateWithPriority` | Creates a stream with a specific scheduling priority. |
+| `cudaStreamNonBlocking` | `hipStreamNonBlocking` | Flag to create a stream that does not synchronize with the default stream. |
+
+## Test 008: memset and memcpy2d
+
+Files:
+    cuda/008_memset_memcpy2d.cu
+    hipify_generated/008_memset_memcpy2d.hip.cpp
+
+This test verifies operations for setting GPU memory directly and performing pitched 2D memory copies, which are heavily used in the utility and matrix headers.
+
+### API calls / features tested
+| CUDA / feature | HIPIFY result | Meaning |
+|---|---|---|
+| `cudaMemset` | `hipMemset` | Fills device memory with a constant byte value. |
+| `cudaMemcpy2D` | `hipMemcpy2D` | Copies a 2D memory matrix with specific pitch (stride). |
+
+
 ## Test 009: device properties and occupancy
 
 Files:
@@ -255,6 +301,33 @@ check the final sum
 | `cudaLaunchCooperativeKernel`     | `hipLaunchCooperativeKernel` | Launches a kernel that supports grid-wide synchronization.     |
 | `cudaStream_t`                    | `hipStream_t`                | Stream type used by the explicit cooperative launch signature. |
 
+## Test 013: function attributes and dynamic shared memory
+
+Files:
+    cuda/013_func_set_attribute_dynamic_smem.cu
+    hipify_generated/013_func_set_attribute_dynamic_smem.hip.cpp
+
+This test confirms that function attributes can be modified at runtime. This is critical for the generated GRiD dynamics, which require opting into larger dynamic shared memory allocations than the default limit.
+
+### API calls / features tested
+| CUDA / feature | HIPIFY result | Meaning |
+|---|---|---|
+| `cudaFuncSetAttribute` | `hipFuncSetAttribute` | Sets a specific attribute for a device function. |
+| `cudaFuncAttributeMaxDynamicSharedMemorySize` | `hipFuncAttributeMaxDynamicSharedMemorySize` | Attribute flag to unlock maximum dynamic shared memory for a kernel. |
+
+## Test 014: atomic operations
+
+Files:
+    cuda/014_atomic_add.cu
+    hipify_generated/014_atomic_add.hip.cpp
+
+This test ensures that atomic accumulation works correctly on the AMD backend, ensuring no race conditions occur when multiple threads write to the same memory location.
+
+### API calls / features tested
+| CUDA / feature | HIPIFY result | Meaning |
+|---|---|---|
+| `atomicAdd` | `atomicAdd` | Performs an atomic read-modify-write addition directly in device or shared memory. |
+
 ## Test 015: HIP header translation
 
 Files:
@@ -282,3 +355,81 @@ check all return values
 | `cudaGetDeviceCount` | `hipGetDeviceCount`     | Returns number of visible GPU devices.    |
 | `cudaGetDevice`      | `hipGetDevice`          | Returns currently selected GPU device.    |
 | `cudaSetDevice`      | `hipSetDevice`          | Selects active GPU device.                |
+
+---
+
+## Real Repository Component Tests: Dynamics and Utilities
+
+### Tests 023 & 024: Integrator, Merit, and Tracking
+
+Files:
+    include/common/integrator.cuh -> integrator.hip.hpp
+    include/common/merit.cuh -> merit.hip.hpp
+
+These tests isolate the compilation and runtime execution of the physics integration step and the SQP cost evaluations.
+* **023:** Validates `integrator_kernel` and `simple_integrator_kernel` with tiny dummy inputs.
+* **024:** Validates `ls_gato_compute_merit`, `compute_merit`, and `compute_tracking_error_kernel`. The merit kernel also successfully tests the port of `cooperative_groups::this_grid().sync()` on the AMD architecture.
+
+### Test 025: CSR Matrix Utilities
+
+Files:
+    include/utils/matrix.cuh -> matrix.hip.hpp
+
+This test validates the core matrix manipulation routines and Sparse CSR (Compressed Sparse Row) preparations. It heavily relies on the successful port of `hipMemcpy2D` (proven in Test 008) and custom error-checking macros.
+
+### Tests 026, 027 & 028: GRiD-Generated Robot Dynamics
+
+Files:
+    include/dynamics/iiwa/iiwa_grid.cuh -> iiwa_grid.hip.hpp
+    include/dynamics/iiwa/iiwa_eepos_grid.cuh -> iiwa_eepos_grid.hip.hpp
+
+These tests form the foundation of the physical simulation. They verify that the massive, automatically generated CUDA code blocks port successfully to HIP and run without illegal memory accesses.
+* **026:** Validates `inverse_dynamics_kernel`, `direct_minv_kernel`, and `forward_dynamics_kernel`.
+* **027:** Validates the analytical gradients via `inverse_dynamics_gradient_kernel` and `forward_dynamics_gradient_kernel`.
+* **028:** Validates the kinematics mapping via `end_effector_positions_kernel` and its respective gradient kernel.
+
+## Test 022: KKT and dz common kernels
+
+Files:
+    cuda/022_kkt_dz_common_kernels.cu
+    hipify_generated/022_kkt_dz_common_kernels.hip.cpp
+    (Tested directly via include/common/dz.cuh and kkt.cuh)
+
+This test checks the compilation and isolated execution of the trajectory update (`dz`) and KKT submatrix generation kernels.
+
+    allocate large dummy memory buffers to prevent out-of-bounds access
+    calculate exact dynamic shared memory requirements for the KKT kernel using get_kkt_smem_size()
+    launch template-based __global__ kernels (generate_kkt_submatrices)
+    launch host-wrapped kernels (compute_dz)
+    verify underlying matrix/vector math relying on hipBLAS
+    check custom error handling macros
+
+### API calls / features tested
+| CUDA / feature | HIPIFY result | Meaning |
+|---|---|---|
+| `extern __shared__` | same | Dynamic shared memory used heavily by the KKT generator. |
+| `kernel<<<b, t, s>>>()` | same HIP syntax | Launching kernels with dynamically calculated shared memory size. |
+| Template Kernels | same HIP syntax | Executing `__global__` functions with `<float, 0, false>` template arguments. |
+| `cudaMemset` | `hipMemset` | Filling allocated memory with zeros to prevent NaN calculations. |
+| `cublasSaxpy` / Math | `hipblas` Math | Ensuring underlying linear algebra calls link correctly via `-lhipblas`. |
+
+## Test 030: full track_iiwa_pcg integration (T11 / T30)
+
+Files:
+    examples/track_iiwa_pcg.cu
+    examples/track_iiwa_pcg.hip.cpp
+
+This test checks the full end-to-end integration of the NMPC wrapper, generated dynamics, and the PCG linear system solver on the AMD backend.
+
+    load precomputed trajectory files (.traj / .csv)
+    execute the full SQP (Sequential Quadratic Programming) loop
+    utilize cooperative grid synchronization inside the solver
+    calculate final tracking errors
+    handle strict CPU-side C++ standard library bounds checking
+
+### API calls / features tested
+| CUDA / feature | HIPIFY result | Meaning |
+|---|---|---|
+| End-to-End Build | HIP / `hipcc` | Compiling the entire dependency tree (mpcsim, pcg, dynamics) into one executable. |
+| Host / Device Sync | same | Ensuring CPU trajectory loading feeds correctly into GPU memory. |
+| Full Grid Sync | HIP cooperative groups | Executing the PCG algorithm across the full AMD GPU grid. |
