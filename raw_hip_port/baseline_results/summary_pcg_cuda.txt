@@ -1,0 +1,5 @@
+RESULTS*************************************
+Exit tol: 5e-06
+Tracking err
+Average[1.23508] Std Dev [0.502176] Min [0.000757456] Max [2.49875] Median [1.25102] Q1 [0.965456] Q3 [1.58553]
+Average final tracking err: 0.999139

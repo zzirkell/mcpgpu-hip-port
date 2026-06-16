@@ -1,0 +1,17 @@
+Knot points: 32
+State size: 14
+Datatype: FLOAT
+Sqp exits condition: CONSTANT TIME
+QD COST: 0.0001
+R COST: 0.0001
+Rho factor: 1.2
+Rho max: 10
+Test iters: 1
+Max sqp time: 2000
+Solver: PCG
+Max pcg iter: 173
+Save data: OFF
+Jitters: OFF
+
+
+start: 0 goal: 0

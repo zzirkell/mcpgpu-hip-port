@@ -1,0 +1,53 @@
+cd qdldl && mkdir -p build && cd build && cmake -DQDLDL_FLOAT=true -DQDLDL_LONG=false .. && cmake --build . && cd ../../
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Using single precision floats
+-- Long integers (64bit) are false
+-- Static library build is ON
+-- Shared library build is ON
+-- Demo executable build is ON
+-- Unit testing suite build is OFF
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build
+make[1]: Entering directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+make[2]: Entering directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+make[3]: Entering directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+make[3]: Leaving directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+make[3]: Entering directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+[ 14%] Building C object CMakeFiles/qdldlobject.dir/src/qdldl.c.o
+make[3]: Leaving directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+[ 14%] Built target qdldlobject
+make[3]: Entering directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+make[3]: Leaving directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+make[3]: Entering directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+[ 28%] Building C object CMakeFiles/qdldlstatic.dir/src/qdldl.c.o
+[ 42%] Linking C static library out/libqdldl.a
+make[3]: Leaving directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+[ 42%] Built target qdldlstatic
+make[3]: Entering directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+make[3]: Leaving directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+make[3]: Entering directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+[ 57%] Building C object CMakeFiles/qdldl.dir/src/qdldl.c.o
+[ 71%] Linking C shared library out/libqdldl.so
+make[3]: Leaving directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+[ 71%] Built target qdldl
+make[3]: Entering directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+make[3]: Leaving directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+make[3]: Entering directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+[ 85%] Building C object CMakeFiles/qdldl_example.dir/examples/example.c.o
+[100%] Linking C executable out/qdldl_example
+make[3]: Leaving directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+[100%] Built target qdldl_example
+make[2]: Leaving directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'
+make[1]: Leaving directory '/home/zzirkell/mpcgpu_project/code/MPCGPU/qdldl/build'

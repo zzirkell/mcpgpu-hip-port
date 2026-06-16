@@ -1,0 +1,87 @@
+Knot points: 32
+State size: 14
+Datatype: FLOAT
+Sqp exits condition: CONSTANT ITERS
+QD COST: 0.0001
+R COST: 0.0001
+Rho factor: 1.2
+Rho max: 10
+Test iters: 1
+Max sqp iter: 20
+Solver: PCG
+Max pcg iter: 173
+Save data: OFF
+Jitters: OFF
+
+
+start: 0 goal: 0
+Logging test results to files with prefix tmp/results/32_PCG_0.000005 
+Completed at 20260616_150342
+
+RESULTS*************************************
+Exit tol: 5e-06
+
+Tracking err
+Average[0.186703] Std Dev [0.200129] Min [0.000672162] Max [1.07513] Median [0.125952] Q1 [0.06016] Q3 [0.231878]
+Average final tracking err: 0.0183785
+
+Linsys times
+Average[274.846] Std Dev [223.214] Min [100.427] Max [12601.3] Median [197.098] Q1 [144.79] Q3 [341.558]
+************************************************
+
+Logging test results to files with prefix tmp/results/32_PCG_0.000007 
+Completed at 20260616_150356
+
+RESULTS*************************************
+Exit tol: 7.5e-06
+
+Tracking err
+Average[0.132415] Std Dev [0.108514] Min [0.000749901] Max [0.520251] Median [0.095772] Q1 [0.0519271] Q3 [0.216133]
+Average final tracking err: 0.0220449
+
+Linsys times
+Average[263.393] Std Dev [190.218] Min [96.781] Max [5920.31] Median [190.711] Q1 [144.975] Q3 [325.513]
+************************************************
+
+Logging test results to files with prefix tmp/results/32_PCG_0.000005 
+Completed at 20260616_150411
+
+RESULTS*************************************
+Exit tol: 5e-06
+
+Tracking err
+Average[0.154742] Std Dev [0.138741] Min [0.000790983] Max [0.626678] Median [0.0951319] Q1 [0.0664638] Q3 [0.218408]
+Average final tracking err: 0.0164312
+
+Linsys times
+Average[269.994] Std Dev [176.548] Min [97.572] Max [1376.44] Median [200.99] Q1 [144.851] Q3 [343.937]
+************************************************
+
+Logging test results to files with prefix tmp/results/32_PCG_0.000002 
+Completed at 20260616_150426
+
+RESULTS*************************************
+Exit tol: 2.5e-06
+
+Tracking err
+Average[0.114047] Std Dev [0.0772316] Min [0.000500515] Max [0.415422] Median [0.0988073] Q1 [0.0505201] Q3 [0.155957]
+Average final tracking err: 0.0303393
+
+Linsys times
+Average[279.722] Std Dev [204.064] Min [96.781] Max [5170.5] Median [201.644] Q1 [145.111] Q3 [343.055]
+************************************************
+
+Logging test results to files with prefix tmp/results/32_PCG_0.000001 
+Completed at 20260616_150441
+
+RESULTS*************************************
+Exit tol: 1e-06
+
+Tracking err
+Average[0.1096] Std Dev [0.084187] Min [0.00240923] Max [0.504412] Median [0.0957088] Q1 [0.0465957] Q3 [0.140799]
+Average final tracking err: 0.0456377
+
+Linsys times
+Average[294.597] Std Dev [197.158] Min [98.674] Max [1959.95] Median [222.7] Q1 [150.25] Q3 [383.906]
+************************************************
+
