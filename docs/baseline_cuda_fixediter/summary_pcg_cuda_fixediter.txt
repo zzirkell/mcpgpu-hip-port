@@ -1,0 +1,35 @@
+RESULTS*************************************
+Exit tol: 5e-06
+Tracking err
+Average[0.162251] Std Dev [0.125872] Min [0.000711009] Max [0.463049] Median [0.128419] Q1 [0.0471701] Q3 [0.246307]
+Average final tracking err: 0.0439189
+Linsys times
+Average[266.805] Std Dev [202.63] Min [96.84] Max [9064.43] Median [195.054] Q1 [144.199] Q3 [324.716]
+RESULTS*************************************
+Exit tol: 7.5e-06
+Tracking err
+Average[0.145637] Std Dev [0.107762] Min [0.000795379] Max [0.538436] Median [0.109011] Q1 [0.0700908] Q3 [0.211104]
+Average final tracking err: 0.0742989
+Linsys times
+Average[268.241] Std Dev [180.069] Min [96.49] Max [2761.64] Median [199.823] Q1 [143.998] Q3 [331.017]
+RESULTS*************************************
+Exit tol: 5e-06
+Tracking err
+Average[0.110064] Std Dev [0.0705549] Min [0.00168504] Max [0.403187] Median [0.0984289] Q1 [0.0552064] Q3 [0.144482]
+Average final tracking err: 0.0271507
+Linsys times
+Average[283.831] Std Dev [233.572] Min [99.365] Max [16348.5] Median [213.348] Q1 [147.395] Q3 [360.233]
+RESULTS*************************************
+Exit tol: 2.5e-06
+Tracking err
+Average[0.116654] Std Dev [0.0822402] Min [0.000665516] Max [0.427736] Median [0.092474] Q1 [0.0482396] Q3 [0.165225]
+Average final tracking err: 0.0401896
+Linsys times
+Average[285.153] Std Dev [226.581] Min [98.434] Max [14490.3] Median [222.075] Q1 [151.903] Q3 [368.097]
+RESULTS*************************************
+Exit tol: 1e-06
+Tracking err
+Average[0.104633] Std Dev [0.0797917] Min [0.000751376] Max [0.407497] Median [0.0868727] Q1 [0.0420152] Q3 [0.14232]
+Average final tracking err: 0.0570061
+Linsys times
+Average[279.863] Std Dev [186.111] Min [99.025] Max [3297.14] Median [207.502] Q1 [144.986] Q3 [362.351]
