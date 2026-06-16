@@ -76,14 +76,14 @@ uint32_t solvePCG(
 	gpuErrchk(hipMemcpy(h_lambda, d_lambda, stateSize * knotPoints * sizeof(T), hipMemcpyDeviceToHost));
 	gpuErrchk(hipMemcpy(h_gamma, d_gamma, stateSize * knotPoints * sizeof(T), hipMemcpyDeviceToHost));
 
-	hipFree(d_lambda);
-	hipFree(d_S);
-	hipFree(d_gamma);
-	hipFree(d_Pinv);
-	hipFree(d_r);
-	hipFree(d_p);
-	hipFree(d_v_temp);
-	hipFree(d_eta_new_temp);
+	gpuErrchk(hipFree(d_lambda));
+    gpuErrchk(hipFree(d_S));
+    gpuErrchk(hipFree(d_gamma));
+    gpuErrchk(hipFree(d_Pinv));
+    gpuErrchk(hipFree(d_r));
+    gpuErrchk(hipFree(d_p));
+    gpuErrchk(hipFree(d_v_temp));
+    gpuErrchk(hipFree(d_eta_new_temp));
 
 	return 1;
 }

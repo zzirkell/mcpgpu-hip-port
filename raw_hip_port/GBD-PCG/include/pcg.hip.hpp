@@ -28,7 +28,7 @@ bool checkPcgOccupancy(void* kernel, dim3 block, uint32_t state_size, uint32_t k
     int dev = 0;
     
     hipDeviceProp_t deviceProp; 
-    hipGetDeviceProperties(&deviceProp, dev);
+    gpuErrchk(hipGetDeviceProperties(&deviceProp, dev));
     
     int supportsCoopLaunch = 0; 
     gpuErrchk(hipDeviceGetAttribute(&supportsCoopLaunch, hipDeviceAttributeCooperativeLaunch, dev));
