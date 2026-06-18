@@ -9,7 +9,7 @@
 #include "settings.hip.hpp"
 #include "utils/experiment.hip.hpp"
 #include "gpu_pcg.hip.hpp"
-
+#include <array>
 
 int main(){
 
@@ -41,10 +41,11 @@ int main(){
         start_state = ind % recorded_states;
         goal_state = ind / recorded_states;
         if(start_state == goal_state && start_state != 0){ continue; }
+		if(ind > 0){ break; }
         std::cout << "start: " << start_state << " goal: " << goal_state << std::endl;
 
-        uint32_t num_exit_vals = 5;
-        float pcg_exit_vals[num_exit_vals];
+        constexpr uint32_t num_exit_vals = 5;
+		std::array<linsys_t, num_exit_vals> pcg_exit_vals{};
         if(knot_points==32){
             pcg_exit_vals[0] = 5e-6;
             pcg_exit_vals[1] = 7.5e-6;
@@ -70,7 +71,7 @@ int main(){
 
         for (uint32_t pcg_exit_ind = 0; pcg_exit_ind < num_exit_vals; pcg_exit_ind++){
 
-            float pcg_exit_tol = pcg_exit_vals[pcg_exit_ind];
+            const linsys_t pcg_exit_tol = pcg_exit_vals.at(pcg_exit_ind);
 		std::vector<double> linsys_times;
 		std::vector<uint32_t> sqp_iters;
 		std::vector<toplevel_return_type> current_results;
@@ -110,10 +111,14 @@ int main(){
 		
 		gpuErrchk(hipMalloc(&d_xs, state_size*sizeof(linsys_t)));
 		gpuErrchk(hipMemcpy(d_xs, h_xu_traj.data(), state_size*sizeof(linsys_t), hipMemcpyHostToDevice));
-
+		std::cout << "[TOL before simulate] index=" << pcg_exit_ind
+          << " value=" << std::scientific << pcg_exit_tol
+          << std::defaultfloat << std::endl;
 		std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> trackingstats = simulateMPC<linsys_t, toplevel_return_type>(state_size, control_size, knot_points, 
 			static_cast<uint32_t>(eePos_traj2d.size()), timestep, d_eePos_traj, d_xu_traj, d_xs, start_state, goal_state, single_traj_test_iter, pcg_exit_tol, test_output_prefix);
-		
+		std::cout << "[TOL after simulate] index=" << pcg_exit_ind
+          << " value=" << std::scientific << pcg_exit_tol
+          << std::defaultfloat << std::endl;
 		current_results = std::get<0>(trackingstats);
 		if (TIME_LINSYS == 1) {
 			linsys_times.insert(linsys_times.end(), current_results.begin(), current_results.end());

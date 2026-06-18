@@ -101,10 +101,10 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
           *d_xs;
 
     
-    T drho = 1.0;
-    T rho_factor = RHO_FACTOR;
-    T rho_max = RHO_MAX;
-    T rho_min = RHO_MIN;
+    T drho = static_cast<T>(1);
+    T rho_factor = static_cast<T>(RHO_FACTOR);
+    T rho_max = static_cast<T>(RHO_MAX);
+    T rho_min = static_cast<T>(RHO_MIN);
 
     
 
@@ -330,11 +330,29 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
             }
         }
 
+        #if MPCGPU_TRACE_SQP
+        std::cout << std::setprecision(9)
+                << "TRACE_SQP iter=" << sqpiter
+                << " rho=" << rho
+                << " pcg_iters=" << pcg_iters
+                << " pcg_exit=" << pcg_exit
+                << " merit_initial=" << h_merit_initial
+                << " merit_news=[";
+        for (uint32_t mi = 0; mi < num_alphas; ++mi) {
+            std::cout << h_merit_news[mi];
+            if (mi + 1 < num_alphas) std::cout << ",";
+        }
+        std::cout << "] min_merit=" << min_merit
+                << " line_step=" << line_search_step
+                << " accepted=" << (min_merit != h_merit_initial)
+                << std::endl;
+        #endif
+
 
         if(min_merit == h_merit_initial){
             // line search failure
-            drho = max(drho*rho_factor, rho_factor);
-            rho = max(rho*drho, rho_min);
+            drho = std::max<T>(drho * rho_factor, rho_factor);
+            rho = std::max<T>(rho * drho, rho_min);
             sqp_iter++;
             if(rho > rho_max){
                 sqp_time_exit = 0;
@@ -346,8 +364,8 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
         // std::cout << "line search accepted\n";
         alphafinal = -1.0 / (1 << line_search_step);        // alpha sign
 
-        drho = min(drho/rho_factor, 1/rho_factor);
-        rho = max(rho*drho, rho_min);
+        drho = std::min<T>(drho / rho_factor, static_cast<T>(1) / rho_factor);
+        rho = std::max<T>(rho * drho, rho_min);
         
 
 #if USE_DOUBLES

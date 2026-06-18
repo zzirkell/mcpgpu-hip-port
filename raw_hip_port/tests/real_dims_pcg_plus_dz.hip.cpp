@@ -1,5 +1,4 @@
 #include <hip/hip_runtime.h>
-
 #include <algorithm>
 #include <cmath>
 #include <cstdint>

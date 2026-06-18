@@ -1,0 +1,11 @@
+
+# Generated HIP/CUDA artifacts
+**/*.log
+**/*.exe
+**/*.out
+**/*.err
+**/tmp/
+**/bin/
+raw_hip_port/tests/*_hip_nvidia
+raw_hip_port/tests/*_hip_amd*
+raw_hip_port/examples/pcg_*

@@ -27,6 +27,10 @@
 #include "qdldl/sqp.hip.hpp"
 #endif
 
+#ifndef MPCGPU_FIXED_SIM_TIME
+#define MPCGPU_FIXED_SIM_TIME 0
+#endif
+
 
 
 template <typename T>
@@ -280,11 +284,11 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
         cur_linsys_exits = std::get<5>(sqp_stats);
 
 
-#if CONST_UPDATE_FREQ
-        simulation_time = SIMULATION_PERIOD;
+#if CONST_UPDATE_FREQ || MPCGPU_FIXED_SIM_TIME
+    simulation_time = SIMULATION_PERIOD;
 #else
-        simulation_time = sqp_solve_time_us;
-#endif
+    simulation_time = sqp_solve_time_us;
+#endif  
         
 
         // simulate traj for current solve time, offset by previous solve time
