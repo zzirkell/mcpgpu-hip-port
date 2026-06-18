@@ -22,6 +22,9 @@
 #include "merit.hip.hpp"
 #include "gpu_pcg.hip.hpp"
 #include "settings.hip.hpp"
+#include <cstdio>
+#include <cstdlib>
+#include <array>
 
 template <typename T>
 auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const uint32_t knot_points, float timestep, T *d_eePos_traj, T *d_lambda, T *d_xu, void *d_dynMem_const, pcg_config<T>& config, T &rho, T rho_reset){
@@ -54,8 +57,8 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
 
     // line search things
     const float mu = 10.0f;
-    const uint32_t num_alphas = 8;
-    T h_merit_news[num_alphas];
+    constexpr uint32_t num_alphas = 8;
+    std::array<T, num_alphas> h_merit_news{};
     void *ls_merit_kernel = (void *) ls_gato_compute_merit<T>;
     const size_t merit_smem_size = get_merit_smem_size<T>(state_size, control_size);
     T h_merit_initial, min_merit;
@@ -66,26 +69,46 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
 
 
     // streams n cublas init
-    hipStream_t streams[num_alphas];
-    for(uint32_t str = 0; str < num_alphas; str++){
-        gpuErrchk(hipStreamCreate(&streams[str]));
-    }
+    static std::array<hipStream_t, num_alphas> streams = [] {
+        std::array<hipStream_t, num_alphas> result{};
+
+        for (auto& stream : result) {
+            gpuErrchk(hipStreamCreate(&stream));
+        }
+
+        return result;
+    }();
+
     gpuErrchk(hipPeekAtLastError());
 
     //hipblasHandle_t handle;
     //if (hipblasCreate(&handle) != HIPBLAS_STATUS_SUCCESS) { printf ("CUBLAS initialization failed\n"); exit(13); }
-    #ifdef __HIP_PLATFORM_NVIDIA__
-        cublasHandle_t handle;
-        if (cublasCreate(&handle) != CUBLAS_STATUS_SUCCESS) {
-            printf("cuBLAS initialization failed\n");
-            exit(13);
+   #ifdef __HIP_PLATFORM_NVIDIA__
+
+    static cublasHandle_t handle = [] {
+        cublasHandle_t result{};
+
+        if (cublasCreate(&result) != CUBLAS_STATUS_SUCCESS) {
+            std::fprintf(stderr, "cuBLAS initialization failed\n");
+            std::exit(13);
         }
+
+        return result;
+    }();
+
     #else
-        hipblasHandle_t handle;
-        if (hipblasCreate(&handle) != HIPBLAS_STATUS_SUCCESS) {
-            printf("hipBLAS initialization failed\n");
-            exit(13);
+
+    static hipblasHandle_t handle = [] {
+        hipblasHandle_t result{};
+
+        if (hipblasCreate(&result) != HIPBLAS_STATUS_SUCCESS) {
+            std::fprintf(stderr, "hipBLAS initialization failed\n");
+            std::exit(13);
         }
+
+        return result;
+    }();
+
     #endif
     gpuErrchk(hipPeekAtLastError());
 
@@ -315,7 +338,12 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
         gpuErrchk(hipDeviceSynchronize());
         
         
-        gpuErrchk(hipMemcpy(h_merit_news, d_merit_news, 8*sizeof(T), hipMemcpyDeviceToHost));
+        gpuErrchk(hipMemcpy(
+            h_merit_news.data(),
+            d_merit_news,
+            h_merit_news.size() * sizeof(T),
+            hipMemcpyDeviceToHost
+        ));
         if (sqpTimecheck()){ break; }
 
 
@@ -413,15 +441,7 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
     gpuErrchk(hipDeviceSynchronize());
     clock_gettime(CLOCK_MONOTONIC, &sqp_solve_end);
 
-    #ifdef __HIP_PLATFORM_NVIDIA__
-        cublasDestroy(handle);
-    #else
-        hipblasDestroy(handle);
-    #endif
-
-    for(uint32_t st=0; st < num_alphas; st++){
-        gpuErrchk(hipStreamDestroy(streams[st]));
-    }
+    
 
 
 
@@ -448,6 +468,11 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
 
 
     double sqp_solve_time = time_delta_us_timespec(sqp_solve_start, sqp_solve_end);
-
+    #if MPCGPU_TRACE_UPDATE_TIME
+    std::cout << "SQP_RETURN"
+            << " sqp_iter=" << sqp_iter
+            << " sqp_us=" << sqp_solve_time
+            << std::endl;
+    #endif
     return std::make_tuple(pcg_iter_vec, linsys_time_vec, sqp_solve_time, sqp_iter, sqp_time_exit, pcg_exit_vec);
 }

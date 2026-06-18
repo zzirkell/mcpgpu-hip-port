@@ -14,6 +14,7 @@
 
 #define time_delta_us_timespec(start,end) (1e6*static_cast<double>(end.tv_sec - start.tv_sec)+1e-3*static_cast<double>(end.tv_nsec - start.tv_nsec))
 
+
 template<bool PRINT_DISTRIBUTION = true>
 void printStats(std::vector<double> *times){
    double sum = std::accumulate(times->begin(), times->end(), 0.0);
@@ -106,6 +107,9 @@ std::string getStatsString(const std::string& statsString) {
 
 template<typename T>
 std::string printStats(std::vector<T> *data, std::string prefix = "data"){
+   if (data == nullptr || data->empty()) {
+      return {};
+   }
    T sum = std::accumulate(data->begin(), data->end(), static_cast<T>(0));
    float mean = sum/static_cast<double>(data->size());
    std::vector<T> diff(data->size());

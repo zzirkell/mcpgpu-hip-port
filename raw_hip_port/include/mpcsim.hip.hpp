@@ -1,5 +1,12 @@
 #include "hip/hip_runtime.h"
 #pragma once
+#ifndef MPCGPU_MAX_CONTROL_UPDATES
+#define MPCGPU_MAX_CONTROL_UPDATES 100000
+#endif
+
+#ifndef MPCGPU_TRACE_UPDATE_TIME
+#define MPCGPU_TRACE_UPDATE_TIME 0
+#endif
 #include <iomanip>
 #include <fstream>
 #include <iostream>
@@ -158,7 +165,7 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
     const uint32_t traj_len = (state_size+control_size)*knot_points-control_size;
 
     const T shift_threshold = SHIFT_THRESHOLD;
-    const int max_control_updates = 100000;
+    const int max_control_updates = MPCGPU_MAX_CONTROL_UPDATES;
     
     
     // struct timespec solve_start, solve_end;
@@ -282,6 +289,13 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
         cur_sqp_iters = std::get<3>(sqp_stats);
         sqp_exits.push_back(std::get<4>(sqp_stats));
         cur_linsys_exits = std::get<5>(sqp_stats);
+
+        #if MPCGPU_TRACE_UPDATE_TIME
+        std::cout << "MPC_UPDATE step=" << control_update_step
+                << " sqp_us=" << sqp_solve_time_us
+                << " sqp_iters=" << cur_sqp_iters
+                << std::endl;
+        #endif
 
 
 #if CONST_UPDATE_FREQ || MPCGPU_FIXED_SIM_TIME
