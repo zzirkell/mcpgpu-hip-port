@@ -69,7 +69,7 @@ int main(){
         }
 
 
-        for (uint32_t pcg_exit_ind = 0; pcg_exit_ind < num_exit_vals; pcg_exit_ind++){
+        for (uint32_t pcg_exit_ind = 0; pcg_exit_ind < 1; pcg_exit_ind++){
 
             const linsys_t pcg_exit_tol = pcg_exit_vals.at(pcg_exit_ind);
 		std::vector<double> linsys_times;
