@@ -27,7 +27,166 @@
 #include <array>
 
 template <typename T>
-auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const uint32_t knot_points, float timestep, T *d_eePos_traj, T *d_lambda, T *d_xu, void *d_dynMem_const, pcg_config<T>& config, T &rho, T rho_reset){
+struct SqpWorkspace {
+    static constexpr uint32_t num_alphas = 8;
+
+    std::array<hipStream_t, num_alphas> streams{};
+
+#ifdef __HIP_PLATFORM_NVIDIA__
+    cublasHandle_t handle{};
+#else
+    hipblasHandle_t handle{};
+#endif
+
+    T *d_merit_initial{};
+    T *d_merit_news{};
+    T *d_merit_temp{};
+    T *d_G_dense{};
+    T *d_C_dense{};
+    T *d_g{};
+    T *d_c{};
+    T *d_S{};
+    T *d_gamma{};
+    T *d_dz{};
+    T *d_xs{};
+    T *d_Pinv{};
+    T *d_r{};
+    T *d_p{};
+    T *d_v_temp{};
+    T *d_eta_new_temp{};
+
+    uint32_t *d_pcg_iters{};
+    bool *d_pcg_exit{};
+
+    SqpWorkspace(
+        uint32_t state_size,
+        uint32_t control_size,
+        uint32_t knot_points
+    ) {
+        const uint32_t states_sq = state_size * state_size;
+        const uint32_t controls_sq = control_size * control_size;
+        const uint32_t states_p_controls = state_size * control_size;
+        const uint32_t states_s_controls = state_size + control_size;
+
+        const size_t g_dense_bytes =
+            ((states_sq + controls_sq) * knot_points - controls_sq)
+            * sizeof(T);
+
+        const size_t c_dense_bytes =
+            (states_sq + states_p_controls) * (knot_points - 1)
+            * sizeof(T);
+
+        const size_t g_bytes =
+            ((state_size + control_size) * knot_points - control_size)
+            * sizeof(T);
+
+        const size_t c_bytes =
+            state_size * knot_points * sizeof(T);
+
+        const size_t dz_bytes =
+            (states_s_controls * knot_points - control_size)
+            * sizeof(T);
+
+        for (auto& stream : streams) {
+            gpuErrchk(hipStreamCreate(&stream));
+        }
+
+#ifdef __HIP_PLATFORM_NVIDIA__
+        if (cublasCreate(&handle) != CUBLAS_STATUS_SUCCESS) {
+            std::fprintf(stderr, "cuBLAS initialization failed\n");
+            std::exit(13);
+        }
+#else
+        if (hipblasCreate(&handle) != HIPBLAS_STATUS_SUCCESS) {
+            std::fprintf(stderr, "hipBLAS initialization failed\n");
+            std::exit(13);
+        }
+#endif
+
+        gpuErrchk(hipMalloc(&d_G_dense, g_dense_bytes));
+        gpuErrchk(hipMalloc(&d_C_dense, c_dense_bytes));
+        gpuErrchk(hipMalloc(&d_g, g_bytes));
+        gpuErrchk(hipMalloc(&d_c, c_bytes));
+        gpuErrchk(hipMalloc(
+            &d_S, 3 * states_sq * knot_points * sizeof(T)));
+        gpuErrchk(hipMalloc(
+            &d_gamma, state_size * knot_points * sizeof(T)));
+        gpuErrchk(hipMalloc(&d_dz, dz_bytes));
+        gpuErrchk(hipMalloc(&d_xs, state_size * sizeof(T)));
+
+        gpuErrchk(hipMalloc(
+            &d_merit_news, num_alphas * sizeof(T)));
+        gpuErrchk(hipMalloc(
+            &d_merit_temp, num_alphas * knot_points * sizeof(T)));
+        gpuErrchk(hipMalloc(&d_merit_initial, sizeof(T)));
+
+        gpuErrchk(hipMalloc(
+            &d_Pinv, 3 * states_sq * knot_points * sizeof(T)));
+        gpuErrchk(hipMalloc(
+            &d_r, state_size * knot_points * sizeof(T)));
+        gpuErrchk(hipMalloc(
+            &d_p, state_size * knot_points * sizeof(T)));
+        gpuErrchk(hipMalloc(
+            &d_v_temp, knot_points * sizeof(T)));
+        gpuErrchk(hipMalloc(
+            &d_eta_new_temp, knot_points * sizeof(T)));
+
+        gpuErrchk(hipMalloc(&d_pcg_iters, sizeof(uint32_t)));
+        gpuErrchk(hipMalloc(&d_pcg_exit, sizeof(bool)));
+    }
+
+    SqpWorkspace(const SqpWorkspace&) = delete;
+    SqpWorkspace& operator=(const SqpWorkspace&) = delete;
+
+    ~SqpWorkspace() {
+        gpuErrchk(hipDeviceSynchronize());
+
+        gpuErrchk(hipFree(d_merit_initial));
+        gpuErrchk(hipFree(d_merit_news));
+        gpuErrchk(hipFree(d_merit_temp));
+        gpuErrchk(hipFree(d_G_dense));
+        gpuErrchk(hipFree(d_C_dense));
+        gpuErrchk(hipFree(d_g));
+        gpuErrchk(hipFree(d_c));
+        gpuErrchk(hipFree(d_S));
+        gpuErrchk(hipFree(d_gamma));
+        gpuErrchk(hipFree(d_dz));
+        gpuErrchk(hipFree(d_xs));
+        gpuErrchk(hipFree(d_Pinv));
+        gpuErrchk(hipFree(d_r));
+        gpuErrchk(hipFree(d_p));
+        gpuErrchk(hipFree(d_v_temp));
+        gpuErrchk(hipFree(d_eta_new_temp));
+        gpuErrchk(hipFree(d_pcg_iters));
+        gpuErrchk(hipFree(d_pcg_exit));
+
+#ifdef __HIP_PLATFORM_NVIDIA__
+        cublasDestroy(handle);
+#else
+        hipblasDestroy(handle);
+#endif
+
+        for (auto stream : streams) {
+            gpuErrchk(hipStreamDestroy(stream));
+        }
+    }
+};
+
+template <typename T>
+auto sqpSolvePcg(
+    const uint32_t state_size,
+    const uint32_t control_size,
+    const uint32_t knot_points,
+    float timestep,
+    T *d_eePos_traj,
+    T *d_lambda,
+    T *d_xu,
+    void *d_dynMem_const,
+    pcg_config<T>& config,
+    T &rho,
+    T rho_reset,
+    SqpWorkspace<T>& workspace
+){
     
     // data storage
     std::vector<int> pcg_iter_vec;
@@ -44,14 +203,7 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
 
 
 
-    const uint32_t states_sq = state_size*state_size;
-    const uint32_t states_p_controls = state_size * control_size;
-    const uint32_t controls_sq = control_size * control_size;
     const uint32_t states_s_controls = state_size + control_size;
-    const uint32_t KKT_G_DENSE_SIZE_BYTES = static_cast<uint32_t>(((states_sq+controls_sq)*knot_points-controls_sq)*sizeof(T));
-    const uint32_t KKT_C_DENSE_SIZE_BYTES = static_cast<uint32_t>((states_sq+states_p_controls)*(knot_points-1)*sizeof(T));
-    const uint32_t KKT_g_SIZE_BYTES       = static_cast<uint32_t>(((state_size+control_size)*knot_points-control_size)*sizeof(T));
-    const uint32_t KKT_c_SIZE_BYTES       =   static_cast<uint32_t>((state_size*knot_points)*sizeof(T));     
     const uint32_t DZ_SIZE_BYTES          =   static_cast<uint32_t>((states_s_controls*knot_points-control_size)*sizeof(T));
 
 
@@ -68,112 +220,65 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
     uint32_t line_search_step = 0;
 
 
-    // streams n cublas init
-    static std::array<hipStream_t, num_alphas> streams = [] {
-        std::array<hipStream_t, num_alphas> result{};
-
-        for (auto& stream : result) {
-            gpuErrchk(hipStreamCreate(&stream));
-        }
-
-        return result;
-    }();
-
-    gpuErrchk(hipPeekAtLastError());
-
-    //hipblasHandle_t handle;
-    //if (hipblasCreate(&handle) != HIPBLAS_STATUS_SUCCESS) { printf ("CUBLAS initialization failed\n"); exit(13); }
-   #ifdef __HIP_PLATFORM_NVIDIA__
-
-    static cublasHandle_t handle = [] {
-        cublasHandle_t result{};
-
-        if (cublasCreate(&result) != CUBLAS_STATUS_SUCCESS) {
-            std::fprintf(stderr, "cuBLAS initialization failed\n");
-            std::exit(13);
-        }
-
-        return result;
-    }();
-
-    #else
-
-    static hipblasHandle_t handle = [] {
-        hipblasHandle_t result{};
-
-        if (hipblasCreate(&result) != HIPBLAS_STATUS_SUCCESS) {
-            std::fprintf(stderr, "hipBLAS initialization failed\n");
-            std::exit(13);
-        }
-
-        return result;
-    }();
-
-    #endif
-    gpuErrchk(hipPeekAtLastError());
-
-
     uint32_t sqp_iter = 0;
 
-
-
-    T *d_merit_initial, *d_merit_news, *d_merit_temp,
-          *d_G_dense, *d_C_dense, *d_g, *d_c, *d_Ginv_dense,
-          *d_S, *d_gamma,
-          *d_dz,
-          *d_xs;
-
-    
     T drho = static_cast<T>(1);
     T rho_factor = static_cast<T>(RHO_FACTOR);
     T rho_max = static_cast<T>(RHO_MAX);
     T rho_min = static_cast<T>(RHO_MIN);
 
-    
+    auto& streams = workspace.streams;
+    auto handle = workspace.handle;
 
+    T *d_merit_initial = workspace.d_merit_initial;
+    T *d_merit_news = workspace.d_merit_news;
+    T *d_merit_temp = workspace.d_merit_temp;
+    T *d_G_dense = workspace.d_G_dense;
+    T *d_C_dense = workspace.d_C_dense;
+    T *d_g = workspace.d_g;
+    T *d_c = workspace.d_c;
+    T *d_Ginv_dense = workspace.d_G_dense;
+    T *d_S = workspace.d_S;
+    T *d_gamma = workspace.d_gamma;
+    T *d_dz = workspace.d_dz;
+    T *d_xs = workspace.d_xs;
+    T *d_Pinv = workspace.d_Pinv;
+    T *d_r = workspace.d_r;
+    T *d_p = workspace.d_p;
+    T *d_v_temp = workspace.d_v_temp;
+    T *d_eta_new_temp = workspace.d_eta_new_temp;
+    uint32_t *d_pcg_iters = workspace.d_pcg_iters;
+    bool *d_pcg_exit = workspace.d_pcg_exit;
 
-    gpuErrchk(hipMalloc(&d_G_dense,  KKT_G_DENSE_SIZE_BYTES));
-    gpuErrchk(hipMalloc(&d_C_dense,  KKT_C_DENSE_SIZE_BYTES));
-    gpuErrchk(hipMalloc(&d_g,        KKT_g_SIZE_BYTES));
-    gpuErrchk(hipMalloc(&d_c,        KKT_c_SIZE_BYTES));
-    d_Ginv_dense = d_G_dense;
+    gpuErrchk(hipMemcpy(
+        d_xs,
+        d_xu,
+        state_size * sizeof(T),
+        hipMemcpyDeviceToDevice
+    ));
 
-    gpuErrchk(hipMalloc(&d_S, 3*states_sq*knot_points*sizeof(T)));
-    gpuErrchk(hipMalloc(&d_gamma, state_size*knot_points*sizeof(T)));
-    gpuErrchk(hipPeekAtLastError());
-
-    
-    gpuErrchk(hipMalloc(&d_dz,       DZ_SIZE_BYTES));
-    gpuErrchk(hipMalloc(&d_xs,       state_size*sizeof(T)));
-    gpuErrchk(hipMemcpy(d_xs, d_xu,  state_size*sizeof(T), hipMemcpyDeviceToDevice));
-    gpuErrchk(hipMalloc(&d_merit_news, 8*sizeof(T)));
-    gpuErrchk(hipMalloc(&d_merit_temp, 8*knot_points*sizeof(T)));
-    // pcg iterates
-
-    gpuErrchk(hipMalloc(&d_merit_initial, sizeof(T)));
+    // Workspace buffers are reused across SQP solves.
+    // Reset scratch/output buffers that previously came from fresh allocations.
     gpuErrchk(hipMemset(d_merit_initial, 0, sizeof(T)));
-    
+    gpuErrchk(hipMemset(d_merit_news, 0, num_alphas * sizeof(T)));
+    gpuErrchk(hipMemset(d_merit_temp, 0, num_alphas * knot_points * sizeof(T)));
 
-    // pcg things
-    T *d_Pinv;
-    gpuErrchk(hipMalloc(&d_Pinv, 3*states_sq*knot_points*sizeof(T)));
-    
-    /*   PCG vars   */
-    T  *d_r, *d_p, *d_v_temp, *d_eta_new_temp;// *d_r_tilde, *d_upsilon;
-    gpuErrchk(hipMalloc(&d_r, state_size*knot_points*sizeof(T)));
-    gpuErrchk(hipMalloc(&d_p, state_size*knot_points*sizeof(T)));
-    gpuErrchk(hipMalloc(&d_v_temp, knot_points*sizeof(T)));
-    gpuErrchk(hipMalloc(&d_eta_new_temp, knot_points*sizeof(T)));
-    
-    
-    
+    gpuErrchk(hipMemset(d_S, 0, 3 * state_size * state_size * knot_points * sizeof(T)));
+    gpuErrchk(hipMemset(d_gamma, 0, state_size * knot_points * sizeof(T)));
+    gpuErrchk(hipMemset(d_dz, 0, DZ_SIZE_BYTES));
+
+    gpuErrchk(hipMemset(d_Pinv, 0, 3 * state_size * state_size * knot_points * sizeof(T)));
+    gpuErrchk(hipMemset(d_r, 0, state_size * knot_points * sizeof(T)));
+    gpuErrchk(hipMemset(d_p, 0, state_size * knot_points * sizeof(T)));
+    gpuErrchk(hipMemset(d_v_temp, 0, knot_points * sizeof(T)));
+    gpuErrchk(hipMemset(d_eta_new_temp, 0, knot_points * sizeof(T)));
+
+    gpuErrchk(hipMemset(d_pcg_iters, 0, sizeof(uint32_t)));
+    gpuErrchk(hipMemset(d_pcg_exit, 0, sizeof(bool)));
+
     void *pcg_kernel = (void *) pcg<T, STATE_SIZE, KNOT_POINTS>;
-    uint32_t pcg_iters;
-    uint32_t *d_pcg_iters;
-    gpuErrchk(hipMalloc(&d_pcg_iters, sizeof(uint32_t)));
-    bool pcg_exit;
-    bool *d_pcg_exit;
-    gpuErrchk(hipMalloc(&d_pcg_exit, sizeof(bool)));
+    uint32_t pcg_iters = 0;
+    bool pcg_exit = false;
     
     void *pcgKernelArgs[] = {
         (void *)&d_S,
@@ -440,32 +545,6 @@ auto sqpSolvePcg(const uint32_t state_size, const uint32_t control_size, const u
     gpuErrchk(hipPeekAtLastError());
     gpuErrchk(hipDeviceSynchronize());
     clock_gettime(CLOCK_MONOTONIC, &sqp_solve_end);
-
-    
-
-
-
-
-    gpuErrchk(hipFree(d_merit_initial));
-    gpuErrchk(hipFree(d_merit_news));
-    gpuErrchk(hipFree(d_merit_temp));
-    gpuErrchk(hipFree(d_G_dense));
-    gpuErrchk(hipFree(d_C_dense));
-    gpuErrchk(hipFree(d_g));
-    gpuErrchk(hipFree(d_c));
-    gpuErrchk(hipFree(d_S));
-    gpuErrchk(hipFree(d_gamma));
-    gpuErrchk(hipFree(d_dz));
-    gpuErrchk(hipFree(d_xs));
-    gpuErrchk(hipFree(d_pcg_iters));
-    gpuErrchk(hipFree(d_pcg_exit));
-    gpuErrchk(hipFree(d_Pinv));
-    gpuErrchk(hipFree(d_r));
-    gpuErrchk(hipFree(d_p));
-    gpuErrchk(hipFree(d_v_temp));
-    gpuErrchk(hipFree(d_eta_new_temp));
-
-
 
     double sqp_solve_time = time_delta_us_timespec(sqp_solve_start, sqp_solve_end);
     #if MPCGPU_TRACE_UPDATE_TIME

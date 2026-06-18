@@ -88,6 +88,11 @@ int main()
     config.pcg_block = PCG_NUM_THREADS;
     config.pcg_exit_tol = static_cast<T>(5e-6);
     config.pcg_max_iter = PCG_MAX_ITER;
+    SqpWorkspace<T> sqp_workspace(
+        state_size,
+        control_size,
+        knot_points
+    );
 
     T rho = static_cast<T>(1e-3);
     T rho_reset = static_cast<T>(1e-3);

@@ -10,9 +10,10 @@
 #include "utils/experiment.hip.hpp"
 #include "gpu_pcg.hip.hpp"
 #include <array>
+#include <cstdlib>
 
 
-int main(){
+int main(int argc, char** argv){
 
     constexpr uint32_t state_size = grid::NUM_JOINTS*2;
     constexpr uint32_t control_size = grid::NUM_JOINTS;
@@ -69,7 +70,16 @@ int main(){
         }
 
 
-        for (uint32_t pcg_exit_ind = 0; pcg_exit_ind < 1; pcg_exit_ind++){
+        uint32_t pcg_exit_begin = 0;
+        uint32_t pcg_exit_end = num_exit_vals;
+        if (argc > 1) {
+            pcg_exit_begin = static_cast<uint32_t>(std::atoi(argv[1]));
+            pcg_exit_end = pcg_exit_begin + 1;
+        }
+
+        for (uint32_t pcg_exit_ind = pcg_exit_begin;
+             pcg_exit_ind < pcg_exit_end && pcg_exit_ind < num_exit_vals;
+             pcg_exit_ind++){
 
             const linsys_t pcg_exit_tol = pcg_exit_vals.at(pcg_exit_ind);
 		std::vector<double> linsys_times;
@@ -129,10 +139,14 @@ int main(){
 		
 
 
-		gpuErrchk(hipFree(d_xu_traj));
-		gpuErrchk(hipFree(d_eePos_traj));
-		gpuErrchk(hipFree(d_xs));
-		gpuErrchk(hipPeekAtLastError());
+		gpuErrchk(hipDeviceSynchronize());
+
+        gpuErrchk(hipFree(d_xu_traj));
+        gpuErrchk(hipFree(d_eePos_traj));
+        gpuErrchk(hipFree(d_xs));
+
+        gpuErrchk(hipDeviceSynchronize());
+        gpuErrchk(hipPeekAtLastError());
 		
 		}
 
