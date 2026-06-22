@@ -1,0 +1,26 @@
+[
+{
+  "directory": "/home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/temp_build",
+  "command": "/usr/bin/cc  -I/home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/include  -O3 -fPIC -o CMakeFiles/qdldlobject.dir/src/qdldl.c.o -c /home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/src/qdldl.c",
+  "file": "/home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/src/qdldl.c",
+  "output": "CMakeFiles/qdldlobject.dir/src/qdldl.c.o"
+},
+{
+  "directory": "/home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/temp_build",
+  "command": "/usr/bin/cc  -I/home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/include  -O3 -fPIC -o CMakeFiles/qdldlstatic.dir/src/qdldl.c.o -c /home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/src/qdldl.c",
+  "file": "/home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/src/qdldl.c",
+  "output": "CMakeFiles/qdldlstatic.dir/src/qdldl.c.o"
+},
+{
+  "directory": "/home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/temp_build",
+  "command": "/usr/bin/cc -DBUILDING_QDLDL -DQDLDL_SHARED_LIB -Dqdldl_EXPORTS -I/home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/include  -O3 -fPIC -o CMakeFiles/qdldl.dir/src/qdldl.c.o -c /home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/src/qdldl.c",
+  "file": "/home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/src/qdldl.c",
+  "output": "CMakeFiles/qdldl.dir/src/qdldl.c.o"
+},
+{
+  "directory": "/home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/temp_build",
+  "command": "/usr/bin/cc  -I/home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/include  -O3 -fPIE -o CMakeFiles/qdldl_example.dir/examples/example.c.o -c /home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/examples/example.c",
+  "file": "/home/mmp_hybridmpc/mpcgpu_project/mcpgpu-hip-port/raw_hip_port/qdldl/examples/example.c",
+  "output": "CMakeFiles/qdldl_example.dir/examples/example.c.o"
+}
+]

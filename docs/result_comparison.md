@@ -1,3 +1,5 @@
+First step on both:
+
 nvidia cuda: Tracking err
 Average[0.109047] Std Dev [0.0863857] Min [0.000757456] Max [0.434672] Median [0.0957153] Q1 [0.0359972] Q3 [0.162921]
 Average final tracking err: 0.0570047
@@ -8,3 +10,5 @@ Average final tracking err: 2.02997
 
 
 ==> min is good, the rest diverges on AMD ==> not good, need to find out where the error is
+
+more time for amd so it has time to converge
