@@ -10,10 +10,8 @@
 #include "utils/experiment.hip.hpp"
 #include "gpu_pcg.hip.hpp"
 #include <array>
-#include <cstdlib>
 
-
-int main(int argc, char** argv){
+int main(){
 
     constexpr uint32_t state_size = grid::NUM_JOINTS*2;
     constexpr uint32_t control_size = grid::NUM_JOINTS;
@@ -43,10 +41,11 @@ int main(int argc, char** argv){
         start_state = ind % recorded_states;
         goal_state = ind / recorded_states;
         if(start_state == goal_state && start_state != 0){ continue; }
+		if(ind > 0){ break; }
         std::cout << "start: " << start_state << " goal: " << goal_state << std::endl;
 
         constexpr uint32_t num_exit_vals = 5;
-        std::array<linsys_t, num_exit_vals> pcg_exit_vals{};
+		std::array<linsys_t, num_exit_vals> pcg_exit_vals{};
         if(knot_points==32){
             pcg_exit_vals[0] = 5e-6;
             pcg_exit_vals[1] = 7.5e-6;
@@ -70,16 +69,7 @@ int main(int argc, char** argv){
         }
 
 
-        uint32_t pcg_exit_begin = 0;
-        uint32_t pcg_exit_end = num_exit_vals;
-        if (argc > 1) {
-            pcg_exit_begin = static_cast<uint32_t>(std::atoi(argv[1]));
-            pcg_exit_end = pcg_exit_begin + 1;
-        }
-
-        for (uint32_t pcg_exit_ind = pcg_exit_begin;
-             pcg_exit_ind < pcg_exit_end && pcg_exit_ind < num_exit_vals;
-             pcg_exit_ind++){
+        for (uint32_t pcg_exit_ind = 0; pcg_exit_ind < num_exit_vals; pcg_exit_ind++){
 
             const linsys_t pcg_exit_tol = pcg_exit_vals.at(pcg_exit_ind);
 		std::vector<double> linsys_times;
@@ -121,10 +111,14 @@ int main(int argc, char** argv){
 		
 		gpuErrchk(hipMalloc(&d_xs, state_size*sizeof(linsys_t)));
 		gpuErrchk(hipMemcpy(d_xs, h_xu_traj.data(), state_size*sizeof(linsys_t), hipMemcpyHostToDevice));
-
+		std::cout << "[TOL before simulate] index=" << pcg_exit_ind
+          << " value=" << std::scientific << pcg_exit_tol
+          << std::defaultfloat << std::endl;
 		std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> trackingstats = simulateMPC<linsys_t, toplevel_return_type>(state_size, control_size, knot_points, 
 			static_cast<uint32_t>(eePos_traj2d.size()), timestep, d_eePos_traj, d_xu_traj, d_xs, start_state, goal_state, single_traj_test_iter, pcg_exit_tol, test_output_prefix);
-		
+		std::cout << "[TOL after simulate] index=" << pcg_exit_ind
+          << " value=" << std::scientific << pcg_exit_tol
+          << std::defaultfloat << std::endl;
 		current_results = std::get<0>(trackingstats);
 		if (TIME_LINSYS == 1) {
 			linsys_times.insert(linsys_times.end(), current_results.begin(), current_results.end());
@@ -139,14 +133,10 @@ int main(int argc, char** argv){
 		
 
 
-		gpuErrchk(hipDeviceSynchronize());
-
-        gpuErrchk(hipFree(d_xu_traj));
-        gpuErrchk(hipFree(d_eePos_traj));
-        gpuErrchk(hipFree(d_xs));
-
-        gpuErrchk(hipDeviceSynchronize());
-        gpuErrchk(hipPeekAtLastError());
+		gpuErrchk(hipFree(d_xu_traj));
+		gpuErrchk(hipFree(d_eePos_traj));
+		gpuErrchk(hipFree(d_xs));
+		gpuErrchk(hipPeekAtLastError());
 		
 		}
 

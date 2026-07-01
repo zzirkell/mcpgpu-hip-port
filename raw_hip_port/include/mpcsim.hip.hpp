@@ -1,5 +1,12 @@
 #include "hip/hip_runtime.h"
 #pragma once
+#ifndef MPCGPU_MAX_CONTROL_UPDATES
+#define MPCGPU_MAX_CONTROL_UPDATES 100000
+#endif
+
+#ifndef MPCGPU_TRACE_UPDATE_TIME
+#define MPCGPU_TRACE_UPDATE_TIME 0
+#endif
 #include <iomanip>
 #include <fstream>
 #include <iostream>
@@ -25,6 +32,10 @@
 #include "pcg/sqp.hip.hpp"
 #else 
 #include "qdldl/sqp.hip.hpp"
+#endif
+
+#ifndef MPCGPU_FIXED_SIM_TIME
+#define MPCGPU_FIXED_SIM_TIME 0
 #endif
 
 
@@ -154,7 +165,7 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
     const uint32_t traj_len = (state_size+control_size)*knot_points-control_size;
 
     const T shift_threshold = SHIFT_THRESHOLD;
-    const int max_control_updates = 100000;
+    const int max_control_updates = MPCGPU_MAX_CONTROL_UPDATES;
     
     
     // struct timespec solve_start, solve_end;
@@ -217,6 +228,11 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
     config.pcg_block = PCG_NUM_THREADS;
     config.pcg_exit_tol = linsys_exit_tol;
     config.pcg_max_iter = PCG_MAX_ITER;
+    SqpWorkspace<T> sqp_workspace(
+        state_size,
+        control_size,
+        knot_points
+    );
 #endif
 
     T rho = 1e-3;
@@ -228,7 +244,20 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
     config.pcg_max_iter = 10000;
     
     for(int j = 0; j < 100; j++){
-        sqpSolvePcg<T>(state_size, control_size, knot_points, timestep, d_eePos_goal, d_lambda, d_xu, d_dynmem, config, rho, 1e-3);
+        sqpSolvePcg<T>(
+            state_size,
+            control_size,
+            knot_points,
+            timestep,
+            d_eePos_goal,
+            d_lambda,
+            d_xu,
+            d_dynmem,
+            config,
+            rho,
+            static_cast<T>(1e-3),
+            sqp_workspace
+        );
         gpuErrchk(hipMemcpy(d_xu, d_xu_traj, traj_len*sizeof(T), hipMemcpyDeviceToDevice));
     }
     rho = 1e-3;
@@ -267,7 +296,20 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
 
 
 #if LINSYS_SOLVE == 1
-        sqp_stats = sqpSolvePcg<T>(state_size, control_size, knot_points, timestep, d_eePos_goal, d_lambda, d_xu, d_dynmem, config, rho, rho_reset);
+        sqp_stats = sqpSolvePcg<T>(
+            state_size,
+            control_size,
+            knot_points,
+            timestep,
+            d_eePos_goal,
+            d_lambda,
+            d_xu,
+            d_dynmem,
+            config,
+            rho,
+            rho_reset,
+            sqp_workspace
+        );
 #else 
 	    sqp_stats = sqpSolveQdldl<T>(state_size, control_size, knot_points, timestep, d_eePos_goal, d_lambda, d_xu, d_dynmem, rho, rho_reset);
 #endif
@@ -279,12 +321,19 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
         sqp_exits.push_back(std::get<4>(sqp_stats));
         cur_linsys_exits = std::get<5>(sqp_stats);
 
+        #if MPCGPU_TRACE_UPDATE_TIME
+        std::cout << "MPC_UPDATE step=" << control_update_step
+                << " sqp_us=" << sqp_solve_time_us
+                << " sqp_iters=" << cur_sqp_iters
+                << std::endl;
+        #endif
 
-#if CONST_UPDATE_FREQ
-        simulation_time = SIMULATION_PERIOD;
+
+#if CONST_UPDATE_FREQ || MPCGPU_FIXED_SIM_TIME
+    simulation_time = SIMULATION_PERIOD;
 #else
-        simulation_time = sqp_solve_time_us;
-#endif
+    simulation_time = sqp_solve_time_us;
+#endif  
         
 
         // simulate traj for current solve time, offset by previous solve time
