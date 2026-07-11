@@ -7,13 +7,9 @@ This repository contains setup notes, small experiments, and later the MPCGPU CU
 Cleaned HIP ports are stored in:
 
 ```bash
-hip_port/
+raw_hip_port/
 ```
-concretely:
-```bash
-hip_port/GBD-PCG/ # standalone HIP AMD port of the GBD-PCG solver
-...
-```
+The ``hip_port`` folder is a port without making any changes to the HIP code (only some syntaxis but it was absolutely not efficient)
 ### CUDA setup and basic programs
 
 To start working with CUDA, look at:
