@@ -9,6 +9,7 @@ Cleaned HIP ports are stored in:
 ```bash
 raw_hip_port/
 ```
+The ``hip_port`` folder is a port without making any changes to the HIP code (only some syntaxis but it was absolutely not efficient)
 ### CUDA setup and basic programs
 
 To start working with CUDA, look at:
