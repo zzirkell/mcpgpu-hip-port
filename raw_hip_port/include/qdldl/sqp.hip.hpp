@@ -4,7 +4,21 @@
 #include <numeric>
 #include <algorithm>
 #include <cstdint>
+#if defined(__HIP_PLATFORM_NVIDIA__) || defined(__HIP_PLATFORM_NVCC__)
+#include <cublas_v2.h>
+
+using hipblasHandle_t = cublasHandle_t;
+using hipblasStatus_t = cublasStatus_t;
+
+#define HIPBLAS_STATUS_SUCCESS CUBLAS_STATUS_SUCCESS
+#define hipblasCreate cublasCreate
+#define hipblasDestroy cublasDestroy
+#define hipblasSaxpy cublasSaxpy
+
+#else
 #include <hipblas.h>
+#endif
+
 #include <math.h>
 #include <cmath>
 #include <random>
