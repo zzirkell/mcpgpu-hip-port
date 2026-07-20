@@ -173,6 +173,7 @@ struct SqpWorkspace {
 };
 
 template <typename T>
+#if USE_SQP_WORKSPACE
 auto sqpSolvePcg(
     const uint32_t state_size,
     const uint32_t control_size,
@@ -186,7 +187,23 @@ auto sqpSolvePcg(
     T &rho,
     T rho_reset,
     SqpWorkspace<T>& workspace
-){
+)
+#else
+auto sqpSolvePcg(
+    const uint32_t state_size,
+    const uint32_t control_size,
+    const uint32_t knot_points,
+    float timestep,
+    T *d_eePos_traj,
+    T *d_lambda,
+    T *d_xu,
+    void *d_dynMem_const,
+    pcg_config<T>& config,
+    T &rho,
+    T rho_reset
+)
+#endif
+{
     
     // data storage
     std::vector<int> pcg_iter_vec;
@@ -226,6 +243,8 @@ auto sqpSolvePcg(
     T rho_factor = static_cast<T>(RHO_FACTOR);
     T rho_max = static_cast<T>(RHO_MAX);
     T rho_min = static_cast<T>(RHO_MIN);
+
+#if USE_SQP_WORKSPACE
 
     auto& streams = workspace.streams;
     auto handle = workspace.handle;
@@ -275,6 +294,64 @@ auto sqpSolvePcg(
 
     gpuErrchk(hipMemset(d_pcg_iters, 0, sizeof(uint32_t)));
     gpuErrchk(hipMemset(d_pcg_exit, 0, sizeof(bool)));
+
+#else
+
+    const uint32_t states_sq = state_size*state_size;
+    const uint32_t states_p_controls = state_size * control_size;
+    const uint32_t controls_sq = control_size * control_size;
+    const uint32_t KKT_G_DENSE_SIZE_BYTES = static_cast<uint32_t>(((states_sq+controls_sq)*knot_points-controls_sq)*sizeof(T));
+    const uint32_t KKT_C_DENSE_SIZE_BYTES = static_cast<uint32_t>((states_sq+states_p_controls)*(knot_points-1)*sizeof(T));
+    const uint32_t KKT_g_SIZE_BYTES       = static_cast<uint32_t>(((state_size+control_size)*knot_points-control_size)*sizeof(T));
+    const uint32_t KKT_c_SIZE_BYTES       = static_cast<uint32_t>((state_size*knot_points)*sizeof(T));     
+
+    hipStream_t streams[num_alphas];
+    for(uint32_t str = 0; str < num_alphas; str++){
+        hipStreamCreate(&streams[str]);
+    }
+    hipblasHandle_t handle;
+    hipblasCreate(&handle);
+
+    T *d_merit_initial, *d_merit_news, *d_merit_temp,
+      *d_G_dense, *d_C_dense, *d_g, *d_c, *d_Ginv_dense,
+      *d_S, *d_gamma,
+      *d_dz,
+      *d_xs;
+
+
+    gpuErrchk(hipMalloc(&d_G_dense,  KKT_G_DENSE_SIZE_BYTES));
+    gpuErrchk(hipMalloc(&d_C_dense,  KKT_C_DENSE_SIZE_BYTES));
+    gpuErrchk(hipMalloc(&d_g,        KKT_g_SIZE_BYTES));
+    gpuErrchk(hipMalloc(&d_c,        KKT_c_SIZE_BYTES));
+    d_Ginv_dense = d_G_dense;
+
+    gpuErrchk(hipMalloc(&d_S, 3*states_sq*knot_points*sizeof(T)));
+    gpuErrchk(hipMalloc(&d_gamma, state_size*knot_points*sizeof(T)));
+    
+    gpuErrchk(hipMalloc(&d_dz,       DZ_SIZE_BYTES));
+    gpuErrchk(hipMalloc(&d_xs,       state_size*sizeof(T)));
+    gpuErrchk(hipMemcpy(d_xs, d_xu,  state_size*sizeof(T), hipMemcpyDeviceToDevice));
+    gpuErrchk(hipMalloc(&d_merit_news, 8*sizeof(T)));
+    gpuErrchk(hipMalloc(&d_merit_temp, 8*knot_points*sizeof(T)));
+
+    gpuErrchk(hipMalloc(&d_merit_initial, sizeof(T)));
+    gpuErrchk(hipMemset(d_merit_initial, 0, sizeof(T)));
+
+    T *d_Pinv;
+    gpuErrchk(hipMalloc(&d_Pinv, 3*states_sq*knot_points*sizeof(T)));
+    
+    T  *d_r, *d_p, *d_v_temp, *d_eta_new_temp;
+    gpuErrchk(hipMalloc(&d_r, state_size*knot_points*sizeof(T)));
+    gpuErrchk(hipMalloc(&d_p, state_size*knot_points*sizeof(T)));
+    gpuErrchk(hipMalloc(&d_v_temp, knot_points*sizeof(T)));
+    gpuErrchk(hipMalloc(&d_eta_new_temp, knot_points*sizeof(T)));
+    
+    uint32_t *d_pcg_iters;
+    gpuErrchk(hipMalloc(&d_pcg_iters, sizeof(uint32_t)));
+    bool *d_pcg_exit;
+    gpuErrchk(hipMalloc(&d_pcg_exit, sizeof(bool)));
+
+#endif
 
     void *pcg_kernel = (void *) pcg<T, STATE_SIZE, KNOT_POINTS>;
     uint32_t pcg_iters = 0;
@@ -553,5 +630,35 @@ auto sqpSolvePcg(
             << " sqp_us=" << sqp_solve_time
             << std::endl;
     #endif
+    
+#if !USE_SQP_WORKSPACE
+    for(uint32_t str = 0; str < num_alphas; str++){
+        hipStreamDestroy(streams[str]);
+    }
+    hipblasDestroy(handle);
+
+    gpuErrchk(hipFree(d_G_dense));
+    gpuErrchk(hipFree(d_C_dense));
+    gpuErrchk(hipFree(d_g));
+    gpuErrchk(hipFree(d_c));
+    
+    gpuErrchk(hipFree(d_S));
+    gpuErrchk(hipFree(d_gamma));
+    gpuErrchk(hipFree(d_dz));
+    gpuErrchk(hipFree(d_xs));
+    gpuErrchk(hipFree(d_merit_news));
+    gpuErrchk(hipFree(d_merit_temp));
+    gpuErrchk(hipFree(d_merit_initial));
+    
+    gpuErrchk(hipFree(d_Pinv));
+    gpuErrchk(hipFree(d_r));
+    gpuErrchk(hipFree(d_p));
+    gpuErrchk(hipFree(d_v_temp));
+    gpuErrchk(hipFree(d_eta_new_temp));
+    
+    gpuErrchk(hipFree(d_pcg_iters));
+    gpuErrchk(hipFree(d_pcg_exit));
+#endif
+
     return std::make_tuple(pcg_iter_vec, linsys_time_vec, sqp_solve_time, sqp_iter, sqp_time_exit, pcg_exit_vec);
 }

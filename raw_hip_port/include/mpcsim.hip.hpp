@@ -228,12 +228,20 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
     config.pcg_block = PCG_NUM_THREADS;
     config.pcg_exit_tol = linsys_exit_tol;
     config.pcg_max_iter = PCG_MAX_ITER;
+    
+    #ifndef USE_SQP_WORKSPACE
+    #define USE_SQP_WORKSPACE 1
+    #endif
+
+    #if USE_SQP_WORKSPACE
     SqpWorkspace<T> sqp_workspace(
         state_size,
         control_size,
         knot_points
     );
+    #endif
 #endif
+
 
     T rho = 1e-3;
     T rho_reset = 1e-3;
@@ -243,21 +251,21 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
     config.pcg_exit_tol = 1e-11;
     config.pcg_max_iter = 10000;
     
-    for(int j = 0; j < 100; j++){
+for(int j = 0; j < 100; j++){
+       
+        #if USE_SQP_WORKSPACE
+
         sqpSolvePcg<T>(
-            state_size,
-            control_size,
-            knot_points,
-            timestep,
-            d_eePos_goal,
-            d_lambda,
-            d_xu,
-            d_dynmem,
-            config,
-            rho,
-            static_cast<T>(1e-3),
-            sqp_workspace
+            state_size, control_size, knot_points, timestep, d_eePos_goal, 
+            d_lambda, d_xu, d_dynmem, config, rho, static_cast<T>(1e-3), 
+            sqp_workspace 
         );
+        #else
+        sqpSolvePcg<T>(
+            state_size, control_size, knot_points, timestep, d_eePos_goal, 
+            d_lambda, d_xu, d_dynmem, config, rho, static_cast<T>(1e-3)
+        );
+        #endif
         gpuErrchk(hipMemcpy(d_xu, d_xu_traj, traj_len*sizeof(T), hipMemcpyDeviceToDevice));
     }
     rho = 1e-3;
@@ -296,6 +304,14 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
 
 
 #if LINSYS_SOLVE == 1
+
+        #if !USE_SQP_WORKSPACE
+        SqpWorkspace<T> sqp_workspace(
+            state_size,
+            control_size,
+            knot_points
+        );
+        #endif
         sqp_stats = sqpSolvePcg<T>(
             state_size,
             control_size,
