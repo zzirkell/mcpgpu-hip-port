@@ -30,10 +30,11 @@ def detect_hardware():
     return archs
 
 
-def compile_project(active_repo, knots, rate_hz, hide_warnings, workspace_off):
-    """Compiles the project with injected parameters."""
+def compile_project(active_repo, arch, knots, rate_hz, hide_warnings, workspace_off):
+    """Compiles the project with injected parameters and architecture specific flags."""
     max_time_us = int(1000000 / rate_hz)
     workspace_flag = "-DUSE_SQP_WORKSPACE=0 " if workspace_off else "-DUSE_SQP_WORKSPACE=1 "
+    
     compiler_flags = (
         f"-DKNOT_POINTS={knots} "
         f"-DSQP_MAX_TIME_US={max_time_us} "
@@ -47,7 +48,21 @@ def compile_project(active_repo, knots, rate_hz, hide_warnings, workspace_off):
         compiler_flags += " -w "
     
     env = os.environ.copy()
-    # Inject for both C and C++ Makefiles
+    
+    if arch == "nv_hip":
+        env["HIP_PLATFORM"] = "nvidia"
+        nvcc_exec = shutil.which("nvcc")
+        if nvcc_exec:
+            cuda_root = os.path.dirname(os.path.dirname(nvcc_exec))
+        else:
+            cuda_root = env.get("CUDA_HOME") or env.get("CUDA_PATH") or "/usr/local/cuda"
+        
+        env["CUDA_PATH"] = cuda_root
+        env["CUDA_HOME"] = cuda_root
+        compiler_flags += f" -rdc=true -I{cuda_root}/include -L{cuda_root}/lib64 -lcublas -lcudart"
+        env["CXX"] = "hipcc"
+        env["CC"] = "hipcc"
+
     env["CFLAGS"] = f"-O3 {compiler_flags}" 
     env["CXXFLAGS"] = f"-O3 {compiler_flags}" 
     
@@ -94,6 +109,7 @@ def archive_results(active_repo, archive_base, arch, solver_name, knots, rate_hz
             
             shutil.rmtree(tmp_dir)
             os.makedirs(tmp_dir, exist_ok=True)
+            print("Cleaned up tmp/results")
         else:
             print("       [!] No _overall_stats.csv found in tmp_dir!")
     else:
@@ -149,6 +165,7 @@ def main():
         if os.path.exists(init_tmp_dir):
             shutil.rmtree(init_tmp_dir)
         os.makedirs(init_tmp_dir, exist_ok=True)
+        print("Cleaned up tmp/results")
 
         for knots, rate_hz, ws_off in itertools.product(args.knots, args.rates, ws_settings):
             if arch == "cuda" and ws_off:
@@ -157,7 +174,7 @@ def main():
             ws_state = "OFF" if ws_off else "ON"
             print(f"\n[*] COMPILING {arch.upper()} | Knots: {knots} | Rate: {rate_hz}Hz | Workspace: {ws_state}")
             
-            if not compile_project(active_repo, knots, rate_hz, args.hide_compiler_warnings, ws_off):
+            if not compile_project(active_repo, arch, knots, rate_hz, args.hide_compiler_warnings, ws_off):
                 print(f"    [!] Compile error for {knots} knots. Skipping.")
                 continue
             

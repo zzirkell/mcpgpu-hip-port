@@ -10,8 +10,16 @@ echo "=== Generate Plots ==="
 
 python -u run_figure6.py
 
-echo "=== Completed ==="
+echo "=== Completed!!! ==="
 
 # chmod +x run_figure6_overnight.sh
 
 # nohup ./run_figure6_overnight.sh > benchmark_figure6_output.log 2>&1 &
+
+# for restarting: 
+
+# pkill -9 -f run_figure6_overnight.sh
+# pkill -9 -f run_benchmarks.py
+# killall -9 pcg.exe qdldl.exe make
+# rm benchmark_figure6_output.log
+

@@ -257,13 +257,13 @@ for(int j = 0; j < 100; j++){
 
         sqpSolvePcg<T>(
             state_size, control_size, knot_points, timestep, d_eePos_goal, 
-            d_lambda, d_xu, d_dynmem, config, rho, static_cast<T>(1e-3), 
+            d_lambda, d_xu, d_dynmem, config, rho, rho_reset, 
             sqp_workspace 
         );
         #else
         sqpSolvePcg<T>(
             state_size, control_size, knot_points, timestep, d_eePos_goal, 
-            d_lambda, d_xu, d_dynmem, config, rho, static_cast<T>(1e-3)
+            d_lambda, d_xu, d_dynmem, config, rho, rho_reset
         );
         #endif
         gpuErrchk(hipMemcpy(d_xu, d_xu_traj, traj_len*sizeof(T), hipMemcpyDeviceToDevice));
@@ -305,27 +305,37 @@ for(int j = 0; j < 100; j++){
 
 #if LINSYS_SOLVE == 1
 
-        #if !USE_SQP_WORKSPACE
-        SqpWorkspace<T> sqp_workspace(
-            state_size,
-            control_size,
-            knot_points
-        );
-        #endif
-        sqp_stats = sqpSolvePcg<T>(
-            state_size,
-            control_size,
-            knot_points,
-            timestep,
-            d_eePos_goal,
-            d_lambda,
-            d_xu,
-            d_dynmem,
-            config,
-            rho,
-            rho_reset,
-            sqp_workspace
-        );
+    #if USE_SQP_WORKSPACE
+    sqp_stats = sqpSolvePcg<T>(
+        state_size,
+        control_size,
+        knot_points,
+        timestep,
+        d_eePos_goal,
+        d_lambda,
+        d_xu,
+        d_dynmem,
+        config,
+        rho,
+        rho_reset,
+        sqp_workspace
+    );
+    #else
+    sqp_stats = sqpSolvePcg<T>(
+        state_size,
+        control_size,
+        knot_points,
+        timestep,
+        d_eePos_goal,
+        d_lambda,
+        d_xu,
+        d_dynmem,
+        config,
+        rho,
+        rho_reset
+    );
+    #endif
+
 #else 
 	    sqp_stats = sqpSolveQdldl<T>(state_size, control_size, knot_points, timestep, d_eePos_goal, d_lambda, d_xu, d_dynmem, rho, rho_reset);
 #endif
