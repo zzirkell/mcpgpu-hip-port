@@ -4,7 +4,21 @@
 #include <numeric>
 #include <algorithm>
 #include <cstdint>
+#if defined(__HIP_PLATFORM_NVIDIA__) || defined(__HIP_PLATFORM_NVCC__)
+#include <cublas_v2.h>
+
+using hipblasHandle_t = cublasHandle_t;
+using hipblasStatus_t = cublasStatus_t;
+
+#define HIPBLAS_STATUS_SUCCESS CUBLAS_STATUS_SUCCESS
+#define hipblasCreate cublasCreate
+#define hipblasDestroy cublasDestroy
+#define hipblasSaxpy cublasSaxpy
+
+#else
 #include <hipblas.h>
+#endif
+
 #include <math.h>
 #include <cmath>
 #include <random>
@@ -148,11 +162,20 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
 
     const int nnz = (knot_points-1)*states_sq + knot_points*(((state_size+1)*state_size)/2);
     
-    QDLDL_float h_lambda[state_size*knot_points];
-    QDLDL_float h_gamma[state_size*knot_points];
-    QDLDL_int h_col_ptr[state_size*knot_points+1];
-    QDLDL_int h_row_ind[nnz];
-    QDLDL_float h_val[nnz];
+    const size_t qdldl_n = static_cast<size_t>(state_size) * static_cast<size_t>(knot_points);
+    const size_t qdldl_nnz = static_cast<size_t>(nnz);
+
+    std::vector<QDLDL_float> h_lambda_vec(qdldl_n);
+    std::vector<QDLDL_float> h_gamma_vec(qdldl_n);
+    std::vector<QDLDL_int> h_col_ptr_vec(qdldl_n + 1);
+    std::vector<QDLDL_int> h_row_ind_vec(qdldl_nnz);
+    std::vector<QDLDL_float> h_val_vec(qdldl_nnz);
+
+    QDLDL_float* h_lambda = h_lambda_vec.data();
+    QDLDL_float* h_gamma = h_gamma_vec.data();
+    QDLDL_int* h_col_ptr = h_col_ptr_vec.data();
+    QDLDL_int* h_row_ind = h_row_ind_vec.data();
+    QDLDL_float* h_val = h_val_vec.data();
     
     QDLDL_int *d_row_ind, *d_col_ptr;
     QDLDL_float *d_val, *d_lambda_double;
@@ -341,8 +364,8 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
 
         if(min_merit == h_merit_initial){
             // line search failure
-            drho = max(drho*rho_factor, rho_factor);
-            rho = max(rho*drho, rho_min);
+            drho = std::max(drho*rho_factor, rho_factor);
+            rho = std::max(rho*drho, rho_min);
             sqp_iter++;
             if(rho > rho_max){
                 sqp_time_exit = 0;
@@ -354,8 +377,8 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
         // std::cout << "line search accepted\n";
         alphafinal = -1.0 / (1 << line_search_step);        // alpha sign
 
-        drho = min(drho/rho_factor, 1/rho_factor);
-        rho = max(rho*drho, rho_min);
+        drho = std::min(drho/rho_factor, static_cast<T>(1)/rho_factor);
+        rho = std::max(rho*drho, rho_min);
         
 
 #if USE_DOUBLES
