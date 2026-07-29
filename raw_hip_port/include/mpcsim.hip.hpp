@@ -211,9 +211,9 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
 
 
     // temp host memory
-    T h_xs[state_size];
-    gpuErrchk(hipMemcpy(h_xs, d_xs, state_size*sizeof(T), hipMemcpyDeviceToHost));
-    tracking_path.push_back(std::vector<T>(h_xs, &h_xs[state_size]));    
+    std::vector<T> h_xs(state_size);
+    gpuErrchk(hipMemcpy(h_xs.data(), d_xs, state_size*sizeof(T), hipMemcpyDeviceToHost));
+    tracking_path.push_back(h_xs);    
     gpuErrchk(hipPeekAtLastError());
     T h_eePos[6];
     T h_eePos_goal[6];
@@ -436,8 +436,8 @@ for(int j = 0; j < 100; j++){
         linsys_iters.insert(linsys_iters.end(), cur_linsys_iters.begin(), cur_linsys_iters.end());                      // linsys iters
         linsys_times.insert(linsys_times.end(), cur_linsys_times.begin(), cur_linsys_times.end());          // linsys times
         linsys_exits.insert(linsys_exits.end(), cur_linsys_exits.begin(), cur_linsys_exits.end());
-        gpuErrchk(hipMemcpy(h_xs, d_xs, state_size*sizeof(T), hipMemcpyDeviceToHost));
-        tracking_path.push_back(std::vector<T>(h_xs, &h_xs[state_size]));                                   // next state
+        gpuErrchk(hipMemcpy(h_xs.data(), d_xs, state_size*sizeof(T), hipMemcpyDeviceToHost));
+        tracking_path.push_back(h_xs);                                   // next state
         sqp_times.push_back(sqp_solve_time_us);
         sqp_iters.push_back(cur_sqp_iters);
 

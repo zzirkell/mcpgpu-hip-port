@@ -108,7 +108,7 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
     // streams n cublas init
     hipStream_t streams[num_alphas];
     for(uint32_t str = 0; str < num_alphas; str++){
-        hipStreamCreate(&streams[str]);
+        gpuErrchk(hipStreamCreate(&streams[str]));
     }
     gpuErrchk(hipPeekAtLastError());
 
