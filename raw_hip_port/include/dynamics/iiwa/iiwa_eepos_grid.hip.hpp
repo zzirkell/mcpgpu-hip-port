@@ -5681,14 +5681,14 @@ namespace grid {
         auto fd_kern2 = static_cast<void (*)(T *, const T *, const int, const robotModel<T> *, const T, const int)>(&forward_dynamics_gradient_kernel<T>);
         auto fd_kern_timing1 = static_cast<void (*)(T *, const T *, const int, const T *, const T *, const robotModel<T> *, const T, const int)>(&forward_dynamics_gradient_kernel_single_timing<T>);
         auto fd_kern_timing2 = static_cast<void (*)(T *, const T *, const int, const robotModel<T> *, const T, const int)>(&forward_dynamics_gradient_kernel_single_timing<T>);
-        hipFuncSetAttribute(reinterpret_cast<const void*>(id_kern1),hipFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
-        hipFuncSetAttribute(reinterpret_cast<const void*>(id_kern2),hipFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
-        hipFuncSetAttribute(reinterpret_cast<const void*>(id_kern_timing1),hipFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
-        hipFuncSetAttribute(reinterpret_cast<const void*>(id_kern_timing2),hipFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
-        hipFuncSetAttribute(reinterpret_cast<const void*>(fd_kern1),hipFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
-        hipFuncSetAttribute(reinterpret_cast<const void*>(fd_kern2),hipFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
-        hipFuncSetAttribute(reinterpret_cast<const void*>(fd_kern_timing1),hipFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
-        hipFuncSetAttribute(reinterpret_cast<const void*>(fd_kern_timing2),hipFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T));
+        gpuErrchk(hipFuncSetAttribute(reinterpret_cast<const void*>(id_kern1),hipFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T)));
+        gpuErrchk(hipFuncSetAttribute(reinterpret_cast<const void*>(id_kern2),hipFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T)));
+        gpuErrchk(hipFuncSetAttribute(reinterpret_cast<const void*>(id_kern_timing1),hipFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T)));
+        gpuErrchk(hipFuncSetAttribute(reinterpret_cast<const void*>(id_kern_timing2),hipFuncAttributeMaxDynamicSharedMemorySize, ID_DU_MAX_SHARED_MEM_COUNT*sizeof(T)));
+        gpuErrchk(hipFuncSetAttribute(reinterpret_cast<const void*>(fd_kern1),hipFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T)));
+        gpuErrchk(hipFuncSetAttribute(reinterpret_cast<const void*>(fd_kern2),hipFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T)));
+        gpuErrchk(hipFuncSetAttribute(reinterpret_cast<const void*>(fd_kern_timing1),hipFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T)));
+        gpuErrchk(hipFuncSetAttribute(reinterpret_cast<const void*>(fd_kern_timing2),hipFuncAttributeMaxDynamicSharedMemorySize, FD_DU_MAX_SHARED_MEM_COUNT*sizeof(T)));
         gpuErrchk(hipDeviceSynchronize());
         // allocate streams
         hipStream_t *streams = (hipStream_t *)malloc(3*sizeof(hipStream_t));
