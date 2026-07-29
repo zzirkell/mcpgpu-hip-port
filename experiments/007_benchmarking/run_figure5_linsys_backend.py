@@ -92,26 +92,55 @@ def copy_results(repo: Path, archive: Path) -> None:
         archive.mkdir(parents=True, exist_ok=True)
 
 
-def read_linsys_times(results_dir: Path) -> List[float]:
+def _read_float_lines(paths: Iterable[Path]) -> List[float]:
     values: List[float] = []
-    for path in sorted(results_dir.glob("*_linsys_times.result")):
+    for path in sorted(paths):
+        if not path.is_file():
+            continue
         with path.open("r", encoding="utf-8") as f:
             for line in f:
                 s = line.strip()
                 if s:
                     values.append(float(s))
     return values
+
+
+def _read_float_lines(paths: Iterable[Path]) -> List[float]:
+    values: List[float] = []
+    for path in sorted(paths):
+        if not path.is_file():
+            continue
+        with path.open("r", encoding="utf-8") as f:
+            for line in f:
+                s = line.strip()
+                if s:
+                    values.append(float(s))
+    return values
+
+
+def read_linsys_times(results_dir: Path) -> List[float]:
+    # Recursive on purpose: archives can contain nested tmp/results layouts.
+    return _read_float_lines(results_dir.rglob("*_linsys_times.result"))
 
 
 def read_linsys_times_matching(results_dir: Path, pattern: str) -> List[float]:
-    values: List[float] = []
-    for path in sorted(results_dir.glob(pattern)):
-        with path.open("r", encoding="utf-8") as f:
-            for line in f:
-                s = line.strip()
-                if s:
-                    values.append(float(s))
-    return values
+    # Recursive + tolerant matching for CUDA original result filenames.
+    direct = list(results_dir.rglob(pattern))
+    if direct:
+        return _read_float_lines(direct)
+
+    m = re.search(r"PCG_([0-9]+\.[0-9]+)", pattern)
+    if not m:
+        return []
+
+    eps = m.group(1)
+    matched = []
+    for path in results_dir.rglob("*_linsys_times.result"):
+        compact_name = path.name.replace(" ", "")
+        if f"PCG_{eps}" in compact_name:
+            matched.append(path)
+
+    return _read_float_lines(matched)
 
 
 def summarize(values: List[float]) -> Dict[str, float]:
@@ -257,8 +286,18 @@ def hip_compile_common(repo: Path, backend: str, args: argparse.Namespace, env: 
     link = []
     if backend == "hip-nvidia":
         cuda_root = args.cuda_root or env.get("CUDA_HOME") or env.get("CUDA_PATH") or "/usr/local/cuda"
+        rocm_root = args.rocm_root or env.get("ROCM_ROOT") or env.get("ROCM_PATH")
+        if not rocm_root:
+            try:
+                rocm_root = subprocess.check_output(["hipconfig", "--path"], text=True).strip()
+            except Exception:
+                rocm_root = "/opt/rocm"
         env["HIP_PLATFORM"] = "nvidia"
-        includes.append(f"-I{cuda_root}/include")
+        includes += [
+            f"-I{cuda_root}/include",
+            f"-I{rocm_root}/include/hipblas",
+            f"-I{rocm_root}/include",
+        ]
         link += [f"-L{cuda_root}/lib64", "-lcublas", "-lcudart"]
     elif backend == "hip-amd":
         rocm_root = args.rocm_root or env.get("ROCM_ROOT") or env.get("ROCM_PATH") or "/opt/rocm"
