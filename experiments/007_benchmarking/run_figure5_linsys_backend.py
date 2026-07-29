@@ -179,7 +179,8 @@ def write_csv(path: Path, fieldnames: List[str], rows: Iterable[dict]) -> None:
             writer.writerow(row)
 
 
-def plot_cdf(out_png: Path, series: Dict[str, List[float]], title: str) -> None:
+def plot_cdf(out_png: Path, series: Dict[str, List[float]], title: str, *,
+             xmin_us: float | None = None, xmax_us: float | None = None, log_x: bool = False) -> None:
     import matplotlib.pyplot as plt
 
     fig, ax = plt.subplots(figsize=(9, 5.5))
@@ -193,6 +194,10 @@ def plot_cdf(out_png: Path, series: Dict[str, List[float]], title: str) -> None:
     ax.set_xlabel("Linear system solve time (us)")
     ax.set_ylabel("Percentage of solves (%)")
     ax.set_title(title)
+    if xmin_us is not None or xmax_us is not None:
+        ax.set_xlim(left=xmin_us, right=xmax_us)
+    if log_x:
+        ax.set_xscale("log")
     ax.grid(True, alpha=0.3)
     ax.legend()
     fig.tight_layout()
@@ -292,12 +297,14 @@ def hip_compile_common(repo: Path, backend: str, args: argparse.Namespace, env: 
                 rocm_root = subprocess.check_output(["hipconfig", "--path"], text=True).strip()
             except Exception:
                 rocm_root = "/opt/rocm"
+        rocm_root = args.rocm_root or env.get("ROCM_ROOT") or env.get("ROCM_PATH")
+        if not rocm_root:
+            try:
+                rocm_root = subprocess.check_output(["hipconfig", "--path"], text=True).strip()
+            except Exception:
+                rocm_root = "/opt/rocm"
         env["HIP_PLATFORM"] = "nvidia"
-        includes += [
-            f"-I{cuda_root}/include",
-            f"-I{rocm_root}/include/hipblas",
-            f"-I{rocm_root}/include",
-        ]
+        includes.append(f"-I{cuda_root}/include")
         link += [f"-L{cuda_root}/lib64", "-lcublas", "-lcudart"]
     elif backend == "hip-amd":
         rocm_root = args.rocm_root or env.get("ROCM_ROOT") or env.get("ROCM_PATH") or "/opt/rocm"
@@ -445,7 +452,7 @@ def run_cuda_backend(project_root: Path, args: argparse.Namespace) -> Path:
         tol_value = TOLERANCES_FOR_128[tol_index]
         eps_key = f"{tol_value:.6f}"
         label = f"GBD-PCG eps={tol_value:g}"
-        values = read_linsys_times_matching(pcg_archive, f"*PCG_{eps_key}_linsys_times.result")
+        values = read_linsys_times_matching(pcg_archive, f"*PCG_{eps_key}*linsys_times.result")
         if not values:
             print(f"WARNING: no CUDA PCG linsys values for eps={eps_key}")
         plot_series[label] = values
@@ -484,7 +491,8 @@ def write_outputs(out_dir: Path, raw_rows: List[dict], summary_rows: List[dict],
     write_csv(out_dir / "figure5_linsys_raw_times.csv", raw_fields, raw_rows)
     write_csv(out_dir / "figure5_linsys_summary.csv", summary_fields, summary_rows)
     plot_cdf(out_dir / "figure5_linsys_cdf.png", plot_series,
-             title=f"Figure 5-style linear-system CDF ({backend}, K={args.knots}, budget={args.sqp_budget_us}us)")
+             title=f"Figure 5-style linear-system CDF ({backend}, K={args.knots}, budget={args.sqp_budget_us}us)",
+             xmin_us=args.xmin_us, xmax_us=args.xmax_us, log_x=args.log_x)
     print("\nDONE:")
     print(f"  Summary: {out_dir / 'figure5_linsys_summary.csv'}")
     print(f"  Plot:    {out_dir / 'figure5_linsys_cdf.png'}")
@@ -509,6 +517,9 @@ def main() -> int:
     parser.add_argument("--cuda-worktree", type=Path, default=None)
     parser.add_argument("--refresh-cuda-worktree", action="store_true")
     parser.add_argument("--extra-defines", default="")
+    parser.add_argument("--xmin-us", type=float, default=None, help="Optional lower x-axis limit for CDF plot, in microseconds.")
+    parser.add_argument("--xmax-us", type=float, default=None, help="Optional upper x-axis limit for CDF plot, in microseconds.")
+    parser.add_argument("--log-x", action="store_true", help="Use logarithmic x-axis for timing CDF plot.")
     args = parser.parse_args()
 
     project_root = args.project_root.resolve()
