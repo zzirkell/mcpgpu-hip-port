@@ -346,7 +346,7 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
         gpuErrchk(hipDeviceSynchronize());
         
         
-        hipMemcpy(h_merit_news, d_merit_news, 8*sizeof(T), hipMemcpyDeviceToHost);
+        gpuErrchk(hipMemcpy(h_merit_news, d_merit_news, 8*sizeof(T), hipMemcpyDeviceToHost));
         if (sqpTimecheck()){ break; }
 
 
@@ -364,8 +364,8 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
 
         if(min_merit == h_merit_initial){
             // line search failure
-            drho = std::max(drho*rho_factor, rho_factor);
-            rho = std::max(rho*drho, rho_min);
+            drho = std::max<T>(drho * rho_factor, rho_factor);
+            rho = std::max<T>(rho * drho, rho_min);
             sqp_iter++;
             if(rho > rho_max){
                 sqp_time_exit = 0;
@@ -375,10 +375,10 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
             continue;
         }
         // std::cout << "line search accepted\n";
-        alphafinal = -1.0 / (1 << line_search_step);        // alpha sign
+        alphafinal = static_cast<T>(-1) / static_cast<T>(1u << line_search_step);        // alpha sign
 
-        drho = std::min(drho/rho_factor, static_cast<T>(1)/rho_factor);
-        rho = std::max(rho*drho, rho_min);
+        drho = std::min<T>(drho / rho_factor, static_cast<T>(1) / rho_factor);
+        rho = std::max<T>(rho * drho, rho_min);
         
 
 #if USE_DOUBLES

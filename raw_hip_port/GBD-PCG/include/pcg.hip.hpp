@@ -1,6 +1,8 @@
 #include "hip/hip_runtime.h"
 #pragma once
 #include <stdint.h>
+#include <algorithm>
+#include <cstddef>
 #include <hip/hip_runtime.h>
 #include <hip/hip_cooperative_groups.h>
 #include "types.hip.hpp"
@@ -13,11 +15,20 @@ namespace cgrps = cooperative_groups;
 
 template <typename T>
 size_t pcgSharedMemSize(uint32_t state_size, uint32_t knot_points){
-    return sizeof(T) * max(
-                        (2*3*state_size*state_size + 
-                        10 * state_size + 
-                        2*max(state_size, knot_points)),
-                        (9 * state_size*state_size));
+    const size_t max_state_knot = std::max<size_t>(
+        static_cast<size_t>(state_size),
+        static_cast<size_t>(knot_points)
+    );
+
+    const size_t first_size =
+        static_cast<size_t>(2 * 3 * state_size * state_size) +
+        static_cast<size_t>(10 * state_size) +
+        static_cast<size_t>(2) * max_state_knot;
+
+    const size_t second_size =
+        static_cast<size_t>(9 * state_size * state_size);
+
+    return sizeof(T) * std::max<size_t>(first_size, second_size);
 }
 
 
@@ -89,8 +100,9 @@ void pcg(
     T *s_r_tilde = s_lambda + 3*state_size;
     T  *s_upsilon = s_r_tilde + state_size;
     T  *s_v_b = s_upsilon + state_size;
-    T  *s_eta_new_b = s_v_b + max(knot_points, state_size);
-    T  *s_r = s_eta_new_b + max(knot_points, state_size);
+    constexpr uint32_t max_knot_state = (knot_points > state_size) ? knot_points : state_size;
+    T  *s_eta_new_b = s_v_b + max_knot_state;
+    T  *s_r = s_eta_new_b + max_knot_state;
     T  *s_p = s_r + 3*state_size;
     T  *s_r_b = s_r + state_size;
     T  *s_p_b = s_p + state_size;

@@ -19,15 +19,25 @@ void infnorm(const uint32_t n,
         size_left = (size_left - odd_flag)/2; 
         // reduce in half
         for (uint32_t i = ind; i < size_left; i += stride){
-            x[i] = max(abs(x[i]), abs(x[i + size_left]));
+            const T a = abs(x[i]);
+            const T b = abs(x[i + size_left]);
+            x[i] = (a > b) ? a : b;
         }	
         // add the odd size adjust if needed
-        if (ind == 0 && odd_flag){x[0] = max(abs(x[0]), abs(x[2*size_left]));}
+        if (ind == 0 && odd_flag){
+            const T a = abs(x[0]);
+            const T b = abs(x[2*size_left]);
+            x[0] = (a > b) ? a : b;
+        }
         // sync and repeat
         __syncthreads();
     }
     // when we get really small sum up what is left
     if (ind == 0){
-        for(unsigned ind = 1; ind < size_left; ind++){x[0] = max(abs(x[0]), abs(x[ind]));}
+        for(unsigned ind = 1; ind < size_left; ind++){
+            const T a = abs(x[0]);
+            const T b = abs(x[ind]);
+            x[0] = (a > b) ? a : b;
+        }
     }
 }
