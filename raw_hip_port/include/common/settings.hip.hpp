@@ -195,5 +195,18 @@ LINSYS_SOLVE = 0 uses qdldl as the underlying linear system solver */
 #define RHO_MAX 10 
 #endif
 
+/*******************************************************************************
+ *                           Fine Grained Timing Settings                      *
+ *******************************************************************************/
+
+
+#ifndef FINE_GRAINED_TIMING
+#define FINE_GRAINED_TIMING 0
+#endif
+
+// if fine grained timing is enabled require that time linsys is also enabled
+#if FINE_GRAINED_TIMING && !TIME_LINSYS
+#error "Fine grained timing requires time linsys to be enabled"
+#endif
 
 
