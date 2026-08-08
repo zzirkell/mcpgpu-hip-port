@@ -10,3 +10,4 @@ raw_hip_port/tests/*_hip_nvidia
 raw_hip_port/tests/*_hip_amd*
 raw_hip_port/examples/pcg_*
 experiments/007_benchmarking/
+experiments/008_component_analysis/timing_results

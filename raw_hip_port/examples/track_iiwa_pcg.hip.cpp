@@ -72,17 +72,27 @@ int main(int argc, char** argv){
 
         uint32_t pcg_exit_begin = 0;
         uint32_t pcg_exit_end = num_exit_vals;
+        
+        bool use_custom_tol = false;
+        linsys_t custom_tol = 0.0;
+
+        // Wenn ein Argument übergeben wurde, nutze es als konkrete Toleranz
         if (argc > 1) {
-            pcg_exit_begin = static_cast<uint32_t>(std::atoi(argv[1]));
-            pcg_exit_end = pcg_exit_begin + 1;
+            custom_tol = static_cast<linsys_t>(std::atof(argv[1]));
+            use_custom_tol = true;
+            // Die Schleife soll mit der Custom-Toleranz nur exakt einmal laufen
+            pcg_exit_end = 1;
         }
 
+        // Die Schleife läuft entweder 1x (Custom) oder num_exit_vals mal (Standard)
         for (uint32_t pcg_exit_ind = pcg_exit_begin;
-             pcg_exit_ind < pcg_exit_end && pcg_exit_ind < num_exit_vals;
+             pcg_exit_ind < pcg_exit_end && (use_custom_tol || pcg_exit_ind < num_exit_vals);
              pcg_exit_ind++){
 
-            const linsys_t pcg_exit_tol = pcg_exit_vals.at(pcg_exit_ind);
-		std::vector<double> linsys_times;
+            // Hier wird entschieden: Custom-Wert oder Wert aus dem Array
+            const linsys_t pcg_exit_tol = use_custom_tol ? custom_tol : pcg_exit_vals.at(pcg_exit_ind);
+            
+        std::vector<double> linsys_times
 		std::vector<uint32_t> sqp_iters;
 		std::vector<toplevel_return_type> current_results;
 		std::vector<float> tracking_errs;
