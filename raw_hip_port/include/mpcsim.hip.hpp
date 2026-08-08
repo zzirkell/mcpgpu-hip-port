@@ -73,7 +73,11 @@ template <typename T>
 void dump_tracking_data(std::vector<int> *pcg_iters, std::vector<bool> *pcg_exits, std::vector<double> *linsys_times, std::vector<double> *sqp_times, std::vector<uint32_t> *sqp_iters, 
                 std::vector<bool> *sqp_exits, std::vector<T> *tracking_errors, std::vector<std::vector<T>> *tracking_path, uint32_t timesteps_taken, 
                 uint32_t control_updates_taken, uint32_t start_state_ind, uint32_t goal_state_ind, uint32_t test_iter,
-                std::string filename_prefix){
+                std::string filename_prefix,
+                std::vector<double> *ktt_time_vec,          
+                std::vector<double> *shur_time_vec,          
+                std::vector<double> *dz_time_vec,            
+                std::vector<double> *line_search_time_vec   ){
     // Helper function to create file names
     auto createFileName = [&](const std::string& data_type) {
         std::string filename = filename_prefix + "_" + std::to_string(test_iter) + "_" + data_type + ".result";
@@ -197,7 +201,22 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
     std::vector<int> cur_linsys_iters;
     std::vector<bool> cur_linsys_exits;
     std::vector<double> cur_linsys_times;
-    std::tuple<std::vector<int>, std::vector<double>, double, uint32_t, bool, std::vector<bool>> sqp_stats;
+// For potentially recording fine-grained timing
+    std::vector<double> ktt_time_vec, shur_time_vec, dz_time_vec, line_search_time_vec;
+    std::vector<double> cur_ktt_time_vec, cur_shur_time_vec, cur_dz_time_vec, cur_line_search_time_vec;
+
+    std::tuple<
+        std::vector<int>,
+        std::vector<double>,
+        double,
+        uint32_t,
+        bool,
+        std::vector<bool>,
+        std::vector<double>, // <-- NEU (ktt)
+        std::vector<double>, // <-- NEU (schur)
+        std::vector<double>, // <-- NEU (dz)
+        std::vector<double>  // <-- NEU (line_search)
+    > sqp_stats;
     uint32_t cur_sqp_iters;
     T cur_tracking_error;
     int control_update_step;
@@ -500,7 +519,11 @@ for(int j = 0; j < 100; j++){
     }
 #if SAVE_DATA
     dump_tracking_data(&linsys_iters, &linsys_exits, &linsys_times, &sqp_times, &sqp_iters, &sqp_exits, &tracking_errors, &tracking_path, 
-            traj_offset, control_update_step, start_state_ind, goal_state_ind, test_iter, test_output_prefix);
+            traj_offset, control_update_step, start_state_ind, goal_state_ind, test_iter, test_output_prefix, 
+            &ktt_time_vec,          
+            &shur_time_vec,         
+            &dz_time_vec,          
+            &line_search_time_vec   );
 #endif
     
 

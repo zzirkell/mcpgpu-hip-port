@@ -9,4 +9,4 @@
 raw_hip_port/tests/*_hip_nvidia
 raw_hip_port/tests/*_hip_amd*
 raw_hip_port/examples/pcg_*
-experiments/007_benchmarking/benchmark_archive
+experiments/007_benchmarking/

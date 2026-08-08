@@ -35,7 +35,7 @@ def create_fig6_for_system(system_name, base_dir):
     
     fig.suptitle(f'MPCGPU Performance (Fig. 6) - {system_name.upper()} ({ws_label})', fontsize=16, weight='bold')
     
-    cmap = sns.diverging_palette(10, 130, as_cmap=True, s=90, l=60)
+    cmap = 'RdYlGn'
 
     for i, (solver_folder, solver_label) in enumerate(SOLVERS_MAPPING.items()):
         heatmap_matrix = pd.DataFrame(index=CONTROL_RATES_HZ, columns=KNOT_POINTS, data=np.nan)
@@ -48,9 +48,10 @@ def create_fig6_for_system(system_name, base_dir):
                 folder_path = os.path.join(system_dir, solver_folder, f"knots_{knot}_rate_{rate}")
                 
                 if solver_folder == "PCG":
-                    search_pattern = os.path.join(folder_path, f"*_PCG_{PCG_TARGET_TOLERANCE}_overall_stats.csv")
+                    # Sucht nach ALLEN Toleranzen mit einem Sternchen (*)
+                    search_pattern = os.path.join(folder_path, "*_PCG_*_overall_stats.csv")
                 else:
-                    search_pattern = os.path.join(folder_path, "*_QDLDL_overall_stats.csv")
+                    search_pattern = os.path.join(folder_path, "*_overall_stats.csv")
                 
                 csv_files = glob.glob(search_pattern)
                 
@@ -58,7 +59,14 @@ def create_fig6_for_system(system_name, base_dir):
                     heatmap_matrix.loc[rate, knot] = np.nan
                     continue
                 
-                csv_file = csv_files[0] 
+                # Sortiert die gefundenen Dateien alphabetisch (nach der Toleranz-Nummer)
+                csv_files.sort()
+                
+                if solver_folder == "PCG":
+                    # Nimmt bei PCG automatisch die Datei mit der größten Toleranz (die letzte)
+                    csv_file = csv_files[-1] 
+                else:
+                    csv_file = csv_files[0]
                 
                 try:
                     df = pd.read_csv(csv_file)

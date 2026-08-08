@@ -1,2 +1,5 @@
 nvidia gpu can only handle 270 blocks, that is a problem for cooperative groups, programm cant handle the 512 knots configuration, 256 is also not easy
 
+amd gpu (strixhalo): Too many knot points ([256]). Device supports [160] active blocks, over [20] SMs.
+
+müssen wir anzeigen das wir den code für finegrained von felix haben?

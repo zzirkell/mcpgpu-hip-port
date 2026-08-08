@@ -724,5 +724,9 @@ auto sqpSolvePcg(
     gpuErrchk(hipFree(d_pcg_exit));
 #endif
 
-    return std::make_tuple(pcg_iter_vec, linsys_time_vec, sqp_solve_time, sqp_iter, sqp_time_exit, pcg_exit_vec);
+    return std::make_tuple(pcg_iter_vec, linsys_time_vec, sqp_solve_time, sqp_iter, sqp_time_exit, pcg_exit_vec, 
+        ktt_time_vec, // new
+        shur_time_vec,     
+        dz_time_vec,           
+        line_search_time_vec   );
 }

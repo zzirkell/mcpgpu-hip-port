@@ -1,24 +1,49 @@
-import glob
-import subprocess
+#!/usr/bin/env python3
 import os
+import subprocess
 import shutil
-import itertools
-import argparse
+from pathlib import Path
+
+# ==========================================
+# 1. HARDWARE DETECTION & LOGGING
+# ==========================================
+def log_amd_gpu_info():
+    """Detects active AMD hardware via rocminfo and logs it for the report."""
+    print("=== AMD Hardware Validation ===")
+    try:
+        result = subprocess.run(["rocminfo"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
+        gpu_name = "Unknown"
+        gpu_isa = "Unknown"
+        
+        for line in result.stdout.splitlines():
+            if "Marketing Name:" in line and "Radeon" in line:
+                gpu_name = line.split(":", 1)[1].strip()
+            elif "Name: " in line and "gfx" in line:
+                gpu_isa = line.split(":", 1)[1].strip()
+                
+        print(f"[+] Found GPU Hardware : {gpu_name}")
+        print(f"[+] AMD ISA Architecture : {gpu_isa}")
+        
+        if "gfx1151" in gpu_isa or "Radeon 8060S" in gpu_name:
+            print("[+] STATUS: Correct AMD Strix-Halo APU is active!")
+        else:
+            print("[!] WARNING: Different GPU detected.")
+    except Exception as e:
+        print(f"[!] Could not read rocminfo: {e}")
+    print("===============================\n")
 
 
 def detect_hardware():
+    """Checks which GPUs are available in the system and enables the corresponding architectures."""
     archs = []
     print("=== Hardware Detection ===")
-    
-    # Check NVIDIA
     try:
         subprocess.run(["nvidia-smi"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
         print("[+] NVIDIA GPU found -> Enabling: 'cuda', 'nv_hip'")
         archs.extend(["cuda", "nv_hip"])
     except (FileNotFoundError, subprocess.CalledProcessError):
         pass
-
-    # Check AMD
+    
     try:
         subprocess.run(["rocm-smi"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
         print("[+] AMD GPU found    -> Enabling: 'amd_hip'")
@@ -30,161 +55,108 @@ def detect_hardware():
     return archs
 
 
-def compile_project(active_repo, arch, knots, rate_hz, hide_warnings, workspace_off):
-    """Compiles the project with injected parameters and architecture specific flags."""
+# ==========================================
+# 2. BENCHMARK ITERATION (Via Bash Script)
+# ==========================================
+def run_benchmark_iteration(src_dir: Path, bash_script: Path, arch, knots, rate_hz, workspace_off):
+    """
+    Calls the secure bash script exactly inside the correct source folder.
+    """
     max_time_us = int(1000000 / rate_hz)
-    workspace_flag = "-DUSE_SQP_WORKSPACE=0 " if workspace_off else "-DUSE_SQP_WORKSPACE=1 "
+    workspace_flag = "-DUSE_SQP_WORKSPACE=0" if workspace_off else "-DUSE_SQP_WORKSPACE=1"
     
-    compiler_flags = (
-        f"-DKNOT_POINTS={knots} "
-        f"-DSQP_MAX_TIME_US={max_time_us} "
-        f"-DSAVE_DATA=1 "
-        f"-DTEST_ITERS=3 "
-        f"-DTIME_LINSYS=0 "
-        f"{workspace_flag}"
-    )
+    try:
+        os.chmod(bash_script, 0o755)
+    except Exception:
+        pass
 
-    if hide_warnings:
-        compiler_flags += " -w "
+    cmd = [
+        str(bash_script),
+        arch,
+        str(knots),
+        str(max_time_us),
+        workspace_flag
+    ]
     
+    # Correctly set the visibility of the GPUs
     env = os.environ.copy()
-    
-    if arch == "nv_hip":
-        env["HIP_PLATFORM"] = "nvidia"
-        nvcc_exec = shutil.which("nvcc")
-        if nvcc_exec:
-            cuda_root = os.path.dirname(os.path.dirname(nvcc_exec))
-        else:
-            cuda_root = env.get("CUDA_HOME") or env.get("CUDA_PATH") or "/usr/local/cuda"
-        
-        env["CUDA_PATH"] = cuda_root
-        env["CUDA_HOME"] = cuda_root
-        compiler_flags += f" -rdc=true -I{cuda_root}/include -L{cuda_root}/lib64 -lcublas -lcudart"
-        env["CXX"] = "hipcc"
-        env["CC"] = "hipcc"
-
-    env["CFLAGS"] = f"-O3 {compiler_flags}" 
-    env["CXXFLAGS"] = f"-O3 {compiler_flags}" 
-    
-    subprocess.run(["make", "clean"], stdout=subprocess.DEVNULL, cwd=active_repo, env=env)
-    result = subprocess.run(["make", "examples"], stdout=subprocess.DEVNULL, cwd=active_repo, env=env)
-    
-    return result.returncode == 0
-
-def run_solver(active_repo, arch, solver_name):
-    """Executes the solver with correct library paths and GPU masking."""
-    os.makedirs(os.path.join(active_repo, "tmp", "results"), exist_ok=True)
-    exe_path = f"./examples/{solver_name.lower()}.exe"
-    env = os.environ.copy()
-    
-    # Set library paths
-    path_hip = f"{active_repo}/qdldl/temp_build/out"
-    path_cuda = f"{active_repo}/qdldl/build/out"
-    env["LD_LIBRARY_PATH"] = f"{path_hip}:{path_cuda}:{env.get('LD_LIBRARY_PATH', '')}"
-    
-    # Isolate GPUs
     if arch in ["cuda", "nv_hip"]:
-        env["CUDA_VISIBLE_DEVICES"] = "0" 
+        env["CUDA_VISIBLE_DEVICES"] = "0"
         env["HIP_VISIBLE_DEVICES"] = "0"
     elif arch == "amd_hip":
-        env["HIP_VISIBLE_DEVICES"] = "0" 
+        env["HIP_VISIBLE_DEVICES"] = "0"
 
-    subprocess.run([exe_path], cwd=active_repo, env=env)
-
-def archive_results(active_repo, archive_base, arch, solver_name, knots, rate_hz):
-    """Moves result logs to the archive folder."""
-    tmp_dir = os.path.join(active_repo, "tmp", "results")
-    archive_dir = os.path.join(archive_base, arch, solver_name, f"knots_{knots}_rate_{rate_hz}")
-    
-    if os.path.exists(tmp_dir) and os.listdir(tmp_dir):
-        search_pattern = os.path.join(tmp_dir, "*_overall_stats.csv")
-        csv_files = glob.glob(search_pattern)
-
-        if csv_files:
-            os.makedirs(archive_dir, exist_ok=True)
-            for file_path in csv_files:
-                shutil.copy2(file_path, archive_dir)
-                filename = os.path.basename(file_path)
-                print(f"       [+] {filename} saved to: {archive_dir}")
-            
-            shutil.rmtree(tmp_dir)
-            os.makedirs(tmp_dir, exist_ok=True)
-            print("Cleaned up tmp/results")
-        else:
-            print("       [!] No _overall_stats.csv found in tmp_dir!")
-    else:
-        print("       [!] No log files found!")
+    # Execute compile and run in the specific source directory (Original or HIP port)
+    result = subprocess.run(cmd, cwd=src_dir, env=env)
+    return result.returncode == 0
 
 
+# ==========================================
+# 3. MAIN LOOP
+# ==========================================
 def main():
-    # CLI Setup
-    parser = argparse.ArgumentParser(description="MPCGPU Benchmarking Tool")
-    parser.add_argument("--hw", choices=["auto", "nvidia", "amd"], default="auto", help="Force hardware target.")
-    parser.add_argument("--solvers", nargs="+", default=["PCG", "QDLDL"], help="Target solvers.")
-    parser.add_argument("--knots", nargs="+", type=int, default=[32, 64, 128, 256, 512], help="Knot points.")
-    parser.add_argument("--rates", nargs="+", type=int, default=[250, 500, 1000], help="Control rates (Hz).")
-    parser.add_argument("--hide-compiler-warnings", action="store_true", help="Surpresses the warnings from the compiler for MPCGPU and the hip aquivalent.")
-    parser.add_argument("--workspaces", nargs="+", choices=["on", "off"], default=["on", "off"])
-    args = parser.parse_args()
-
-    ws_settings = [False if ws == "on" else True for ws in args.workspaces]
-
-    # Determine architecture
-    if args.hw == "auto":
-        architectures = detect_hardware()
-    elif args.hw == "nvidia":
-        architectures = ["cuda", "nv_hip"]
-    else:
-        architectures = ["amd_hip"]
-
-    if not architectures:
-        print("[!] No compatible hardware found. Exiting.")
+    script_dir = Path(__file__).resolve().parent
+    bash_script = script_dir / "run_backend.sh"
+    active_repo = script_dir.parent.parent  # Resolves to mcpgpu-hip-port/
+    
+    knots_list = [32, 64, 128, 256, 512]
+    rates_list = [250, 500, 1000]
+    workspace_variants = [False, True]
+    
+    log_amd_gpu_info()
+    archs = detect_hardware()
+    
+    if not archs:
+        print("[!] No compatible hardware found. Aborting.")
         return
 
-    # Path Setup
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.abspath(os.path.join(script_dir, "../../../"))
-    archive_base = os.path.join(script_dir, "benchmark_archive")
-    os.makedirs(archive_base, exist_ok=True)
+    for arch in archs:
+        # 1. Determine the exact source folder for the architecture
+        if arch == "cuda":
+            # Points to the original mpcgpu repo (assuming it is parallel to mcpgpu-hip-port)
+            src_dir = active_repo.parent / "MPCGPU" 
+        else:
+            # Points to the raw hip port inside the current repo
+            src_dir = active_repo / "raw_hip_port"
 
-    repo_paths = {
-        "cuda": os.path.join(project_root, "MPCGPU"),
-        "nv_hip": os.path.join(project_root, "mcpgpu-hip-port", "raw_hip_port"),
-        "amd_hip": os.path.join(project_root, "mcpgpu-hip-port", "raw_hip_port")
-    }
-
-    # Run Benchmark Matrix
-    for arch in architectures:
-        active_repo = repo_paths[arch]
-        if not os.path.exists(active_repo):
-            print(f"[!] Warning: Path {active_repo} missing. Skipping {arch}.")
+        if not src_dir.exists():
+            print(f"[!] CRITICAL: Directory {src_dir} not found! Check your paths.")
             continue
-        
-        # clears tmp/results folder before run
-        init_tmp_dir = os.path.join(active_repo, "tmp", "results")
-        if os.path.exists(init_tmp_dir):
-            shutil.rmtree(init_tmp_dir)
-        os.makedirs(init_tmp_dir, exist_ok=True)
-        print("Cleaned up tmp/results")
 
-        for knots, rate_hz, ws_off in itertools.product(args.knots, args.rates, ws_settings):
-            if arch == "cuda" and ws_off:
-                continue
-
-            ws_state = "OFF" if ws_off else "ON"
-            print(f"\n[*] COMPILING {arch.upper()} | Knots: {knots} | Rate: {rate_hz}Hz | Workspace: {ws_state}")
+        for workspace_off in workspace_variants:
+            ws_label = "OFF" if workspace_off else "ON"
+            print(f"\n\n{'='*60}")
+            print(f"STARTING TEST SUITE: Arch={arch} | Workspace={ws_label}")
+            print(f"{'='*60}")
             
-            if not compile_project(active_repo, arch, knots, rate_hz, args.hide_compiler_warnings, ws_off):
-                print(f"    [!] Compile error for {knots} knots. Skipping.")
-                continue
-            
-            current_archive_base = f"{archive_base}_ws_off" if ws_off else f"{archive_base}_ws_on"
-            os.makedirs(current_archive_base, exist_ok=True)
+            for knots in knots_list:
+                for rate_hz in rates_list:
+                    print(f"\n[*] RUN | Knots: {knots} | Rate: {rate_hz}Hz")
+                    
+                    # 2. Clean up tmp_results inside the active src_dir
+                    tmp_results = src_dir / "tmp" / "results"
+                    if tmp_results.exists():
+                        shutil.rmtree(tmp_results)
 
-            for solver_name in args.solvers:
-                print(f"    -> Running: {solver_name}")
-                run_solver(active_repo, arch, solver_name)
-                archive_results(active_repo, current_archive_base, arch, solver_name, knots, rate_hz)
+                    tmp_results.mkdir(parents=True, exist_ok=True)
+                    
+                    # 3. Delegate to the bash script
+                    success = run_benchmark_iteration(src_dir, bash_script, arch, knots, rate_hz, workspace_off)
+                    
+                    if not success:
+                        print(f"    [!] Error (Compile or Runtime) at {knots} knots and {rate_hz}Hz.")
+                        print(f"    [!] Skipping remaining rates for {knots} knots.")
+                        break
+                    
+                    # 4. Save results to the archive folder
+                    archive_folder = script_dir / f"benchmark_archive_{arch}_ws_{ws_label.lower()}" / f"K{knots}_{rate_hz}Hz"
+                    archive_folder.mkdir(parents=True, exist_ok=True)
+                    
+                    if tmp_results.exists():
+                        subprocess.run(["rsync", "-a", f"{tmp_results}/", f"{archive_folder}/"])
+                        print(f"    [+] Saved results to: {archive_folder}")
+                        
+    print("\n=== All benchmarks completed successfully! ===")
 
 if __name__ == "__main__":
     main()
