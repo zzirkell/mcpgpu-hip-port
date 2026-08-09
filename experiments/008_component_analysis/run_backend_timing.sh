@@ -13,6 +13,10 @@ echo "============================================================"
 echo "TIMING ANALYSIS: Backend: $ARCH | Knots: $KNOTS"
 echo "============================================================"
 
+# Ensure result directory exists also when this backend script is run directly.
+rm -rf tmp/results
+mkdir -p tmp/results
+
 # 1. LOAD ENVIRONMENT
 if [ "$ARCH" == "cuda" ]; then
     source "$HOME/mpcgpu_project/env_cuda_c3po.sh"
@@ -20,7 +24,12 @@ elif [ "$ARCH" == "nv_hip" ]; then
     source "$HOME/mpcgpu_project/env_nvhip_c3po.sh"
     export HIP_PLATFORM="nvidia"
 elif [ "$ARCH" == "amd_hip" ]; then
+    if [ -f "$HOME/mpcgpu_project/env_amdhip_mi300_ftp.sh" ]; then
+        source "$HOME/mpcgpu_project/env_amdhip_mi300_ftp.sh"
+    fi
     export HIP_PLATFORM="amd"
+    : "${ROCM_ROOT:=${ROCM_PATH:-/opt/rocm-6.4.1}}"
+    export ROCM_ROOT ROCM_PATH HIP_PATH
 fi
 
 # HIER SIND DIE BEIDEN NEUEN FLAGS AKTIVIERT:
@@ -52,8 +61,9 @@ else
         INCLUDES="$INCLUDES -I$CUDA_HOME/include -I$ROCM_ROOT/include/hipblas -I$ROCM_ROOT/include"
         LINKS="-L$CUDA_HOME/lib64 -lcublas -lcudart"
     else
-        INCLUDES="$INCLUDES -I/opt/rocm/include/hipblas"
-        LINKS="-L/opt/rocm/lib -lhipblas -lrocblas"
+        : "${ROCM_ROOT:=${ROCM_PATH:-/opt/rocm-6.4.1}}"
+        INCLUDES="$INCLUDES -I$ROCM_ROOT/include -I$ROCM_ROOT/include/hipblas"
+        LINKS="-L$ROCM_ROOT/lib -lhipblas -lrocblas"
     fi
 
     echo "=== Compiling HIP ($ARCH, Timing) ==="
