@@ -106,12 +106,12 @@ void dump_tracking_data(std::vector<int> *pcg_iters, std::vector<bool> *pcg_exit
     dumpVectorData(tracking_errors, "tracking_errors");
     dumpVectorData(pcg_exits, "pcg_exits");
 
-#if LINSYS_SOLVE == 1 && FINE_GRAINED_TIMING
+#if FINE_GRAINED_TIMING
     dumpVectorData(ktt_time_vec, "ktt_times");
     dumpVectorData(shur_time_vec, "shur_times");
     dumpVectorData(dz_time_vec, "dz_times");
     dumpVectorData(line_search_time_vec, "line_search_times");
-#endif // #if LINSYS_SOLVE == 1 && FINE_GRAINED_TIMING    
+#endif // #if FINE_GRAINED_TIMING    
 
 
 
@@ -374,7 +374,7 @@ for(int j = 0; j < 100; j++){
         sqp_exits.push_back(std::get<4>(sqp_stats));
         cur_linsys_exits = std::get<5>(sqp_stats);
 
-    #if LINSYS_SOLVE == 1 && FINE_GRAINED_TIMING == 1
+    #if FINE_GRAINED_TIMING == 1
         // For FINE_GRAINED_TIMING
         // @Felix weird location ... but we just copy what they did in the original code
         cur_ktt_time_vec = std::get<6>(sqp_stats),
@@ -477,7 +477,7 @@ for(int j = 0; j < 100; j++){
         sqp_times.push_back(sqp_solve_time_us);
         sqp_iters.push_back(cur_sqp_iters);
 
-    #if LINSYS_SOLVE == 1 && FINE_GRAINED_TIMING == 1
+    #if FINE_GRAINED_TIMING == 1
         // For FINE_GRAINED_TIMING
         ktt_time_vec.insert(ktt_time_vec.end(), cur_ktt_time_vec.begin(), cur_ktt_time_vec.end());
         shur_time_vec.insert(shur_time_vec.end(), cur_shur_time_vec.begin(), cur_shur_time_vec.end());

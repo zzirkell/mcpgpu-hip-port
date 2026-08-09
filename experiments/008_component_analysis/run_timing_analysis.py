@@ -11,20 +11,32 @@ def parse_arguments():
     return parser.parse_args()
 
 def detect_hardware(hw_choice):
+    # On clusters, nvidia-smi/rocm-smi can be unavailable or restricted.
+    # If the user explicitly selects a backend family, trust the Slurm allocation.
+    if hw_choice == "nvidia":
+        print("[+] Forced NVIDIA mode -> Enabled: 'cuda', 'nv_hip'")
+        return ["cuda", "nv_hip"]
+
+    if hw_choice == "amd":
+        print("[+] Forced AMD mode -> Enabled: 'amd_hip'")
+        return ["amd_hip"]
+
     archs = []
-    if hw_choice in ["nvidia", "all"]:
-        try:
-            subprocess.run(["nvidia-smi"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
-            archs.extend(["cuda", "nv_hip"])
-            print("[+] NVIDIA GPU found -> Enabled: 'cuda', 'nv_hip'")
-        except: pass
-        
-    if hw_choice in ["amd", "all"]:
-        try:
-            subprocess.run(["rocm-smi"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
-            archs.append("amd_hip")
-            print("[+] AMD GPU found -> Enabled: 'amd_hip'")
-        except: pass
+
+    try:
+        subprocess.run(["nvidia-smi"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+        archs.extend(["cuda", "nv_hip"])
+        print("[+] NVIDIA GPU found -> Enabled: 'cuda', 'nv_hip'")
+    except Exception:
+        pass
+
+    try:
+        subprocess.run(["rocm-smi"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+        archs.append("amd_hip")
+        print("[+] AMD GPU found -> Enabled: 'amd_hip'")
+    except Exception:
+        pass
+
     return archs
 
 # Erweiterte Testreihe: Inklusive NV_HIP und Workspace ON/OFF

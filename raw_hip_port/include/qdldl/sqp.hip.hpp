@@ -71,6 +71,12 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
     std::vector<int> linsys_iter_vec;
     std::vector<bool> linsys_exit_vec;
     std::vector<double> linsys_time_vec;
+#if FINE_GRAINED_TIMING
+    std::vector<double> ktt_time_vec;
+    std::vector<double> shur_time_vec;
+    std::vector<double> dz_time_vec;
+    std::vector<double> line_search_time_vec;
+#endif
     bool sqp_time_exit = 1;     // for data recording, not a flag
     
 
@@ -260,6 +266,11 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
     //
     for(uint32_t sqpiter = 0; sqpiter < SQP_MAX_ITER; sqpiter++){
         
+#if FINE_GRAINED_TIMING
+        gpuErrchk(hipDeviceSynchronize());
+        struct timespec ktt_start, ktt_end;
+        clock_gettime(CLOCK_MONOTONIC, &ktt_start);
+#endif
         generate_kkt_submatrices<T><<<knot_points, KKT_THREADS, 2 * get_kkt_smem_size<T>(state_size, control_size)>>>(
             state_size,
             control_size,
@@ -275,11 +286,26 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
             d_xu
         );
         gpuErrchk(hipPeekAtLastError());
+#if FINE_GRAINED_TIMING
+        gpuErrchk(hipDeviceSynchronize());
+        clock_gettime(CLOCK_MONOTONIC, &ktt_end);
+        ktt_time_vec.push_back(time_delta_us_timespec(ktt_start, ktt_end));
+#endif
         if (sqpTimecheck()){ break; }
 
 
+#if FINE_GRAINED_TIMING
+        gpuErrchk(hipDeviceSynchronize());
+        struct timespec shur_start, shur_end;
+        clock_gettime(CLOCK_MONOTONIC, &shur_start);
+#endif
         form_schur_system_qdldl<T>(state_size, control_size, knot_points, d_G_dense, d_C_dense, d_g, d_c, d_val, d_gamma, rho);
         gpuErrchk(hipPeekAtLastError());
+#if FINE_GRAINED_TIMING
+        gpuErrchk(hipDeviceSynchronize());
+        clock_gettime(CLOCK_MONOTONIC, &shur_end);
+        shur_time_vec.push_back(time_delta_us_timespec(shur_start, shur_end));
+#endif
         if (sqpTimecheck()){ break; }
 
     #if TIME_LINSYS == 1
@@ -290,7 +316,7 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
 
 
         gpuErrchk(hipMemcpy(h_val, d_val, (nnz)*sizeof(T), hipMemcpyDeviceToHost));
-        gpuErrchk(hipMemcpy(h_gamma, d_gamma, (state_size*knot_points)*sizeof(T), hipMemcpyDeviceToHost))
+        gpuErrchk(hipMemcpy(h_gamma, d_gamma, (state_size*knot_points)*sizeof(T), hipMemcpyDeviceToHost));
 
         qdldl_solve_schur(An, h_col_ptr, h_row_ind, h_val, h_gamma, h_lambda, Lp, Li, Lx, D, Dinv, Lnz, etree, bwork, iwork, fwork);
         
@@ -308,6 +334,11 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
         if (sqpTimecheck()){ break; }
         
         // recover dz
+#if FINE_GRAINED_TIMING
+        gpuErrchk(hipDeviceSynchronize());
+        struct timespec dz_start, dz_end;
+        clock_gettime(CLOCK_MONOTONIC, &dz_start);
+#endif
         compute_dz(
             state_size,
             control_size,
@@ -319,10 +350,20 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
             d_dz
         );
         gpuErrchk(hipPeekAtLastError());
+#if FINE_GRAINED_TIMING
+        gpuErrchk(hipDeviceSynchronize());
+        clock_gettime(CLOCK_MONOTONIC, &dz_end);
+        dz_time_vec.push_back(time_delta_us_timespec(dz_start, dz_end));
+#endif
         if (sqpTimecheck()){ break; }
         
 
         // line search
+#if FINE_GRAINED_TIMING
+        gpuErrchk(hipDeviceSynchronize());
+        struct timespec line_search_start, line_search_end;
+        clock_gettime(CLOCK_MONOTONIC, &line_search_start);
+#endif
         for(uint32_t p = 0; p < num_alphas; p++){
             void *kernelArgs[] = {
                 (void *)&state_size,
@@ -400,6 +441,11 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
 #endif
 
         gpuErrchk(hipPeekAtLastError());
+#if FINE_GRAINED_TIMING
+        gpuErrchk(hipDeviceSynchronize());
+        clock_gettime(CLOCK_MONOTONIC, &line_search_end);
+        line_search_time_vec.push_back(time_delta_us_timespec(line_search_start, line_search_end));
+#endif
         // if success increment after update
         sqp_iter++;
 
@@ -455,5 +501,27 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
 
     double sqp_solve_time = time_delta_us_timespec(sqp_solve_start, sqp_solve_end);
 
-    return std::make_tuple(linsys_iter_vec, linsys_time_vec, sqp_solve_time, sqp_iter, sqp_time_exit, linsys_exit_vec);
+#if FINE_GRAINED_TIMING
+    return std::make_tuple(
+        linsys_iter_vec,
+        linsys_time_vec,
+        sqp_solve_time,
+        sqp_iter,
+        sqp_time_exit,
+        linsys_exit_vec,
+        ktt_time_vec,
+        shur_time_vec,
+        dz_time_vec,
+        line_search_time_vec
+    );
+#else
+    return std::make_tuple(
+        linsys_iter_vec,
+        linsys_time_vec,
+        sqp_solve_time,
+        sqp_iter,
+        sqp_time_exit,
+        linsys_exit_vec
+    );
+#endif
 }

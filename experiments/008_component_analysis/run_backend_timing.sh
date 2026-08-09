@@ -32,8 +32,27 @@ elif [ "$ARCH" == "amd_hip" ]; then
     export ROCM_ROOT ROCM_PATH HIP_PATH
 fi
 
+AMD_HIP_ARCH_FLAGS=""
+if [ "$ARCH" == "amd_hip" ]; then
+    AMD_HIP_ARCH_FLAGS="--offload-arch=gfx942"
+fi
+
 # HIER SIND DIE BEIDEN NEUEN FLAGS AKTIVIERT:
 DEFINES="-DKNOT_POINTS=${KNOTS} -DSQP_MAX_TIME_US=${BUDGET_US} -DSAVE_DATA=1 -DTEST_ITERS=${TEST_ITERS} -DTIME_LINSYS=1 -DFINE_GRAINED_TIMING=1 ${WORKSPACE_FLAG}"
+
+# Explicitly select the linear solver.
+# In the source code, LINSYS_SOLVE==1 means PCG, otherwise QDLDL.
+if [ "$SOLVER" == "pcg" ]; then
+    DEFINES="$DEFINES -DLINSYS_SOLVE=1"
+elif [ "$SOLVER" == "qdldl" ]; then
+    DEFINES="$DEFINES -DLINSYS_SOLVE=0"
+else
+    echo "Unknown solver: $SOLVER"
+    exit 1
+fi
+
+echo "DEFINES=$DEFINES"
+echo "hipcc=$(command -v hipcc || true)"
 
 # 2. COMPILE & RUN
 if [ "$ARCH" == "cuda" ]; then
@@ -59,15 +78,15 @@ else
     
     if [ "$ARCH" == "nv_hip" ]; then
         INCLUDES="$INCLUDES -I$CUDA_HOME/include -I$ROCM_ROOT/include/hipblas -I$ROCM_ROOT/include"
-        LINKS="-L$CUDA_HOME/lib64 -lcublas -lcudart"
+        LINKS="-Lqdldl/build/out -lqdldl -L$CUDA_HOME/lib64 -lcublas -lcudart"
     else
         : "${ROCM_ROOT:=${ROCM_PATH:-/opt/rocm-6.4.1}}"
         INCLUDES="$INCLUDES -I$ROCM_ROOT/include -I$ROCM_ROOT/include/hipblas"
-        LINKS="-L$ROCM_ROOT/lib -lhipblas -lrocblas"
+        LINKS="-Lqdldl/build/out -lqdldl -L$ROCM_ROOT/lib -lhipblas -lrocblas"
     fi
 
     echo "=== Compiling HIP ($ARCH, Timing) ==="
-    hipcc -std=c++17 -O3 $DEFINES \
+    hipcc -std=c++17 -O3 $AMD_HIP_ARCH_FLAGS $DEFINES \
         $INCLUDES \
         examples/track_iiwa_${SOLVER}.hip.cpp -o examples/${SOLVER}_hip_timing.exe \
         $LINKS
