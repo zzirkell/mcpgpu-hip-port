@@ -92,7 +92,7 @@ int main(int argc, char** argv){
             // Hier wird entschieden: Custom-Wert oder Wert aus dem Array
             const linsys_t pcg_exit_tol = use_custom_tol ? custom_tol : pcg_exit_vals.at(pcg_exit_ind);
             
-        std::vector<double> linsys_times
+        std::vector<double> linsys_times;
 		std::vector<uint32_t> sqp_iters;
 		std::vector<toplevel_return_type> current_results;
 		std::vector<float> tracking_errs;
