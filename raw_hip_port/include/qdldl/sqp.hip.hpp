@@ -33,6 +33,18 @@ using hipblasStatus_t = cublasStatus_t;
 #include "kkt.hip.hpp"
 #include "dz.hip.hpp"
 
+#ifndef MPCGPU_LS_NORMAL_REDUCE
+#define MPCGPU_LS_NORMAL_REDUCE 0
+#endif
+
+#ifndef MPCGPU_LS_NORMAL_REDUCE_DIAG
+#define MPCGPU_LS_NORMAL_REDUCE_DIAG 0
+#endif
+
+#ifndef MPCGPU_LS_STEP_DIAG
+#define MPCGPU_LS_STEP_DIAG 0
+#endif
+
 
 __host__
 void qdldl_solve_schur(const QDLDL_int An,
@@ -101,6 +113,23 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
     // line search things
     const float mu = 10.0f;
     const uint32_t num_alphas = 8;
+
+#if MPCGPU_LS_STEP_DIAG
+    unsigned long long ls_step_hist[8] = {0,0,0,0,0,0,0,0};
+    unsigned long long ls_step_fail_count = 0;
+#endif
+
+#if MPCGPU_LS_NORMAL_REDUCE_DIAG
+    hipEvent_t ls_nr_ev0, ls_nr_ev1, ls_nr_ev2;
+    gpuErrchk(hipEventCreate(&ls_nr_ev0));
+    gpuErrchk(hipEventCreate(&ls_nr_ev1));
+    gpuErrchk(hipEventCreate(&ls_nr_ev2));
+
+    double ls_nr_partial_total_us = 0.0;
+    double ls_nr_reduce_total_us = 0.0;
+    double ls_nr_sync_total_us = 0.0;
+    unsigned long long ls_nr_count = 0;
+#endif
     T h_merit_news[num_alphas];
     void *ls_merit_kernel = (void *) ls_gato_compute_merit<T>;
     const size_t merit_smem_size = get_merit_smem_size<T>(state_size, control_size);
@@ -364,6 +393,54 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
         struct timespec line_search_start, line_search_end;
         clock_gettime(CLOCK_MONOTONIC, &line_search_start);
 #endif
+#if MPCGPU_LS_NORMAL_REDUCE
+        {
+            dim3 partial_grid(knot_points, num_alphas);
+            dim3 partial_block(MERIT_THREADS);
+
+#if MPCGPU_LS_NORMAL_REDUCE_DIAG
+            gpuErrchk(hipEventRecord(ls_nr_ev0));
+#endif
+
+            ls_gato_compute_merit_partials<T><<<
+                partial_grid,
+                partial_block,
+                get_merit_smem_size<T>(state_size, control_size)
+            >>>(
+                state_size,
+                control_size,
+                knot_points,
+                d_xs,
+                d_xu,
+                d_eePos_traj,
+                mu,
+                timestep,
+                d_dynMem_const,
+                d_dz,
+                d_merit_temp
+            );
+            gpuErrchk(hipPeekAtLastError());
+
+#if MPCGPU_LS_NORMAL_REDUCE_DIAG
+            gpuErrchk(hipEventRecord(ls_nr_ev1));
+#endif
+
+            ls_gato_reduce_merit_partials<T><<<
+                num_alphas,
+                MERIT_THREADS,
+                MERIT_THREADS * sizeof(T)
+            >>>(
+                knot_points,
+                d_merit_temp,
+                d_merit_news
+            );
+            gpuErrchk(hipPeekAtLastError());
+
+#if MPCGPU_LS_NORMAL_REDUCE_DIAG
+            gpuErrchk(hipEventRecord(ls_nr_ev2));
+#endif
+        }
+#else
         for(uint32_t p = 0; p < num_alphas; p++){
             void *kernelArgs[] = {
                 (void *)&state_size,
@@ -382,9 +459,29 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
             };
             gpuErrchk(hipLaunchCooperativeKernel(reinterpret_cast<const void*>(ls_merit_kernel), knot_points, MERIT_THREADS, kernelArgs, get_merit_smem_size<T>(state_size, knot_points), streams[p]));
         }
+#endif
         if (sqpTimecheck()){ break; }
         gpuErrchk(hipPeekAtLastError());
+#if MPCGPU_LS_NORMAL_REDUCE_DIAG
+        struct timespec ls_nr_sync_start, ls_nr_sync_end;
+        clock_gettime(CLOCK_MONOTONIC, &ls_nr_sync_start);
+#endif
+
         gpuErrchk(hipDeviceSynchronize());
+
+#if MPCGPU_LS_NORMAL_REDUCE_DIAG
+        clock_gettime(CLOCK_MONOTONIC, &ls_nr_sync_end);
+        ls_nr_sync_total_us += time_delta_us_timespec(ls_nr_sync_start, ls_nr_sync_end);
+
+        float ls_nr_partial_ms = 0.0f;
+        float ls_nr_reduce_ms = 0.0f;
+        gpuErrchk(hipEventElapsedTime(&ls_nr_partial_ms, ls_nr_ev0, ls_nr_ev1));
+        gpuErrchk(hipEventElapsedTime(&ls_nr_reduce_ms, ls_nr_ev1, ls_nr_ev2));
+
+        ls_nr_partial_total_us += static_cast<double>(ls_nr_partial_ms) * 1000.0;
+        ls_nr_reduce_total_us += static_cast<double>(ls_nr_reduce_ms) * 1000.0;
+        ls_nr_count++;
+#endif
         
         
         gpuErrchk(hipMemcpy(h_merit_news, d_merit_news, 8*sizeof(T), hipMemcpyDeviceToHost));
@@ -404,6 +501,9 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
 
 
         if(min_merit == h_merit_initial){
+#if MPCGPU_LS_STEP_DIAG
+            ls_step_fail_count++;
+#endif
             // line search failure
             drho = std::max<T>(drho * rho_factor, rho_factor);
             rho = std::max<T>(rho * drho, rho_min);
@@ -416,6 +516,12 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
             continue;
         }
         // std::cout << "line search accepted\n";
+#if MPCGPU_LS_STEP_DIAG
+        if (line_search_step < 8) {
+            ls_step_hist[line_search_step]++;
+        }
+#endif
+
         alphafinal = static_cast<T>(-1) / static_cast<T>(1u << line_search_step);        // alpha sign
 
         drho = std::min<T>(drho / rho_factor, static_cast<T>(1) / rho_factor);
@@ -502,6 +608,46 @@ auto sqpSolveQdldl(uint32_t state_size, uint32_t control_size, uint32_t knot_poi
     double sqp_solve_time = time_delta_us_timespec(sqp_solve_start, sqp_solve_end);
 
 #if FINE_GRAINED_TIMING
+
+#if MPCGPU_LS_NORMAL_REDUCE_DIAG
+    if (ls_nr_count > 0) {
+        printf("LS_NR_KERNEL_DIAG solver=QDLDL K=%u count=%llu "
+               "partial_mean_us=%.3f reduce_mean_us=%.3f sync_mean_us=%.3f\n",
+               knot_points,
+               ls_nr_count,
+               ls_nr_partial_total_us / (double)ls_nr_count,
+               ls_nr_reduce_total_us / (double)ls_nr_count,
+               ls_nr_sync_total_us / (double)ls_nr_count);
+    }
+
+    gpuErrchk(hipEventDestroy(ls_nr_ev0));
+    gpuErrchk(hipEventDestroy(ls_nr_ev1));
+    gpuErrchk(hipEventDestroy(ls_nr_ev2));
+#endif
+
+
+#if MPCGPU_LS_STEP_DIAG
+    unsigned long long ls_step_accept_count = 0;
+    for (int i = 0; i < 8; i++) {
+        ls_step_accept_count += ls_step_hist[i];
+    }
+
+    printf("LS_STEP_DIAG solver=QDLDL K=%u accepts=%llu fails=%llu "
+           "step0=%llu step1=%llu step2=%llu step3=%llu "
+           "step4=%llu step5=%llu step6=%llu step7=%llu\n",
+           knot_points,
+           ls_step_accept_count,
+           ls_step_fail_count,
+           ls_step_hist[0],
+           ls_step_hist[1],
+           ls_step_hist[2],
+           ls_step_hist[3],
+           ls_step_hist[4],
+           ls_step_hist[5],
+           ls_step_hist[6],
+           ls_step_hist[7]);
+#endif
+
     return std::make_tuple(
         linsys_iter_vec,
         linsys_time_vec,

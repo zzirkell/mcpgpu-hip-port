@@ -46,3 +46,12 @@ docker run --rm -it \
   mcpgpu-hip:amd-wsl \
   bash -lc "make clean && make run-hip-amd"
 ```
+| Group                            | Hardware                         | Backend / method | Workspace | Knot points | PCG tolerance | SQP budget | Iterations | Purpose                                  |
+| -------------------------------- | -------------------------------- | ---------------- | --------: | ----------: | ------------: | ---------: | ---------: | ---------------------------------------- |
+| Stress                           | c3po RTX 5060                    | HIP-NVIDIA + PCG |        ON |         128 |        `1e-5` |  `5000 us` |         20 | Tight tolerance, NVIDIA reference        |
+| Stress                           | namira / Strix Halo Radeon 8060S | HIP-AMD + PCG    |        ON |         128 |        `1e-5` |  `5000 us` |         20 | Tight tolerance, AMD comparison          |
+| Stress                           | namira / Strix Halo Radeon 8060S | HIP-AMD + PCG    |       OFF |         128 |        `1e-5` |  `5000 us` |         20 | Show workspace importance under pressure |
+| Stress                           | c3po RTX 5060                    | HIP-NVIDIA + PCG |        ON |         256 |        `5e-5` |  `5000 us` |         10 |                                          |
+| Larger horizon, NVIDIA reference |                                  |                  |           |             |               |            |            |                                          |
+| Stress                           | namira / Strix Halo Radeon 8060S | HIP-AMD + PCG    |        ON |         256 |        `5e-5` |  `5000 us` |         10 
+| Stress                           | namira / Strix Halo Radeon 8060S | HIP-AMD + PCG    |       OFF |         256 |        `5e-5` |  `5000 us` |         10 | Expected to expose overhead/failure      |

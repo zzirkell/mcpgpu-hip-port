@@ -20,6 +20,10 @@
 #include "common/kkt.hip.hpp"
 #include "common/dz.hip.hpp"
 #include "merit.hip.hpp"
+
+#ifndef MPCGPU_LS_NORMAL_REDUCE
+#define MPCGPU_LS_NORMAL_REDUCE 0
+#endif
 #include "gpu_pcg.hip.hpp"
 #include "settings.hip.hpp"
 #include <cstdio>
@@ -552,6 +556,42 @@ auto sqpSolvePcg(
 
 
         // line search
+#if MPCGPU_LS_NORMAL_REDUCE
+        {
+            dim3 partial_grid(knot_points, num_alphas);
+            dim3 partial_block(MERIT_THREADS);
+
+            ls_gato_compute_merit_partials<T><<<
+                partial_grid,
+                partial_block,
+                get_merit_smem_size<T>(state_size, control_size)
+            >>>(
+                state_size,
+                control_size,
+                knot_points,
+                d_xs,
+                d_xu,
+                d_eePos_traj,
+                mu,
+                timestep,
+                d_dynMem_const,
+                d_dz,
+                d_merit_temp
+            );
+            gpuErrchk(hipPeekAtLastError());
+
+            ls_gato_reduce_merit_partials<T><<<
+                num_alphas,
+                MERIT_THREADS,
+                MERIT_THREADS * sizeof(T)
+            >>>(
+                knot_points,
+                d_merit_temp,
+                d_merit_news
+            );
+            gpuErrchk(hipPeekAtLastError());
+        }
+#else
         for(uint32_t p = 0; p < num_alphas; p++){
             void *kernelArgs[] = {
                 (void *)&state_size,
@@ -570,6 +610,7 @@ auto sqpSolvePcg(
             };
             gpuErrchk(hipLaunchCooperativeKernel(reinterpret_cast<const void*>(ls_merit_kernel), knot_points, MERIT_THREADS, kernelArgs, get_merit_smem_size<T>(state_size, knot_points), streams[p]));
         }
+#endif
         if (sqpTimecheck()){ break; }
         gpuErrchk(hipPeekAtLastError());
         gpuErrchk(hipDeviceSynchronize());
