@@ -7,7 +7,7 @@ from pathlib import Path
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--hw", type=str, choices=["nvidia", "amd", "all"], default="all")
+    parser.add_argument("--hw", type=str, choices=["cuda", "nv_hip", "nvidia", "amd", "all"], default="all")
     return parser.parse_args()
 
 FREQUENCIES = {250: 4000, 500: 2000, 1000: 1000}
@@ -23,11 +23,38 @@ VARIANTS = [
     {"arch": "amd_hip", "solver": "qdldl"}
 ]
 
+
+def resolve_cuda_repo(active_repo: Path) -> Path:
+    """Return CUDA MPCGPU source tree.
+
+    Preferred layout after this patch:
+      mcpgpu-hip-port/MPCGPU
+
+    Also supports the old colleague layout:
+      mpcgpu_project/MPCGPU
+      mpcgpu_project/mcpgpu-hip-port
+    """
+    candidates = [
+        active_repo / "MPCGPU",
+        active_repo.parent / "MPCGPU",
+    ]
+    for candidate in candidates:
+        if (candidate / "examples").exists() and (candidate / "include").exists():
+            return candidate
+    raise FileNotFoundError(
+        "Could not find CUDA MPCGPU folder. Expected either "
+        f"{candidates[0]} or {candidates[1]}."
+    )
+
 def main():
     args = parse_arguments()
     
     active_archs = []
-    if args.hw in ["nvidia", "all"]:
+    if args.hw == "cuda":
+        active_archs.append("cuda")
+    elif args.hw == "nv_hip":
+        active_archs.append("nv_hip")
+    elif args.hw in ["nvidia", "all"]:
         active_archs.extend(["cuda", "nv_hip"])
     if args.hw in ["amd", "all"]:
         active_archs.append("amd_hip")
@@ -46,7 +73,7 @@ def main():
             for knot in KNOTS:
                 print(f"\n=== Executing Run {run_id} | {variant['arch'].upper()} {variant['solver'].upper()} | {hz}Hz | Knots: {knot} | WS: ON ===")
                 
-                src_dir = active_repo.parent / "MPCGPU" if variant["arch"] == "cuda" else active_repo / "raw_hip_port"
+                src_dir = resolve_cuda_repo(active_repo) if variant["arch"] == "cuda" else active_repo / "raw_hip_port"
                 tmp_results = src_dir / "tmp" / "results"
                 
                 if tmp_results.exists():
@@ -58,7 +85,7 @@ def main():
                     "-DUSE_SQP_WORKSPACE=1", variant["solver"], "20", "5e-5", 
                     "0"  
                 ]
-                subprocess.run(cmd, cwd=src_dir)
+                subprocess.run(cmd, cwd=src_dir, check=True)
                 
                 archive_name = f"Run_{run_id}_{variant['arch']}_{variant['solver']}_K{knot}_B{budget}_WS_ON"
                 archive_folder = script_dir / "heatmap_data" / archive_name

@@ -2,6 +2,10 @@
 
 This repository contains setup notes, small experiments, and later the MPCGPU CUDA → HIP porting work.
 
+### Hybrid evaluation
+
+`MPCGPU/` contains the CUDA hybrid solver copy. `experiments/009_hybrid_approach/` contains heatmap and CUDA-hybrid component-analysis scripts for CUDA, HIP-AMD, and hybrid CUDA evaluation.
+
 ### HIP port folder
 
 Cleaned HIP ports are stored in:

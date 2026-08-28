@@ -19,9 +19,15 @@ mkdir -p tmp/results
 
 # 1. LOAD ENVIRONMENT
 if [ "$ARCH" == "cuda" ]; then
-    source "$HOME/mpcgpu_project/env_cuda_c3po.sh"
+    if [ -f "$HOME/mpcgpu_project/env_cuda_gh_ftp.sh" ]; then
+        source "$HOME/mpcgpu_project/env_cuda_gh_ftp.sh"
+    elif [ -f "$HOME/mpcgpu_project/env_cuda_c3po.sh" ]; then
+        source "$HOME/mpcgpu_project/env_cuda_c3po.sh"
+    fi
 elif [ "$ARCH" == "nv_hip" ]; then
-    source "$HOME/mpcgpu_project/env_nvhip_c3po.sh"
+    if [ -f "$HOME/mpcgpu_project/env_nvhip_c3po.sh" ]; then
+        source "$HOME/mpcgpu_project/env_nvhip_c3po.sh"
+    fi
     export HIP_PLATFORM="nvidia"
 elif [ "$ARCH" == "amd_hip" ]; then
     if [ -f "$HOME/mpcgpu_project/env_amdhip_mi300_ftp.sh" ]; then
@@ -34,7 +40,11 @@ fi
 
 AMD_HIP_ARCH_FLAGS=""
 if [ "$ARCH" == "amd_hip" ]; then
-    AMD_HIP_ARCH_FLAGS="--offload-arch=gfx942"
+    AMD_GFX_ARCH="$(rocm_agent_enumerator 2>/dev/null | grep -m1 '^gfx' || true)"
+    if [ -n "$AMD_GFX_ARCH" ]; then
+        AMD_HIP_ARCH_FLAGS="--offload-arch=$AMD_GFX_ARCH"
+    fi
+    echo "AMD_HIP_ARCH_FLAGS=$AMD_HIP_ARCH_FLAGS"
 fi
 
 DEFINES="-DKNOT_POINTS=${KNOTS} -DSQP_MAX_TIME_US=${BUDGET_US} -DSAVE_DATA=1 -DTEST_ITERS=${TEST_ITERS} -DTIME_LINSYS=${TIME_LINSYS_FLAG} -DFINE_GRAINED_TIMING=${TIME_LINSYS_FLAG} ${WORKSPACE_FLAG}" 
@@ -50,14 +60,14 @@ else
     exit 1
 fi
 
-export LD_LIBRARY_PATH="$(pwd)/qdldl/build/out:$(pwd)/qdldl/build:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$(pwd)/qdldl/build/out:$(pwd)/qdldl/build:${LD_LIBRARY_PATH:-}"
 
 # 2. COMPILE & RUN
 if [ "$ARCH" == "cuda" ]; then
     cmake -S qdldl -B qdldl/build -DQDLDL_FLOAT=true -DQDLDL_LONG=false -DQDLDL_BUILD_SHARED_LIB=OFF -DQDLDL_BUILD_DEMO_EXE=OFF -DQDLDL_UNITTESTS=OFF
     cmake --build qdldl/build --parallel
 
-    nvcc -std=c++17 -O3 --compiler-options -Wall $DEFINES \
+    nvcc -std=c++17 -O3 --compiler-options -Wall,-pthread $DEFINES \
         -Iinclude -Iinclude/common -IGLASS -IGBD-PCG/include -Iqdldl/include \
         examples/track_iiwa_${SOLVER}.cu -o examples/${SOLVER}_cuda_timing.exe \
         -Lqdldl/build/out -lqdldl -L"$CUDA_HOME/lib64" -lcublas
