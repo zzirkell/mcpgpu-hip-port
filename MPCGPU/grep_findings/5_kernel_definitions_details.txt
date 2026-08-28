@@ -1,0 +1,95 @@
+./GLASS/GTests/gemm_time.cu:18:__global__ 
+./GLASS/GTests/gemm_time.cu:28:__global__ 
+./GLASS/GTests/gemm_time.cu:45:__global__ 
+./GLASS/GTests/chol_time.cu:18:__global__ 
+./GLASS/GTests/global_glass.cuh:6:__global__
+./GLASS/GTests/global_glass.cuh:16:__global__
+./GLASS/GTests/global_glass.cuh:27:__global__
+./GLASS/GTests/global_glass.cuh:37:__global__
+./GLASS/GTests/global_glass.cuh:47:__global__
+./GLASS/GTests/global_glass.cuh:57:__global__
+./GLASS/GTests/global_glass.cuh:66:__global__
+./GLASS/GTests/global_glass.cuh:76:__global__
+./GLASS/GTests/global_glass.cuh:84:__global__
+./GLASS/GTests/global_glass.cuh:91:__global__
+./GLASS/GTests/global_glass.cuh:100:__global__
+./GLASS/GTests/global_glass.cuh:112:__global__
+./GLASS/GTests/global_glass.cuh:121:__global__
+./GLASS/GTests/global_glass.cuh:129:__global__
+./GLASS/GTests/global_glass.cuh:137:__global__
+./GLASS/GTests/global_glass.cuh:146:__global__
+./GLASS/GTests/global_glass.cuh:155:__global__
+./GLASS/GTests/global_glass.cuh:164:__global__
+./GLASS/GTests/global_glass.cuh:174:__global__
+./GLASS/GTests/global_glass.cuh:187:__global__
+./GLASS/GTests/global_glass.cuh:199:__global__ 
+./GLASS/GTests/global_glass.cuh:207:__global__
+./GLASS/GTests/global_glass.cuh:221:__global__
+./GLASS/GTests/global_glass.cuh:234:__global__
+./GLASS/GTests/global_glass.cuh:240:__global__
+./GLASS/GTests/global_glass.cuh:246:__global__
+./GBD-PCG/include/pcg.cuh:55:__global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:14: *       __global__ inverse_dynamics_kernel<T>(T *d_c, const T *d_q_qd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:15: *       __global__ inverse_dynamics_kernel<T>(T *d_c, const T *d_q_qd, const T *d_qdd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:25: *       __global__ direct_minv_Kernel<T>(T *d_Minv, const T *d_q, const robotModel<T> *d_robotModel, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:30: *       __global__ forward_dynamics_kernel<T>(T *d_qdd, const T *d_q_qd_u, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:36: *       __global__ inverse_dynamics_gradient_kernel<T>(T *d_dc_du, const T *d_q_qd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:37: *       __global__ inverse_dynamics_gradient_kernel<T>(T *d_dc_du, const T *d_q_qd, const T *d_qdd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:42: *       __global__ forward_dynamics_gradient_kernel<T>(T *d_df_du, const T *d_q_qd_u, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:43: *       __global__ forward_dynamics_gradient_kernel<T>(T *d_df_du, const T *d_q_qd, const T *d_qdd, const T *d_Minv, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:48: *       __global__ end_effector_positions_kernel<T>(T *d_eePos, const T *d_q, const robotModel<T> *d_robotModel, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:53: *       __global__ end_effector_positions_gradient_kernel<T>(T *d_deePos, const T *d_q, const robotModel<T> *d_robotModel, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2110:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2142:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2362:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:2394:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3498:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3536:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3580:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:3616:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4205:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4239:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4413:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:4445:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5014:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5054:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5100:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5138:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5378:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5433:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5490:    __global__
+./include/dynamics/iiwa/iiwa_eepos_grid.cuh:5541:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:13: *       __global__ inverse_dynamics_kernel<T>(T *d_c, const T *d_q_qd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:14: *       __global__ inverse_dynamics_kernel<T>(T *d_c, const T *d_q_qd, const T *d_qdd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:21: *       __global__ direct_minv_Kernel<T>(T *d_Minv, const T *d_q, const robotModel<T> *d_robotModel, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:25: *       __global__ forward_dynamics_kernel<T>(T *d_qdd, const T *d_q_qd_u, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:30: *       __global__ inverse_dynamics_gradient_kernel<T>(T *d_dc_du, const T *d_q_qd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:31: *       __global__ inverse_dynamics_gradient_kernel<T>(T *d_dc_du, const T *d_q_qd, const T *d_qdd, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:36: *       __global__ forward_dynamics_gradient_kernel<T>(T *d_df_du, const T *d_q_qd_u, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:37: *       __global__ forward_dynamics_gradient_kernel<T>(T *d_df_du, const T *d_q_qd, const T *d_qdd, const T *d_Minv, const robotModel<T> *d_robotModel, const T gravity, const int NUM_TIMESTEPS)
+./include/dynamics/iiwa/iiwa_grid.cuh:2574:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:2612:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:2656:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:2692:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:3288:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:3322:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:3504:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:3536:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4105:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4145:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4191:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4229:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4497:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4552:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4609:    __global__
+./include/dynamics/iiwa/iiwa_grid.cuh:4660:    __global__
+./include/pcg/linsys_setup.cuh:566:__global__
+./include/qdldl/linsys_setup.cuh:13:__global__
+./include/mpcsim.cuh:30:__global__
+./include/common/dz.cuh:4:__global__
+./include/common/integrator.cuh:213:__global__
+./include/common/integrator.cuh:267:__global__
+./include/common/kkt.cuh:23:__global__
+./include/common/merit.cuh:18:__global__
+./include/common/merit.cuh:100:__global__
+./include/utils/csr.cuh:40:__global__

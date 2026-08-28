@@ -1,0 +1,9 @@
+atomicAdd
+blockDim
+blockIdx
+__device__
+__global__
+gridDim
+__shared__
+__syncthreads
+threadIdx

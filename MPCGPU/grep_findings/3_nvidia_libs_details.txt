@@ -1,0 +1,16 @@
+./Makefile:5:CFLAGS = --compiler-options -Wall  -O3 -Iinclude -Iinclude/common -IGLASS  -IGBD-PCG/include  -lqdldl  -Iqdldl/include -Lqdldl/build/out -lcublas
+./include/pcg/sqp.cuh:6:#include <cublas_v2.h>
+./include/pcg/sqp.cuh:63:    // streams n cublas init
+./include/pcg/sqp.cuh:70:    cublasHandle_t handle;
+./include/pcg/sqp.cuh:71:    if (cublasCreate(&handle) != CUBLAS_STATUS_SUCCESS) { printf ("CUBLAS initialization failed\n"); exit(13); }
+./include/pcg/sqp.cuh:324:        cublasDaxpy(
+./include/pcg/sqp.cuh:332:        cublasSaxpy(
+./include/pcg/sqp.cuh:360:    cublasDestroy(handle);
+./include/qdldl/sqp.cuh:6:#include <cublas_v2.h>
+./include/qdldl/sqp.cuh:93:    // streams n cublas init
+./include/qdldl/sqp.cuh:100:    cublasHandle_t handle;
+./include/qdldl/sqp.cuh:101:    if (cublasCreate(&handle) != CUBLAS_STATUS_SUCCESS) { printf ("CUBLAS initialization failed\n"); exit(13); }
+./include/qdldl/sqp.cuh:361:        cublasDaxpy(
+./include/qdldl/sqp.cuh:369:        cublasSaxpy(
+./include/qdldl/sqp.cuh:397:    cublasDestroy(handle);
+./include/mpcsim.cuh:9:#include <cublas_v2.h>
