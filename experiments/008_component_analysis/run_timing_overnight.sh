@@ -4,6 +4,7 @@ set -e
 echo "=== Start Fine-Grained Timing Analysis ==="
 
 # Wechsle in den richtigen Benchmark-Ordner
+# cd "$HOME/mpcgpu_mmp_hybridmpc/mcpgpu-hip-port/experiments/008_component_analysis"
 cd "$HOME/mpcgpu_project/mcpgpu-hip-port/experiments/008_component_analysis"
 
 # Starte das neue Python-Skript (-u sorgt dafür, dass nohup den Log sofort schreibt)

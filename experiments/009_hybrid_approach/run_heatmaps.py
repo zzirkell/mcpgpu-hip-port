@@ -55,7 +55,8 @@ def main():
                 
                 cmd = [
                     str(bash_script), variant["arch"], str(knot), str(budget),
-                    "-DUSE_SQP_WORKSPACE=1", variant["solver"], "20", "5e-5"
+                    "-DUSE_SQP_WORKSPACE=1", variant["solver"], "20", "5e-5", 
+                    "0"  
                 ]
                 subprocess.run(cmd, cwd=src_dir)
                 
@@ -64,8 +65,10 @@ def main():
                 archive_folder.mkdir(parents=True, exist_ok=True)
                 
                 if tmp_results.exists():
-                    for csv_file in tmp_results.glob("*.csv"):
-                        shutil.copy(csv_file, archive_folder)
+                    for file_path in tmp_results.glob("*.*"):
+                        if file_path.suffix in ['.csv', '.result']:
+                            shutil.copy(file_path, archive_folder)
+                
                 run_id += 1
 
 if __name__ == "__main__":

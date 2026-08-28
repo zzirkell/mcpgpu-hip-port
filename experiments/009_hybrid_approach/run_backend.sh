@@ -8,9 +8,10 @@ WORKSPACE_FLAG=$4
 SOLVER=$5
 TEST_ITERS=$6
 TOLERANCE=$7
+TIME_LINSYS_FLAG=$8 
 
 echo "============================================================"
-echo "TIMING ANALYSIS: Backend: $ARCH | Knots: $KNOTS | Solver: $SOLVER"
+echo "TIMING ANALYSIS: Backend: $ARCH | Knots: $KNOTS | Solver: $SOLVER | TimeLinsys: $TIME_LINSYS_FLAG"
 echo "============================================================"
 
 rm -rf tmp/results
@@ -36,7 +37,7 @@ if [ "$ARCH" == "amd_hip" ]; then
     AMD_HIP_ARCH_FLAGS="--offload-arch=gfx942"
 fi
 
-DEFINES="-DKNOT_POINTS=${KNOTS} -DSQP_MAX_TIME_US=${BUDGET_US} -DSAVE_DATA=1 -DTEST_ITERS=${TEST_ITERS} -DTIME_LINSYS=1 -DFINE_GRAINED_TIMING=1 ${WORKSPACE_FLAG}" 
+DEFINES="-DKNOT_POINTS=${KNOTS} -DSQP_MAX_TIME_US=${BUDGET_US} -DSAVE_DATA=1 -DTEST_ITERS=${TEST_ITERS} -DTIME_LINSYS=${TIME_LINSYS_FLAG} -DFINE_GRAINED_TIMING=${TIME_LINSYS_FLAG} ${WORKSPACE_FLAG}" 
 
 if [ "$SOLVER" == "pcg" ]; then
     DEFINES="$DEFINES -DLINSYS_SOLVE=1"

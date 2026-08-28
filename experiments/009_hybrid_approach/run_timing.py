@@ -22,12 +22,12 @@ def main():
         
         cmd = [
             str(bash_script), "cuda", str(knot), "50000",
-            "-DUSE_SQP_WORKSPACE=1", "hybrid", "20", "5e-5"
+            "-DUSE_SQP_WORKSPACE=1", "hybrid", "20", "5e-5", 
+            "1" 
         ]
         
         subprocess.run(cmd, cwd=src_dir)
         
-        # Ordnername endet jetzt auf WS_ON
         archive_name = f"Timing_cuda_hybrid_K{knot}"
         archive_folder = script_dir / "timing_data" / archive_name
         archive_folder.mkdir(parents=True, exist_ok=True)
