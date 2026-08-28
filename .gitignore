@@ -13,3 +13,16 @@ experiments/007_benchmarking/
 experiments/008_component_analysis/timing_results
 experiments/008_component_analysis/timing_plots_depr
 
+
+# Windows download metadata
+*:Zone.Identifier
+
+# Local build/output folders
+raw_hip_port/tmp/
+raw_hip_port/qdldl/build/
+raw_hip_port/qdldl/temp_build/
+raw_hip_port/examples/*.exe
+raw_hip_port/tests/performance/*.log
+raw_hip_port/run_*.log
+__pycache__/
+*.o
