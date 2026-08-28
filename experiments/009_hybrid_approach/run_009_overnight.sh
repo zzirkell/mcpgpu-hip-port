@@ -10,7 +10,8 @@ echo "=== Start Hybrid Approach Final Evaluation  ==="
 echo "=== System: $HW_CHOICE"
 echo "==============================================="
 
-cd "$HOME/mpcgpu_project/mcpgpu-hip-port/experiments/009_hybrid_approach"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
 echo ""
 echo "--- 1. Generating Heatmap Data ---"
