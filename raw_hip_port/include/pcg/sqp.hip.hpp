@@ -1,5 +1,9 @@
 #include "hip/hip_runtime.h"
 #pragma once
+
+#ifndef MPCGPU_PCG_K32_SINGLEBLOCK
+#define MPCGPU_PCG_K32_SINGLEBLOCK 0
+#endif
 #include <vector>
 #include <numeric>
 #include <algorithm>
@@ -496,14 +500,41 @@ auto sqpSolvePcg(
         dim3 pcg_block(PCG_NUM_THREADS);
         hipStream_t pcg_stream = 0;
 
+        #if MPCGPU_PCG_K32_SINGLEBLOCK
+        if (state_size == 14 && knot_points == 32) {
+            launchPCGK32SingleBlock<T>(
+                state_size,
+                knot_points,
+                d_S,
+                d_Pinv,
+                d_gamma,
+                d_lambda,
+                d_r,
+                d_p,
+                d_v_temp,
+                d_eta_new_temp,
+                d_pcg_iters,
+                d_pcg_exit,
+                config.pcg_max_iter,
+                config.pcg_exit_tol);
+        } else {
+            gpuErrchk(hipLaunchCooperativeKernel(
+            reinterpret_cast<const void*>(pcg_kernel),
+            dim3(knot_points),
+            dim3(PCG_NUM_THREADS),
+            pcgKernelArgs,
+            ppcg_kernel_smem_size,
+            0));
+        }
+#else
         gpuErrchk(hipLaunchCooperativeKernel(
             reinterpret_cast<const void*>(pcg_kernel),
-            pcg_grid,
-            pcg_block,
+            dim3(knot_points),
+            dim3(PCG_NUM_THREADS),
             pcgKernelArgs,
-            static_cast<unsigned int>(ppcg_kernel_smem_size),
-            pcg_stream
-        ));    
+            ppcg_kernel_smem_size,
+            0));
+#endif
         gpuErrchk(hipMemcpy(&pcg_iters, d_pcg_iters, sizeof(uint32_t), hipMemcpyDeviceToHost));
         gpuErrchk(hipMemcpy(&pcg_exit, d_pcg_exit, sizeof(bool), hipMemcpyDeviceToHost));
         gpuErrchk(hipPeekAtLastError());
