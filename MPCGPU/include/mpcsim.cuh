@@ -18,7 +18,7 @@
 #include "utils/experiment.cuh"
 #include "gpuassert.cuh"
 
-#ifdef USE_HYBRID
+#if USE_HYBRID == 1
 #include "pcg/sqp.cuh"
 #include "qdldl/sqp.cuh"
 #elif LINSYS_SOLVE == 1
@@ -66,7 +66,7 @@ void dump_tracking_data(std::vector<int> *pcg_iters, std::vector<bool> *pcg_exit
                 std::vector<double> *shur_time_vec,          
                 std::vector<double> *dz_time_vec,            
                 std::vector<double> *line_search_time_vec   
-#ifdef USE_HYBRID
+#if USE_HYBRID == 1
                 , std::vector<int> *hybrid_winners 
 #endif
                 ){
@@ -98,12 +98,12 @@ void dump_tracking_data(std::vector<int> *pcg_iters, std::vector<bool> *pcg_exit
     dumpVectorData(tracking_errors, "tracking_errors");
     dumpVectorData(pcg_exits, "pcg_exits");
 
-    #ifdef USE_HYBRID
+    #if USE_HYBRID == 1
     dumpVectorData(hybrid_winners, "hybrid_winners");
     #endif
 
     // for FINE_GRAINED_TIMING
-#if (USE_HYBRID || LINSYS_SOLVE == 1) && FINE_GRAINED_TIMING
+#if LINSYS_SOLVE == 1 && FINE_GRAINED_TIMING
     dumpVectorData(ktt_time_vec, "ktt_times");
     dumpVectorData(shur_time_vec, "shur_times");
     dumpVectorData(dz_time_vec, "dz_times");
@@ -133,7 +133,7 @@ void dump_tracking_data(std::vector<int> *pcg_iters, std::vector<bool> *pcg_exit
     statsfile << "control_updates: " << control_updates_taken << "\n";
     // printStatsToFile<double>(&linsys_times, )
     
-    #ifdef USE_HYBRID
+    #if USE_HYBRID == 1
     statsfile << "hybrid_qdldl_wins: " << std::count(hybrid_winners->begin(), hybrid_winners->end(), 1) << "\n";
     statsfile << "hybrid_pcg_wins: " << std::count(hybrid_winners->begin(), hybrid_winners->end(), 2) << "\n";
     statsfile << "hybrid_timeouts: " << std::count(hybrid_winners->begin(), hybrid_winners->end(), 0) << "\n";
@@ -159,7 +159,7 @@ void print_test_config(){
 #else
     std::cout << "Max sqp iter: " << SQP_MAX_ITER << "\n";
 #endif
-#ifdef USE_HYBRID
+#if USE_HYBRID == 1
     std::cout << "Solver: HYBRID\n";
 #else
     std::cout << "Solver: " << ( (LINSYS_SOLVE == 1) ? "PCG" : "QDLDL") << "\n";
@@ -211,7 +211,7 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
     std::vector<double> ktt_time_vec, shur_time_vec, dz_time_vec, line_search_time_vec;
     std::vector<double> cur_ktt_time_vec, cur_shur_time_vec, cur_dz_time_vec, cur_line_search_time_vec;
 
-    #ifdef USE_HYBRID
+    #if USE_HYBRID == 1
     std::vector<int> hybrid_winners; // <-- NEU
     #endif
 
@@ -243,7 +243,7 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
     gpuErrchk(cudaMemcpy(d_xu_old, d_xu_traj, traj_len*sizeof(T), cudaMemcpyDeviceToDevice));
     gpuErrchk(cudaMemcpy(d_xu, d_xu_traj, traj_len*sizeof(T), cudaMemcpyDeviceToDevice));
 
-    #ifdef USE_HYBRID
+    #if USE_HYBRID == 1
     // seperate arrays for qdldl when using hybrid
     T *d_lambda_qdldl, *d_xu_qdldl;
     gpuErrchk(cudaMalloc(&d_lambda_qdldl, state_size*knot_points*sizeof(T)));
@@ -270,7 +270,7 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
     T *d_eePos;
     gpuErrchk(cudaMalloc(&d_eePos, 6*sizeof(T)));
 
-#if LINSYS_SOLVE == 1 || USE_HYBRID
+#if LINSYS_SOLVE == 1 || USE_HYBRID == 1
     pcg_config<T> config;
     config.pcg_block = PCG_NUM_THREADS;
     config.pcg_exit_tol = linsys_exit_tol;
@@ -302,7 +302,7 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
 
 #endif // #if REMOVE_JITTERS
 
-#ifdef USE_HYBRID
+#if USE_HYBRID == 1
     uint32_t hybrid_qdldl_wins = 0;
     uint32_t hybrid_pcg_wins = 0;
     uint32_t hybrid_timeouts = 0;
@@ -326,7 +326,7 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
         }
 #endif // #if LIVE_PRINT_PATH
         
-#ifdef USE_HYBRID
+#if USE_HYBRID == 1
         *d_winner_flag = 0; // 0 = runs, 1 = QDLDL , 2 = PCG 
 
         gpuErrchk(cudaMemcpy(d_lambda_qdldl, d_lambda, state_size*knot_points*sizeof(T), cudaMemcpyDeviceToDevice));
@@ -345,6 +345,9 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
 
         std::thread t_pcg([&]() {
             stats_pcg = sqpSolvePcg<T>(state_size, control_size, knot_points, timestep, d_eePos_goal, d_lambda, d_xu, d_dynmem, config, rho, rho_reset, d_winner_flag);
+            if (*d_winner_flag == 0) {
+                __sync_val_compare_and_swap(d_winner_flag, 0, 2);
+            }
         });
 
         t_qdldl.join();
@@ -366,15 +369,11 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
             sqp_stats = stats_pcg; // fallback pcg result
         }
 
-        #elif LINSYS_SOLVE == 1
-        // Dein normaler Code, falls NUR PCG laufen soll[cite: 1]
-        // ACHTUNG: Wir übergeben hier 'nullptr' als neues letztes Argument, da es kein Rennen gibt!
+    #elif LINSYS_SOLVE == 1
         sqp_stats = sqpSolvePcg<T>(state_size, control_size, knot_points, timestep, d_eePos_goal, d_lambda, d_xu, d_dynmem, config, rho, rho_reset, nullptr);
-        #else 
-        // Dein normaler Code, falls NUR QDLDL laufen soll[cite: 1]
-        // ACHTUNG: Wir übergeben hier ebenfalls 'nullptr'!
+    #else 
 	    sqp_stats = sqpSolveQdldl<T>(state_size, control_size, knot_points, timestep, d_eePos_goal, d_lambda, d_xu, d_dynmem, rho, rho_reset, nullptr);
-        #endif
+    #endif
 
 /*
 #if LINSYS_SOLVE == 1 
@@ -392,13 +391,13 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
         cur_linsys_exits = std::get<5>(sqp_stats);
 
 
-    #if (USE_HYBRID || LINSYS_SOLVE == 1) && FINE_GRAINED_TIMING
+    #if LINSYS_SOLVE == 1 && FINE_GRAINED_TIMING
         // For FINE_GRAINED_TIMING
         // @Felix weird location ... but we just copy what they did in the original code
-        cur_ktt_time_vec = std::get<6>(sqp_stats),
-        cur_shur_time_vec = std::get<7>(sqp_stats),
-        cur_dz_time_vec = std::get<8>(sqp_stats),
-        cur_line_search_time_vec = std::get<9>(sqp_stats),
+        cur_ktt_time_vec = std::get<6>(sqp_stats);
+        cur_shur_time_vec = std::get<7>(sqp_stats);
+        cur_dz_time_vec = std::get<8>(sqp_stats);
+        cur_line_search_time_vec = std::get<9>(sqp_stats);
     #endif // LINSYS_SOLVE == 1
 
 
@@ -489,7 +488,7 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
         sqp_iters.push_back(cur_sqp_iters);
 
 
-    #if (USE_HYBRID || LINSYS_SOLVE == 1) && FINE_GRAINED_TIMING
+    #if LINSYS_SOLVE == 1 && FINE_GRAINED_TIMING
         // For FINE_GRAINED_TIMING
         ktt_time_vec.insert(ktt_time_vec.end(), cur_ktt_time_vec.begin(), cur_ktt_time_vec.end());
         shur_time_vec.insert(shur_time_vec.end(), cur_shur_time_vec.begin(), cur_shur_time_vec.end());
@@ -535,7 +534,7 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
             &shur_time_vec,         
             &dz_time_vec,          
             &line_search_time_vec   
-        #ifdef USE_HYBRID
+        #if USE_HYBRID == 1
             , &hybrid_winners 
         #endif
         
@@ -560,7 +559,7 @@ std::tuple<std::vector<toplevel_return_type>, std::vector<linsys_t>, linsys_t> s
 
     gpuErrchk(cudaFree(d_eePos));
 
-    #ifdef USE_HYBRID
+    #if USE_HYBRID == 1
     gpuErrchk(cudaFree(d_lambda_qdldl));
     gpuErrchk(cudaFree(d_xu_qdldl));
     gpuErrchk(cudaFree((void*)d_winner_flag));

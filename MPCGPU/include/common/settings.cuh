@@ -214,9 +214,9 @@ LINSYS_SOLVE = 0 uses qdldl as the underlying linear system solver */
  *                           Hybrid System Settings                            *
  *******************************************************************************/
 
-// #ifndef USE_HYBRID
-// #define USE_HYBRID 0
-// #endif
+#ifndef USE_HYBRID
+#define USE_HYBRID 0
+#endif
 
 
 

@@ -41,7 +41,7 @@ def plot_heatmaps():
                 if len(df) > 1:
                     metric_value = float(df.iloc[1, 0]) 
                     if metric_value > 0:
-                        params["SQP_Iters"] = params["Budget"] / metric_value
+                        params["SQP_Iters"] = metric_value
                     else:
                         params["SQP_Iters"] = float('nan')
                     all_data.append(params)
@@ -90,7 +90,7 @@ def plot_heatmaps():
         fig, axes = plt.subplots(num_plots, 1, figsize=(10, 6 * num_plots))
         if num_plots == 1: axes = [axes]
         
-        fig.suptitle(f'MPCGPU Performance - {system_name.upper()} (WS_ON)', fontsize=16, weight='bold')
+        fig.suptitle(f'MPCGPU Performance - {system_name.upper()}', fontsize=16, weight='bold')
 
         for i, ((arch, solver), solver_label) in enumerate(active_configs):
             ax = axes[i]
@@ -107,7 +107,7 @@ def plot_heatmaps():
                         annot=True, fmt=".1f", 
                         annot_kws={"fontsize": 13, "weight": "bold"},
                         linewidths=1, linecolor='gray',
-                        cbar_kws={'label': 'Iterations (Period / Avg Solve Time)'})
+                        cbar_kws={'label': 'Trajectory optimization iterations'})
 
            
             for y_idx, (rate_label, row) in enumerate(pivot.iterrows()):

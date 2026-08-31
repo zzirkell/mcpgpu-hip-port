@@ -14,7 +14,7 @@ FREQUENCIES = {250: 4000, 500: 2000, 1000: 1000}
 KNOTS = [32, 64, 128, 256, 512]
 
 VARIANTS = [
-    {"arch": "cuda",    "solver": "hybrid"},
+    #{"arch": "cuda",    "solver": "hybrid"},
     {"arch": "cuda",    "solver": "pcg"},
     {"arch": "cuda",    "solver": "qdldl"},
     {"arch": "nv_hip",  "solver": "pcg"},
