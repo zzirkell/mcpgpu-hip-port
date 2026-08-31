@@ -9,6 +9,7 @@
 #include "gpuassert.hip.hpp"
 #include "utils.hip.hpp"
 #include "glass.hip.hpp"
+#include "pcg_k32_singleblock.hip.hpp"
 
 
 namespace cgrps = cooperative_groups;
