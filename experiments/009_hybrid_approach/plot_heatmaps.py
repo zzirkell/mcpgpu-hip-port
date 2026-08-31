@@ -8,7 +8,7 @@ import matplotlib.colors as colors
 from pathlib import Path
 
 def parse_folder_name(folder_name):
-    pattern = re.compile(r"Run_(\d+)_(.+?)_(pcg|qdldl|hybrid)_K(\d+)_B(\d+)_WS(ON|OFF)", re.IGNORECASE)
+    pattern = re.compile(r"Run_(\d+)_(.+?)_(pcg|qdldl|hybrid)_K(\d+)_B(\d+)_WS_(ON|OFF)", re.IGNORECASE)
     match = pattern.search(folder_name)
     if match:
         budget_us = int(match.group(5))
@@ -49,7 +49,7 @@ def plot_heatmaps():
 
     df = pd.DataFrame(all_data)
     if df.empty:
-        print("[!] Keine Daten zum Plotten gefunden.")
+        print(f"[!] Keine Daten zum Plotten gefunden.")
         return
 
     image_groups = {
@@ -138,8 +138,6 @@ def plot_heatmaps():
         benchmark_dir.mkdir(parents=True, exist_ok=True)
         out_file = benchmark_dir / f"Heatmap_{system_name}_benchmark.png"
 
-        out_file = f"Heatmap_{system_name}_benchmark.png"
-        
         plt.savefig(out_file, dpi=300, bbox_inches='tight')
         plt.close()
         print(f"  -> Plot successfully saved to: {out_file}\n")

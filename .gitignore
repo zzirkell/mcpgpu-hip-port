@@ -12,6 +12,8 @@ raw_hip_port/examples/pcg_*
 experiments/007_benchmarking/
 experiments/008_component_analysis/timing_results
 experiments/008_component_analysis/timing_plots_depr
+experiments/009_hybrid_approach/heatmap_data
+experiments/009_hybrid_approach/plots
 
 experiments/009_hybrid_approach/heatmap_data
 # Windows download metadata
