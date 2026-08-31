@@ -132,8 +132,14 @@ def plot_heatmaps():
 
        
         plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-        
+
+        benchmark_dir = Path("plots")
+
+        benchmark_dir.mkdir(parents=True, exist_ok=True)
+        out_file = benchmark_dir / f"Heatmap_{system_name}_benchmark.png"
+
         out_file = f"Heatmap_{system_name}_benchmark.png"
+        
         plt.savefig(out_file, dpi=300, bbox_inches='tight')
         plt.close()
         print(f"  -> Plot successfully saved to: {out_file}\n")
