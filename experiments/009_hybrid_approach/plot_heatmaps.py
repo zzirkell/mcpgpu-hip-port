@@ -112,7 +112,7 @@ def plot_heatmaps():
            
             for y_idx, (rate_label, row) in enumerate(pivot.iterrows()):
                 for x_idx, (knot_label, val) in enumerate(row.items()):
-                    if pd.isna(val) or val < 1.0:
+                    if pd.isna(val) or val < 0.995:
                         ax.add_patch(plt.Rectangle((x_idx, y_idx), 1, 1, fill=True, color='#c93c20', alpha=1.0))
                         ax.text(x_idx + 0.5, y_idx + 0.5, 'X', 
                                 ha='center', va='center', fontsize=18, color='black', weight='bold')

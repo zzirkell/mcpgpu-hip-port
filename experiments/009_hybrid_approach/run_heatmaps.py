@@ -85,8 +85,14 @@ def main():
                     "-DUSE_SQP_WORKSPACE=1", variant["solver"], "20", "5e-5", 
                     "0"  
                 ]
-                subprocess.run(cmd, cwd=src_dir, check=True)
-                
+
+                try:
+                    subprocess.run(cmd, cwd=src_dir, check=True)
+                except subprocess.CalledProcessError as e:
+                    print(f"⚠️ FEHLER: Run {run_id} abgestürzt mit Exit-Code {e.returncode}. Überspringe Archivierung...")
+                    run_id += 1
+                    continue 
+
                 archive_name = f"Run_{run_id}_{variant['arch']}_{variant['solver']}_K{knot}_B{budget}_WS_ON"
                 archive_folder = script_dir / "heatmap_data" / archive_name
                 archive_folder.mkdir(parents=True, exist_ok=True)
